@@ -21,6 +21,7 @@
           /etc/nixos/hardware-configuration.nix
           ./configuration.nix
           ./features/desktop.nix
+          ./features/gaming.nix
         ];
         specialArgs = {
           inherit pkgs-unstable;
