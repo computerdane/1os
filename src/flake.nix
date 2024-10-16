@@ -20,6 +20,7 @@
         modules = [
           /etc/nixos/hardware-configuration.nix
           ./configuration.nix
+          ./features/desktop.nix
         ];
         specialArgs = {
           inherit pkgs-unstable;
