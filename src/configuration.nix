@@ -9,8 +9,8 @@
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      Port = 105;
     };
+    ports = [ 105 ];
   };
 
   users.users.dane = {
