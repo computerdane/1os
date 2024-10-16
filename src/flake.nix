@@ -18,7 +18,7 @@
       nixosConfigurations."1os" = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ./hardware-configuration.nix
+          /etc/nixos/hardware-configuration.nix
           ./configuration.nix
         ];
         specialArgs = {
