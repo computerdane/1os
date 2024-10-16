@@ -15,13 +15,25 @@
       pkgs-unstable = import nixpkgs-unstable { inherit system; };
     in
     {
-      nixosConfigurations."1os" = nixpkgs.lib.nixosSystem {
+      nixosConfigurations."pc" = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           /etc/nixos/hardware-configuration.nix
           ./configuration.nix
           ./features/desktop.nix
           ./features/gaming.nix
+        ];
+        specialArgs = {
+          inherit pkgs-unstable;
+        };
+      };
+
+      nixosConfigurations."server" = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          /etc/nixos/hardware-configuration.nix
+          ./configuration.nix
+          ./features/server.nix
         ];
         specialArgs = {
           inherit pkgs-unstable;
