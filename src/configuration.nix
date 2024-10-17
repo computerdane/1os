@@ -10,7 +10,6 @@
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
     };
-    ports = [ 105 ];
   };
 
   users.users.dane = {
