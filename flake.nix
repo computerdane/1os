@@ -22,7 +22,6 @@
             nixpkgs.lib.nixosSystem {
               inherit system;
               modules = [
-                /etc/nixos/hardware-configuration.nix
                 ./configuration.nix
                 (
                   { ... }:
@@ -38,36 +37,11 @@
           )
           {
             pc = [
+              ./hardware/pc.nix
               ./features/desktop.nix
               ./features/gaming.nix
             ];
             server = [ ./features/server.nix ];
           };
     };
-  # {
-  #   nixosConfigurations."pc" = nixpkgs.lib.nixosSystem {
-  #     inherit system;
-  #     modules = [
-  #       /etc/nixos/hardware-configuration.nix
-  #       ./configuration.nix
-  #       ./features/desktop.nix
-  #       ./features/gaming.nix
-  #     ];
-  #     specialArgs = {
-  #       inherit pkgs-unstable;
-  #     };
-  #   };
-
-  #   nixosConfigurations."server" = nixpkgs.lib.nixosSystem {
-  #     inherit system;
-  #     modules = [
-  #       /etc/nixos/hardware-configuration.nix
-  #       ./configuration.nix
-  #       ./features/server.nix
-  #     ];
-  #     specialArgs = {
-  #       inherit pkgs-unstable;
-  #     };
-  #   };
-  # };
 }
