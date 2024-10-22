@@ -44,6 +44,7 @@
             server = [
               ./hardware/server.nix
               ./features/server.nix
+              ./features/server/factorio.nix
             ];
           };
     };
