@@ -21,6 +21,10 @@
       matchConfig.PermanentMACAddress = "fc:aa:14:0e:54:c7";
       linkConfig.Name = "lan";
     };
+    "30-pc" = {
+      matchConfig.PermanentMACAddress = "00:e0:4c:64:32:5d";
+      linkConfig.Name = "pc";
+    };
   };
 
   # Use the GRUB 2 boot loader.

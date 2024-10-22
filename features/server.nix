@@ -2,22 +2,36 @@
 
 {
   networking = {
-    firewall.interfaces.lan.allowedUDPPorts = [
-      53 # dns
-      67 # dhcp
-    ];
+    firewall = {
+      interfaces.lan.allowedUDPPorts = [
+        53 # dns
+        67 # dhcp
+      ];
+      trustedInterfaces = [ "pc" ];
+    };
     nat = {
       enable = true;
       internalInterfaces = [ "lan" ];
       externalInterface = "wan";
     };
-    interfaces.lan.ipv4.addresses = [
-      {
-        address = "10.0.105.1";
-        prefixLength = 24;
-      }
-    ];
-    hosts."10.0.105.1" = [ "one.lan" ];
+    interfaces = {
+      lan.ipv4.addresses = [
+        {
+          address = "10.0.105.1";
+          prefixLength = 24;
+        }
+      ];
+      pc.ipv4.addresses = [
+        {
+          address = "10.0.105.10";
+          prefixLength = 24;
+        }
+      ];
+    };
+    hosts = {
+      "10.0.105.1" = [ "one.lan" ];
+      "10.0.105.10" = [ "one.lan" ];
+    };
     hostId = "c04107a1"; # required by ZFS to ensure that a pool isn't accidentally imported on a wrong machine
   };
 
