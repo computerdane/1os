@@ -1,10 +1,10 @@
 { pkgs, ... }:
 
 let
-  factorio-headless-latest = pkgs.factorio-headless-experimental.override {
+  factorio-headless-latest = pkgs.factorio-headless.override {
     versionsJson = pkgs.writeText "versions.json" (
       builtins.toJSON {
-        x86_64-linux.headless.experimental = {
+        x86_64-linux.headless.stable = {
           name = "factorio_headless_x64-2.0.8.tar.xz";
           needsAuth = false;
           sha256 = "sha256-2VlMTVUqPk+WWxiKR3TajIsBD8I92w78Y7HZSBjd4co=";
