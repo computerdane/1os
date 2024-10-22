@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   factorio-headless-latest = pkgs.factorio-headless.override {
@@ -15,6 +15,31 @@ let
       }
     );
   };
+
+  mod-list-json = pkgs.writeText "mod-list.json" (
+    builtins.toJSON {
+      mods = [
+        {
+          name = "base";
+          enabled = true;
+        }
+        {
+          name = "elevated-rails";
+          enabled = false;
+        }
+        {
+          name = "quality";
+          enabled = false;
+        }
+        {
+          name = "space-age";
+          enabled = false;
+        }
+      ];
+    }
+  );
+
+  cfg = config.services.factorio;
 in
 {
   services.factorio = {
@@ -24,4 +49,8 @@ in
     game-password = "sex";
     lan = true;
   };
+
+  systemd.services.factorio.postStart = ''
+    cat ${mod-list-json} > /var/lib/${cfg.stateDirName}/mods/mod-list.json
+  '';
 }
