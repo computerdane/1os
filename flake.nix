@@ -41,7 +41,10 @@
               ./features/desktop.nix
               ./features/gaming.nix
             ];
-            server = [ ./features/server.nix ];
+            server = [
+              ./hardware/server.nix
+              ./features/server.nix
+            ];
           };
     };
 }

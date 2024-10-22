@@ -1,11 +1,23 @@
-{ ... }:
+{ lib, ... }:
 
 {
-  services.openssh.ports = [ 105 ];
-
-  boot.kernel.sysctl = {
-    "net.ipv6.conf.all.forwarding" = 1;
-    "net.ipv4.conf.all.forwarding" = 1;
+  networking = {
+    firewall.interfaces.lan.allowedUDPPorts = [
+      53 # dns
+      67 # dhcp
+    ];
+    nat = {
+      enable = true;
+      internalInterfaces = [ "lan" ];
+      externalInterface = "wan";
+    };
+    interfaces.lan.ipv4.addresses = [
+      {
+        address = "10.0.105.1";
+        prefixLength = 24;
+      }
+    ];
+    hostId = "c04107a1"; # required by ZFS to ensure that a pool isn't accidentally imported on a wrong machine
   };
 
   services.dnsmasq = {
@@ -41,7 +53,10 @@
       # Always set the name of the host with hardware address
       # 11:22:33:44:55:66 to be "fred"
       #dhcp-host=11:22:33:44:55:66,fred
-      dhcp-host = [ "9c:6b:00:2f:0e:be,pc" ];
+      dhcp-host = [
+        "fc:aa:14:0e:54:c7,server"
+        "9c:6b:00:2f:0e:be,pc"
+      ];
 
       # If you want dnsmasq to listen for DHCP and DNS requests only on
       # specified interfaces (and the loopback) give the name of the
@@ -66,4 +81,13 @@
       filterwin2k = true;
     };
   };
+
+  services.openssh.ports = [ 105 ];
+
+  boot.kernel.sysctl = {
+    "net.ipv6.conf.all.forwarding" = 1;
+    "net.ipv4.conf.all.forwarding" = 1;
+  };
+
+  system.stateVersion = lib.mkForce "23.05";
 }
