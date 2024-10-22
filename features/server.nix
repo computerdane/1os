@@ -17,6 +17,7 @@
         prefixLength = 24;
       }
     ];
+    hosts."10.0.105.1" = [ "one.lan" ];
     hostId = "c04107a1"; # required by ZFS to ensure that a pool isn't accidentally imported on a wrong machine
   };
 
@@ -53,10 +54,7 @@
       # Always set the name of the host with hardware address
       # 11:22:33:44:55:66 to be "fred"
       #dhcp-host=11:22:33:44:55:66,fred
-      dhcp-host = [
-        "fc:aa:14:0e:54:c7,server"
-        "9c:6b:00:2f:0e:be,pc"
-      ];
+      dhcp-host = [ "9c:6b:00:2f:0e:be,pc" ];
 
       # If you want dnsmasq to listen for DHCP and DNS requests only on
       # specified interfaces (and the loopback) give the name of the
