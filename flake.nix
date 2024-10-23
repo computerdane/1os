@@ -12,7 +12,9 @@
     }:
     let
       system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
       pkgs-unstable = import nixpkgs-unstable { inherit system; };
+      pkgs-1os = pkgs.callPackage ./packages/all-packages.nix { };
     in
     {
       nixosConfigurations =
@@ -31,7 +33,7 @@
                 )
               ] ++ value;
               specialArgs = {
-                inherit pkgs-unstable;
+                inherit pkgs-unstable pkgs-1os;
               };
             }
           )
@@ -45,6 +47,7 @@
               ./hardware/server.nix
               ./features/server.nix
               ./features/server/factorio.nix
+              ./features/server/quilt-server.nix
             ];
           };
     };
