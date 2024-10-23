@@ -49,6 +49,10 @@ in
     openFirewall = true;
     game-password = "sex";
     lan = true;
+    admins = [
+      "danerieber"
+      "ethan22"
+    ];
   };
 
   # Service tends to fail when system is booting up, this gives it time to try again once network is online
