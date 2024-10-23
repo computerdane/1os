@@ -38,16 +38,18 @@
             }
           )
           {
-            pc = [
-              ./hardware/pc.nix
+            fishtank = [
+              ./hardware/fishtank.nix
+
               ./features/desktop.nix
               ./features/gaming.nix
             ];
-            server = [
-              ./hardware/server.nix
-              ./features/server.nix
-              ./features/server/factorio.nix
-              ./features/server/quilt-server.nix
+            bludgeonder = [
+              ./hardware/bludgeonder.nix
+
+              ./features/gateway.nix
+              ./features/factorio-server.nix
+              ./features/quilt-server.nix
             ];
           };
     };

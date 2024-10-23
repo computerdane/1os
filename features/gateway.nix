@@ -101,7 +101,7 @@
       # Always set the name of the host with hardware address
       # 11:22:33:44:55:66 to be "fred"
       #dhcp-host=11:22:33:44:55:66,fred
-      dhcp-host = [ "9c:6b:00:2f:0e:be,pc" ];
+      dhcp-host = [ "9c:6b:00:2f:0e:be,fishtank" ];
 
       # Never forward plain names (without a dot or domain part)
       domain-needed = true;
