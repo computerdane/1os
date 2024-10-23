@@ -11,7 +11,10 @@
     };
     nat = {
       enable = true;
-      internalInterfaces = [ "lan" ];
+      internalInterfaces = [
+        "lan"
+        "pc"
+      ];
       externalInterface = "wan";
     };
     interfaces = {
