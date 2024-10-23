@@ -47,7 +47,11 @@
             bludgeonder = [
               ./hardware/bludgeonder.nix
 
+              ./features/auto-update/pull.nix
+              ./features/auto-update/push.nix
+
               ./features/gateway.nix
+
               ./features/factorio-server.nix
               ./features/quilt-server.nix
             ];
