@@ -51,6 +51,9 @@ in
     lan = true;
   };
 
+  # Service tends to fail when system is booting up, this gives it time to try again once network is online
+  systemd.services.factorio.serviceConfig.RestartSec = 10;
+
   systemd.services.factorio.postStart = ''
     cat ${mod-list-json} > /var/lib/${cfg.stateDirName}/mods/mod-list.json
   '';
