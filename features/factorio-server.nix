@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 
 let
-  version = "2.0.9";
+  version = "2.0.10";
   factorio-headless-latest = pkgs.factorio-headless.override {
     versionsJson = pkgs.writeText "versions.json" (
       builtins.toJSON {
         x86_64-linux.headless.stable = {
           name = "factorio_headless_x64-${version}.tar.xz";
           needsAuth = false;
-          sha256 = "sha256-9JkHez4sExNFLDUPH68X2zHK4qD6c49pFm6Xw8qjyG0=";
+          sha256 = "sha256-LX3SEvpvcVIYpeM7rX1ZOviZj6e/fOcnNDFZ7h+MI/Q=";
           tarDirectory = "x64";
           url = "https://www.factorio.com/get-download/${version}/headless/linux64";
           inherit version;
@@ -47,10 +47,11 @@ in
     enable = true;
     package = factorio-headless-latest;
     openFirewall = true;
+    game-name = "nf6.sh";
     game-password = "sex";
     lan = true;
     admins = [
-      "danerieber"
+      "computerdane"
       "ethan22"
     ];
   };
