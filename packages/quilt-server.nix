@@ -14,14 +14,15 @@ let
     url = "https://maven.quiltmc.org/repository/release/org/quiltmc/quilt-installer/${installerVersion}/quilt-installer-${installerVersion}.jar";
     inherit hash;
   };
-  stateDir = "/var/lib/quilt-server/${installerVersion}/${minecraftVersion}";
 in
 writeShellApplication {
   name = "quilt-server";
   runtimeInputs = [ javaPackage ];
   text = ''
-    mkdir -p ${stateDir}
-    cd ${stateDir}
+    STATE_DIR=$1
+
+    mkdir -p "$STATE_DIR"
+    cd "$STATE_DIR"
     java -jar ${installerJar} install server ${minecraftVersion} --download-server
     cd server
     ${if eula then "echo eula=true > eula.txt" else ""}
