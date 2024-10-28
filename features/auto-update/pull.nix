@@ -12,8 +12,7 @@ import ./base.nix {
     git clone git@github.com:danerieber/1os.git
     cd 1os
 
-    nixos-rebuild boot --flake .
-    reboot now
+    nixos-rebuild switch --flake .
   '';
   startAt = "*-*-* 04:20:00";
 }
