@@ -28,6 +28,13 @@
       "flakes"
     ];
     trusted-users = [ "dane" ];
+    auto-optimise-store = true;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
   };
 
   time.timeZone = "America/Chicago";
