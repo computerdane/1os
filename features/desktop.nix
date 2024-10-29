@@ -1,36 +1,48 @@
-{ pkgs, ... }:
-
 {
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {
-      fonts = [
-        "Meslo"
-        "FiraCode"
-      ];
-    })
-  ];
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-  networking.networkmanager.enable = true;
+let
+  cfg = config.oneos.desktop;
+in
+{
+  options.oneos.desktop.enable = lib.mkEnableOption "desktop";
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  config = lib.mkIf cfg.enable {
+    fonts.packages = with pkgs; [
+      (nerdfonts.override {
+        fonts = [
+          "Meslo"
+          "FiraCode"
+        ];
+      })
+    ];
 
-  services.printing.enable = true;
+    networking.networkmanager.enable = true;
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    services.xserver.enable = true;
+    services.xserver.displayManager.lightdm.enable = true;
+    services.desktopManager.plasma6.enable = true;
+
+    services.printing.enable = true;
+
+    sound.enable = true;
+    hardware.pulseaudio.enable = false;
+    security.rtkit.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+
+    users.users.dane.extraGroups = [ "networkmanager" ];
+
+    services.displayManager.autoLogin.enable = true;
+    services.displayManager.autoLogin.user = "dane";
+    services.displayManager.defaultSession = "plasma";
   };
-
-  users.users.dane.extraGroups = [ "networkmanager" ];
-
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "dane";
-  services.displayManager.defaultSession = "plasma";
 }

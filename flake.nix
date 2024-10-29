@@ -15,27 +15,29 @@
 
         bludgeonder = {
           system = "x86_64-linux";
-          modules = [
-            ./hardware/bludgeonder.nix
+          modules = [ ./hardware/bludgeonder.nix ];
+          config.oneos = {
 
-            ./features/auto-update/pull.nix
-            ./features/auto-update/push.nix
+            auto-update = {
+              pull = true;
+              push = true;
+            };
+            factorio-server.enable = true;
+            gateway.enable = true;
 
-            ./features/gateway.nix
-
-            ./features/factorio-server.nix
-            ./features/quilt-server.nix
-          ];
+          };
         };
 
         fishtank = {
           system = "x86_64-linux";
-          modules = [
-            ./hardware/fishtank.nix
+          modules = [ ./hardware/fishtank.nix ];
+          config.oneos = {
 
-            ./features/desktop.nix
-            ./features/gaming.nix
-          ];
+            auto-update.pull = true;
+            desktop.enable = true;
+            gaming.enable = true;
+
+          };
         };
 
       };
@@ -52,13 +54,25 @@
         nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
+
             ./configuration.nix
+
+            ./features/auto-update.nix
+            ./features/desktop.nix
+            ./features/factorio-server.nix
+            ./features/gaming.nix
+            ./features/gateway.nix
+            ./features/quilt-server.nix
+
             (
               { ... }:
               {
                 networking.hostName = name;
               }
             )
+
+            ({ ... }: config)
+
           ] ++ modules;
           specialArgs = {
             inherit pkgs-unstable pkgs-1os;

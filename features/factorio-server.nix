@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   version = "2.0.11";
@@ -40,26 +45,30 @@ let
     }
   );
 
-  cfg = config.services.factorio;
+  cfg = config.oneos.factorio-server;
 in
 {
-  services.factorio = {
-    enable = true;
-    package = factorio-headless-latest;
-    openFirewall = true;
-    game-name = "nf6.sh";
-    game-password = "sex";
-    lan = true;
-    admins = [
-      "computerdane"
-      "ethan22"
-    ];
+  options.oneos.factorio-server.enable = lib.mkEnableOption "factorio-server";
+
+  config = lib.mkIf cfg.enable {
+    services.factorio = {
+      enable = true;
+      package = factorio-headless-latest;
+      openFirewall = true;
+      game-name = "nf6.sh";
+      game-password = "sex";
+      lan = true;
+      admins = [
+        "computerdane"
+        "ethan22"
+      ];
+    };
+
+    # Service tends to fail when system is booting up, this gives it time to try again once network is online
+    systemd.services.factorio.serviceConfig.RestartSec = 10;
+
+    systemd.services.factorio.postStart = ''
+      cat ${mod-list-json} > /var/lib/${config.services.factorio.stateDirName}/mods/mod-list.json
+    '';
   };
-
-  # Service tends to fail when system is booting up, this gives it time to try again once network is online
-  systemd.services.factorio.serviceConfig.RestartSec = 10;
-
-  systemd.services.factorio.postStart = ''
-    cat ${mod-list-json} > /var/lib/${cfg.stateDirName}/mods/mod-list.json
-  '';
 }
