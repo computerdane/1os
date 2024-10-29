@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-nix build .#nixosConfigurations.server.config.system.build.toplevel -o release-server && \
-  nix copy --to ssh://10.0.105.1:105 release-server && \
-  ssh -p 105 10.0.105.1 "$(readlink release-server)/bin/switch-to-configuration switch"
+BUILD_DIR="./result-$1"
+
+nix build ".#nixosConfigurations.$1.config.system.build.toplevel" -o "$BUILD_DIR" && \
+  nix copy --to "ssh://$2" "$BUILD_DIR" -v && \
+  ssh -t "$2" "sudo $(readlink "$BUILD_DIR")/bin/switch-to-configuration switch"
