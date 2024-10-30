@@ -82,10 +82,17 @@ in
         # http://www.isc.org/files/auth.html
         dhcp-authoritative = true;
 
+        # Do router advertisements for all subnets where we're doing DHCPv6
+        # Unless overridden by ra-stateless, ra-names, et al, the router
+        # advertisements will have the M and O bits set, so that the clients
+        # get addresses and configuration from DHCPv6, and the A bit reset, so the
+        # clients don't use SLAAC addresses.
+        enable-ra = true;
+
         dhcp-range = [
           # Do stateless DHCP, SLAAC, and generate DNS names for SLAAC addresses
           # from DHCPv4 leases.
-          "::,ra-stateless,ra-names"
+          "::,constructor:lan,ra-stateless,ra-names"
 
           # Uncomment this to enable the integrated DHCP server, you need
           # to supply the range of addresses available for lease and optionally
