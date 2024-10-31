@@ -7,7 +7,10 @@ in
   options.oneos.gateway.enable = lib.mkEnableOption "gateway";
 
   config = lib.mkIf cfg.enable {
+    systemd.network.enable = lib.mkForce false;
+
     networking = {
+      useNetworkd = lib.mkForce false;
       nftables.enable = true;
       firewall = {
         interfaces.lan.allowedUDPPorts = [
