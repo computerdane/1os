@@ -21,8 +21,6 @@ in
       })
     ];
 
-    networking.networkmanager.enable = true;
-
     services.xserver.enable = true;
     services.xserver.displayManager.lightdm.enable = true;
     services.desktopManager.plasma6.enable = true;

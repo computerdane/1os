@@ -3,6 +3,12 @@
 {
   programs.fish.enable = true;
 
+  systemd.network.enable = true;
+  networking = {
+    useNetworkd = true;
+    wireless.iwd.enable = true;
+  };
+
   services.openssh = {
     enable = true;
     settings = {
@@ -14,7 +20,10 @@
 
   users.users.dane = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "network"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJuxIieYmJTQPyVhQW6Hyt2rzpaQajJwyw/wMdNg5VVY danerieber@gmail.com"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILygTablfeGg4QW8UUk7fMJ7Otrnafkb5n4NEbfeMwzt dane@fishtank"
