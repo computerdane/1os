@@ -7,9 +7,6 @@ in
   options.oneos.gateway.enable = lib.mkEnableOption "gateway";
 
   config = lib.mkIf cfg.enable {
-    systemd.network.enable = lib.mkForce false;
-    networking.useNetworkd = lib.mkForce false;
-
     sops.secrets.cloudflare-api-key = { };
 
     services.cloudflare-dyndns = {
@@ -26,42 +23,25 @@ in
       "10-wan" = {
         name = "wan";
         DHCP = "yes";
-        networkConfig = {
-          # The below setting is optional, to also assign an address in the delegated prefix
-          # to the upstream interface. If not necessary, then comment out the line below and
-          # the [DHCPPrefixDelegation] section.
-          DHCPPrefixDelegation = true;
-
-          # If the upstream network provides Router Advertisement with Managed bit set,
-          # then comment out the line below and WithoutRA= setting in the [DHCPv6] section.
-          # IPv6AcceptRA = false;
-        };
-        dhcpV6Config = {
-          WithoutRA = "solicit";
-        };
-        dhcpPrefixDelegationConfig = {
-          UplinkInterface = ":self";
-          SubnetId = 0;
-          Announce = "no";
-        };
+        networkConfig.IPv6AcceptRA = true;
+        dhcpV6Config.WithoutRA = "solicit";
       };
-      "10-lan" = {
+      "20-lan" = {
         name = "lan";
         DHCP = "no";
         networkConfig = {
           Address = "10.0.105.1/24";
-
           DHCPPrefixDelegation = true;
           IPv6SendRA = true;
-
-          # It is expected that the host is acting as a router. So, usually it is not
-          # necessary to receive Router Advertisement from other hosts in the downstream network.
           IPv6AcceptRA = false;
         };
         dhcpPrefixDelegationConfig = {
           UplinkInterface = "wan";
-          SubnetId = 1;
           Announce = "yes";
+        };
+        ipv6SendRAConfig = {
+          EmitDNS = false;
+          EmitDomains = false;
         };
       };
     };
@@ -81,26 +61,6 @@ in
       };
       hosts."10.0.105.1" = [ "one.lan" ];
       hostId = "c04107a1"; # required by ZFS to ensure that a pool isn't accidentally imported on a wrong machine
-      interfaces = {
-        lan.ipv4.addresses = [
-          {
-            address = "10.0.105.1";
-            prefixLength = 24;
-          }
-        ];
-      };
-      dhcpcd = {
-        persistent = true;
-        allowInterfaces = [ "wan" ];
-        extraConfig = ''
-          noipv6rs        # disable routing solicitation
-          interface wan
-            ipv6rs        # enable routing solicitation for wan
-            ia_na 1       # request an IPv6 address
-            ia_pd 2 lan/0 # request a PD and assign it to lan
-            ia_pd 3 pc/0  # request a PD and assign it to pc
-        '';
-      };
     };
 
     services.resolved.enable = false; # conflicts with dnsmasq
