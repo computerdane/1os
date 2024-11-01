@@ -1,6 +1,7 @@
 keys:
   - &dane_fishtank age1wnvhthprrmq2w4u2w8l3jshcrejdzqsc2elvdlc6ml7tupa27qyqswg3n8
   - &dane_bludgeonder age1mg25snt8p559cqh4zlsc7ef8zu56kqmpw97yhdnhag7ajweasskst4ehr8
+  - &system_fishtank age1yvxla8dregzr9q79hn8s6lm69zptwaefc0gnmcqn54ttkxf0hfyqpl843q
   - &system_bludgeonder age147y6tn5lh3eca03z4m6gj6fz6xrthtk4gps2egqp0gvp7nh4f5kqe6u4at
 creation_rules:
   - path_regex: secrets.yaml
@@ -8,4 +9,5 @@ creation_rules:
       - age:
         - *dane_fishtank
         - *dane_bludgeonder
+        - *system_fishtank
         - *system_bludgeonder

@@ -37,6 +37,7 @@
 
             auto-update.pull = true;
             desktop.enable = true;
+            dynamic-dns.enable = true;
             gaming.enable = true;
 
           };
@@ -62,6 +63,7 @@
 
             ./features/auto-update.nix
             ./features/desktop.nix
+            ./features/dynamic-dns.nix
             ./features/factorio-server.nix
             ./features/gaming.nix
             ./features/gateway.nix

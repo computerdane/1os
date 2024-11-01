@@ -3,10 +3,10 @@
 {
   programs.fish = {
     enable = true;
-    shellAliases.sops-keygen = ''
-      mkdir -p ~/.config/sops/age
-      age-keygen -o ~/.config/sops/age/keys.txt
-    '';
+    shellAliases = {
+      sops-keygen = "mkdir -p ~/.config/sops/age && age-keygen -o ~/.config/sops/age/keys.txt";
+      sops-hostkey = "cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age";
+    };
   };
 
   sops = {
