@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
@@ -9,6 +10,7 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
+      sops-nix,
     }:
     let
       hosts = {
@@ -56,6 +58,7 @@
           modules = [
 
             ./configuration.nix
+            sops-nix.nixosModules.sops
 
             ./features/auto-update.nix
             ./features/desktop.nix

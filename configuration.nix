@@ -1,7 +1,18 @@
 { pkgs, ... }:
 
 {
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    shellAliases.sops-keygen = ''
+      mkdir -p ~/.config/sops/age
+      age-keygen -o ~/.config/sops/age/keys.txt
+    '';
+  };
+
+  environment.systemPackages = with pkgs; [
+    sops
+    age
+  ];
 
   systemd.network.enable = true;
   networking = {

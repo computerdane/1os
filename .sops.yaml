@@ -1,0 +1,7 @@
+keys:
+  - &dane_fishtank age1wnvhthprrmq2w4u2w8l3jshcrejdzqsc2elvdlc6ml7tupa27qyqswg3n8
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *dane_fishtank
