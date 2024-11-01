@@ -6,6 +6,7 @@
   systemd.network.enable = true;
   networking = {
     useNetworkd = true;
+    nftables.enable = true;
     wireless.iwd.enable = true;
   };
 

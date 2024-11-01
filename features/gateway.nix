@@ -55,7 +55,6 @@ in
     };
 
     networking = {
-      nftables.enable = true;
       firewall = {
         interfaces.lan.allowedUDPPorts = [
           53 # dns
