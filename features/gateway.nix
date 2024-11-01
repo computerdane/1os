@@ -13,7 +13,10 @@ in
     services.cloudflare-dyndns = {
       enable = true;
       ipv6 = true;
-      domains = [ "knightf6.com" ];
+      domains = [
+        "knightf6.com"
+        "nf6.sh"
+      ];
       apiTokenFile = "/root/nixos/secrets/cloudflare-api-key";
     };
 
