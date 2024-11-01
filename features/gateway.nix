@@ -10,6 +10,8 @@ in
     systemd.network.enable = lib.mkForce false;
     networking.useNetworkd = lib.mkForce false;
 
+    sops.secrets.cloudflare-api-key = { };
+
     services.cloudflare-dyndns = {
       enable = true;
       ipv6 = true;
@@ -17,7 +19,7 @@ in
         "knightf6.com"
         "nf6.sh"
       ];
-      apiTokenFile = "/root/nixos/secrets/cloudflare-api-key";
+      apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
     };
 
     systemd.network.networks = {
