@@ -10,6 +10,13 @@ in
     systemd.network.enable = lib.mkForce false;
     networking.useNetworkd = lib.mkForce false;
 
+    services.cloudflare-dyndns = {
+      enable = true;
+      ipv6 = true;
+      domains = [ "knightf6.com" ];
+      apiTokenFile = "/root/nixos/secrets/cloudflare-api-key";
+    };
+
     systemd.network.networks = {
       "10-wan" = {
         name = "wan";
