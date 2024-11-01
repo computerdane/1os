@@ -12,6 +12,8 @@ in
   options.oneos.desktop.enable = lib.mkEnableOption "desktop";
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [ pkgs.wl-clipboard ];
+
     fonts.packages = with pkgs; [
       (nerdfonts.override {
         fonts = [
