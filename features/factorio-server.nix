@@ -51,17 +51,19 @@ in
   options.oneos.factorio-server.enable = lib.mkEnableOption "factorio-server";
 
   config = lib.mkIf cfg.enable {
+    sops.secrets.factorio-settings = { };
+
     services.factorio = {
       enable = true;
       package = factorio-headless-latest;
       openFirewall = true;
       game-name = "nf6.sh";
-      game-password = "sex";
       lan = true;
       admins = [
         "computerdane"
         "ethan22"
       ];
+      extraSettingsFile = config.sops.secrets.factorio-settings.path;
     };
 
     # Service tends to fail when system is booting up, this gives it time to try again once network is online
