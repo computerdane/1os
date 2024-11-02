@@ -12,7 +12,12 @@ in
         name = "wan";
         DHCP = "yes";
         networkConfig.IPv6AcceptRA = true;
-        dhcpV6Config.WithoutRA = "solicit";
+        dhcpV6Config = {
+          WithoutRA = "solicit";
+          UseDNS = false;
+        };
+        ipv6AcceptRAConfig.UseDNS = false;
+        dhcpV4Config.UseDNS = false;
       };
       "20-lan" = {
         name = "lan";
