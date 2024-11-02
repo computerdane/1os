@@ -7,6 +7,7 @@
   ./factorio-server.nix
   ./gaming.nix
   ./gateway.nix
+  ./gpu-amd.nix
   ./hostname.nix
   ./nginx.nix
   ./quilt-server.nix
