@@ -1,0 +1,14 @@
+[
+  ./acme.nix
+  ./auto-update.nix
+  ./desktop.nix
+  ./domains.nix
+  ./dynamic-dns.nix
+  ./factorio-server.nix
+  ./gaming.nix
+  ./gateway.nix
+  ./hostname.nix
+  ./nginx.nix
+  ./quilt-server.nix
+  ./vault.nix
+]

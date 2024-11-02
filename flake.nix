@@ -17,81 +17,47 @@
 
         bludgeonder = {
           system = "x86_64-linux";
-          modules = [ ./hardware/bludgeonder.nix ];
-          config.oneos = {
-
-            auto-update = {
-              pull = true;
-              push = true;
-            };
-            dynamic-dns = {
-              enable = true;
-              root = true;
-              ipv4 = true;
-            };
-            factorio-server.enable = true;
-            gateway.enable = true;
-            vault.enable = true;
-
-          };
+          modules = [
+            ./hardware/bludgeonder.nix
+            ./hosts/bludgeonder.nix
+          ];
         };
 
         fishtank = {
           system = "x86_64-linux";
-          modules = [ ./hardware/fishtank.nix ];
-          config.oneos = {
-
-            auto-update.pull = true;
-            desktop.enable = true;
-            dynamic-dns.enable = true;
-            gaming.enable = true;
-
-          };
+          modules = [
+            ./hardware/fishtank.nix
+            ./hosts/fishtank.nix
+          ];
         };
 
       };
     in
     {
       nixosConfigurations = builtins.mapAttrs (
-        name: cfg:
-        with cfg;
+        name: host:
         let
+          system = host.system;
+
           pkgs = import nixpkgs { inherit system; };
           pkgs-unstable = import nixpkgs-unstable { inherit system; };
+
           pkgs-1os = pkgs.callPackage ./packages/all-packages.nix { };
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
-          modules = [
 
-            ./configuration.nix
+          modules = nixpkgs.lib.flatten [
             sops-nix.nixosModules.sops
+            ./configuration.nix
+            (import ./modules/all-modules.nix)
+            host.modules
+          ];
 
-            ./modules/acme.nix
-            ./modules/auto-update.nix
-            ./modules/desktop.nix
-            ./modules/domains.nix
-            ./modules/dynamic-dns.nix
-            ./modules/factorio-server.nix
-            ./modules/gaming.nix
-            ./modules/gateway.nix
-            ./modules/nginx.nix
-            ./modules/quilt-server.nix
-            ./modules/vault.nix
-
-            (
-              { ... }:
-              {
-                networking.hostName = name;
-              }
-            )
-
-            ({ ... }: config)
-
-          ] ++ modules;
           specialArgs = {
             inherit pkgs-unstable pkgs-1os;
             lib1os = pkgs-1os.lib1os;
+            oneos-name = name;
           };
         }
       ) hosts;
