@@ -9,14 +9,6 @@ in
     with types;
     {
       enable = mkEnableOption "acme";
-      root = mkOption {
-        type = bool;
-        default = false;
-      };
-      subdomains = mkOption {
-        type = listOf str;
-        default = [ ];
-      };
       email = mkOption {
         type = str;
         default = "admin@${config.oneos.domains.default}";
