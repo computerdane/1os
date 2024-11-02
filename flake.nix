@@ -63,6 +63,7 @@
 
             ./modules/auto-update.nix
             ./modules/desktop.nix
+            ./modules/domains.nix
             ./modules/dynamic-dns.nix
             ./modules/factorio-server.nix
             ./modules/gaming.nix
