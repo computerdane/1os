@@ -20,6 +20,10 @@
           modules = [ ./hardware/bludgeonder.nix ];
           config.oneos = {
 
+            acme = {
+              enable = true;
+              root = true;
+            };
             auto-update = {
               pull = true;
               push = true;
@@ -61,6 +65,7 @@
             ./configuration.nix
             sops-nix.nixosModules.sops
 
+            ./modules/acme.nix
             ./modules/auto-update.nix
             ./modules/desktop.nix
             ./modules/domains.nix
@@ -82,6 +87,7 @@
           ] ++ modules;
           specialArgs = {
             inherit pkgs-unstable pkgs-1os;
+            lib1os = pkgs-1os.lib1os;
           };
         }
       ) hosts;

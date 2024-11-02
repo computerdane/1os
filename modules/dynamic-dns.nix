@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  lib1os,
+  ...
+}:
 
 let
   cfg = config.oneos.dynamic-dns;
@@ -22,11 +27,7 @@ in
       enable = true;
       ipv6 = true;
       ipv4 = false;
-      domains = lib.lists.flatten (
-        builtins.map (
-          subdomain: (builtins.map (domain: "${subdomain}.${domain}") config.oneos.domains)
-        ) cfg.subdomains
-      );
+      domains = lib1os.genDomains cfg.subdomains config.oneos.domains;
       apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
     };
   };
