@@ -13,6 +13,11 @@ in
         type = str;
         default = "admin@${config.oneos.domains.default}";
       };
+      useStaging = mkOption {
+        description = "Whether or not to use the Let's Encrypt staging environment";
+        type = bool;
+        default = false;
+      };
     };
 
   config = lib.mkIf cfg.enable {
@@ -29,10 +34,8 @@ in
         dnsProvider = "cloudflare";
         dnsResolver = "1.1.1.1:53";
         environmentFile = config.sops.secrets.cloudflare-api-key.path;
+        server = lib.mkIf cfg.useStaging "https://acme-staging-v02.api.letsencrypt.org/directory";
       };
-
-      # Uncomment to use Let's Encrypt Staging Environment
-      # defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
     };
   };
 }
