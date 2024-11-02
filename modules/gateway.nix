@@ -7,18 +7,6 @@ in
   options.oneos.gateway.enable = lib.mkEnableOption "gateway";
 
   config = lib.mkIf cfg.enable {
-    sops.secrets.cloudflare-api-key = { };
-
-    services.cloudflare-dyndns = {
-      enable = true;
-      ipv6 = true;
-      domains = [
-        "knightf6.com"
-        "nf6.sh"
-      ];
-      apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
-    };
-
     systemd.network.networks = {
       "10-wan" = {
         name = "wan";

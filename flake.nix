@@ -20,13 +20,14 @@
           modules = [ ./hardware/bludgeonder.nix ];
           config.oneos = {
 
-            acme = {
-              enable = true;
-              root = true;
-            };
             auto-update = {
               pull = true;
               push = true;
+            };
+            dynamic-dns = {
+              enable = true;
+              root = true;
+              ipv4 = true;
             };
             factorio-server.enable = true;
             gateway.enable = true;

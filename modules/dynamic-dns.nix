@@ -14,9 +14,21 @@ in
     with types;
     {
       enable = mkEnableOption "dynamic-dns";
+      root = mkOption {
+        type = bool;
+        default = false;
+      };
+      ipv4 = mkOption {
+        type = bool;
+        default = false;
+      };
       subdomains = mkOption {
         type = listOf str;
-        default = [ config.networking.hostName ];
+        default = if cfg.root then [ ] else [ config.networking.hostName ];
+      };
+      domains = mkOption {
+        type = listOf str;
+        default = config.oneos.domains;
       };
     };
 
@@ -26,8 +38,11 @@ in
     services.cloudflare-dyndns = {
       enable = true;
       ipv6 = true;
-      ipv4 = false;
-      domains = lib1os.genDomains cfg.subdomains config.oneos.domains;
+      ipv4 = cfg.ipv4;
+      domains = lib.flatten [
+        (if cfg.root then cfg.domains else [ ])
+        (lib1os.genDomains cfg.subdomains cfg.domains)
+      ];
       apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
     };
   };
