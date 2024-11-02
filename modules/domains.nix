@@ -1,14 +1,20 @@
-{ lib, ... }:
+{ config, lib, ... }:
+
+with lib;
+with types;
 
 {
-  options.oneos.domains =
-    with lib;
-    with types;
-    mkOption {
+  options.oneos.domains = {
+    domains = mkOption {
       type = listOf str;
       default = [
-        "knightf6.com"
         "nf6.sh"
+        "knightf6.com"
       ];
     };
+    default = mkOption {
+      type = str;
+      default = elemAt config.oneos.domains.domains 0;
+    };
+  };
 }

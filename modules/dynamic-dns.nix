@@ -28,7 +28,7 @@ in
       };
       domains = mkOption {
         type = listOf str;
-        default = config.oneos.domains;
+        default = config.oneos.domains.domains;
       };
     };
 

@@ -31,6 +31,7 @@
             };
             factorio-server.enable = true;
             gateway.enable = true;
+            vault.enable = true;
 
           };
         };
@@ -74,7 +75,9 @@
             ./modules/factorio-server.nix
             ./modules/gaming.nix
             ./modules/gateway.nix
+            ./modules/nginx.nix
             ./modules/quilt-server.nix
+            ./modules/vault.nix
 
             (
               { ... }:
