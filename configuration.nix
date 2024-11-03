@@ -18,6 +18,7 @@
     sops
     age
     ssh-to-age
+    wireguard-tools
   ];
 
   systemd.network.enable = true;

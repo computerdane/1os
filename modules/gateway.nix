@@ -7,6 +7,43 @@ in
   options.oneos.gateway.enable = lib.mkEnableOption "gateway";
 
   config = lib.mkIf cfg.enable {
+    sops.secrets.gateway-wireguard-key = {
+      owner = config.users.users.systemd-network.name;
+      group = config.users.users.systemd-network.group;
+    };
+
+    systemd.network = {
+      networks."25-wg" = {
+        name = "wg";
+        routes = [
+          {
+            routeConfig = {
+              PreferredSource = "10.0.105.1";
+              Destination = "10.0.36.0/24";
+            };
+          }
+        ];
+      };
+      netdevs."25-wg" = {
+        netdevConfig = {
+          Kind = "wireguard";
+          Name = "wg";
+        };
+        wireguardConfig = {
+          ListenPort = 50105;
+          PrivateKeyFile = config.sops.secrets.gateway-wireguard-key.path;
+        };
+        wireguardPeers = [
+          {
+            wireguardPeerConfig = {
+              AllowedIPs = [ "10.0.36.0/24" ];
+              PublicKey = "W9WHvF9Z8DNpMHVgYfcvY/ep93iC/R4PJKcQr0ty3RA="; # schlaptop
+            };
+          }
+        ];
+      };
+    };
+
     systemd.network.networks = {
       "10-wan" = {
         name = "wan";
@@ -43,15 +80,23 @@ in
 
     networking = {
       firewall = {
-        interfaces.lan.allowedUDPPorts = [
-          53 # dns
-          67 # dhcp
-        ];
-        # trustedInterfaces = [ "pc" ];
+        interfaces = {
+          lan.allowedUDPPorts = [
+            53 # dns
+            67 # dhcp
+          ];
+          wan.allowedUDPPorts = [
+            50105 # wireguard
+          ];
+        };
+        trustedInterfaces = [ "wg" ];
       };
       nat = {
         enable = true;
-        internalInterfaces = [ "lan" ];
+        internalInterfaces = [
+          "lan"
+          "wg"
+        ];
         externalInterface = "wan";
       };
       hosts."10.0.105.1" = [ "one.lan" ];
