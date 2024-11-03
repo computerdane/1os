@@ -49,5 +49,11 @@ in
       ];
       apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
     };
+
+    # Give some time for the network to come online
+    systemd.services.cloudflare-dyndns = {
+      preStart = "sleep 10";
+      requires = [ "network-online.target" ];
+    };
   };
 }
