@@ -13,15 +13,15 @@ in
         ipv4 = {
           subnet = mkOption {
             type = str;
-            default = "10.0.105.0/24";
+            default = "10.105.0.0/16";
           };
           address = mkOption {
             type = str;
-            default = "10.0.105.1";
+            default = "10.105.0.1";
           };
           prefixLength = mkOption {
             type = int;
-            default = 24;
+            default = 16;
           };
         };
         ipv6 = {
@@ -35,11 +35,11 @@ in
         ipv4 = {
           first3Octets = mkOption {
             type = str;
-            default = "10.0.39";
+            default = "10.39.0";
           };
           subnet = mkOption {
             type = str;
-            default = "${cfg.wireguard.ipv4.first3Octets}.0/24";
+            default = "${cfg.wireguard.ipv4.first3Octets}.0/16";
           };
         };
         ipv6 = {
