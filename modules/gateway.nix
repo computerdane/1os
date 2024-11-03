@@ -49,7 +49,7 @@ in
           };
           subnet = mkOption {
             type = str;
-            default = "${cfg.wireguard.ipv6.first3Quartets}::/64";
+            default = "${cfg.wireguard.ipv6.first3Quartets}::/48";
           };
         };
         port = mkOption {
@@ -156,6 +156,16 @@ in
                 wireguardPeerConfig = {
                   AllowedIPs = mkAddresses 101;
                   PublicKey = "H8tkZspaUWMvWz1XMjeEWIKlGTBT7jdZ29lvNiGUMAg="; # fone
+                };
+              }
+              {
+                wireguardPeerConfig = {
+                  Endpoint = "thotlab.net";
+                  AllowedIPs = [
+                    "172.31.0.0/16"
+                    "fd00:100::/32"
+                  ];
+                  PublicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4="; # scott
                 };
               }
             ];
