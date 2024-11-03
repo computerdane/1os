@@ -11,6 +11,10 @@ in
       enable = mkEnableOption "gateway";
       lan = {
         ipv4 = {
+          subnet = mkOption {
+            type = str;
+            default = "10.0.105.0/24";
+          };
           address = mkOption {
             type = str;
             default = "10.0.105.1";
@@ -37,7 +41,7 @@ in
         ipv6 = {
           subnet = mkOption {
             type = str;
-            default = "fd00:da2e:39::/32";
+            default = "fd00:da2e:39::/64";
           };
         };
         port = mkOption {
@@ -127,8 +131,20 @@ in
           wireguardPeers = [
             {
               wireguardPeerConfig = {
-                AllowedIPs = [ cfg.wireguard.ipv4.subnet ];
+                AllowedIPs = with cfg.wireguard; [
+                  ipv4.subnet
+                  ipv6.subnet
+                ];
                 PublicKey = "W9WHvF9Z8DNpMHVgYfcvY/ep93iC/R4PJKcQr0ty3RA="; # schlaptop
+              };
+            }
+            {
+              wireguardPeerConfig = {
+                AllowedIPs = with cfg.wireguard; [
+                  ipv4.subnet
+                  ipv6.subnet
+                ];
+                PublicKey = "H8tkZspaUWMvWz1XMjeEWIKlGTBT7jdZ29lvNiGUMAg="; # fone
               };
             }
           ];
@@ -148,10 +164,12 @@ in
         };
         nat = {
           enable = true;
-          internalInterfaces = [
-            "lan"
-            "wg"
+          enableIPv6 = true;
+          internalIPs = [
+            cfg.lan.ipv4.subnet
+            cfg.wireguard.ipv4.subnet
           ];
+          internalIPv6s = [ cfg.wireguard.ipv6.subnet ];
           externalInterface = "wan";
         };
         hostId = "c04107a1"; # required by ZFS to ensure that a pool isn't accidentally imported on a wrong machine
