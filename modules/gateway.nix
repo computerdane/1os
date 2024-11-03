@@ -31,7 +31,13 @@ in
         ipv4 = {
           subnet = mkOption {
             type = str;
-            default = "10.0.36.0/24";
+            default = "10.0.39.0/24";
+          };
+        };
+        ipv6 = {
+          subnet = mkOption {
+            type = str;
+            default = "fd00:da2e:39::/32";
           };
         };
         port = mkOption {
@@ -96,8 +102,14 @@ in
             routes = [
               {
                 routeConfig = {
-                  PreferredSource = lanIpv4Cidr;
+                  PreferredSource = cfg.lan.ipv4.address;
                   Destination = cfg.wireguard.ipv4.subnet;
+                };
+              }
+              {
+                routeConfig = {
+                  PreferredSource = cfg.lan.ipv6.address;
+                  Destination = cfg.wireguard.ipv6.subnet;
                 };
               }
             ];
