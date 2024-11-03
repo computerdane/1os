@@ -33,15 +33,23 @@ in
       };
       wireguard = {
         ipv4 = {
+          first3Octets = mkOption {
+            type = str;
+            default = "10.0.39";
+          };
           subnet = mkOption {
             type = str;
-            default = "10.0.39.0/24";
+            default = "${cfg.wireguard.ipv4.first3Octets}.0/24";
           };
         };
         ipv6 = {
+          first3Quartets = mkOption {
+            type = str;
+            default = "fd00:da2e:39";
+          };
           subnet = mkOption {
             type = str;
-            default = "fd00:da2e:39::/64";
+            default = "${cfg.wireguard.ipv6.first3Quartets}::/64";
           };
         };
         port = mkOption {
@@ -128,39 +136,39 @@ in
             ListenPort = cfg.wireguard.port;
             PrivateKeyFile = config.sops.secrets.gateway-wireguard-key.path;
           };
-          wireguardPeers = [
-            {
-              wireguardPeerConfig = {
-                AllowedIPs = with cfg.wireguard; [
-                  ipv4.subnet
-                  ipv6.subnet
-                ];
-                PublicKey = "W9WHvF9Z8DNpMHVgYfcvY/ep93iC/R4PJKcQr0ty3RA="; # schlaptop
-              };
-            }
-            {
-              wireguardPeerConfig = {
-                AllowedIPs = with cfg.wireguard; [
-                  ipv4.subnet
-                  ipv6.subnet
-                ];
-                PublicKey = "H8tkZspaUWMvWz1XMjeEWIKlGTBT7jdZ29lvNiGUMAg="; # fone
-              };
-            }
-          ];
+          wireguardPeers =
+            let
+              mkIpv4Address = lastOctet: "${cfg.wireguard.ipv4.first3Octets}.${toString lastOctet}/32";
+              mkIpv6Address = lastQuartet: "${cfg.wireguard.ipv6.first3Quartets}::${toString lastQuartet}/128";
+              mkAddresses = lastOctet: [
+                (mkIpv4Address lastOctet)
+                (mkIpv6Address lastOctet)
+              ];
+            in
+            [
+              {
+                wireguardPeerConfig = {
+                  AllowedIPs = mkAddresses 100;
+                  PublicKey = "W9WHvF9Z8DNpMHVgYfcvY/ep93iC/R4PJKcQr0ty3RA="; # schlaptop
+                };
+              }
+              {
+                wireguardPeerConfig = {
+                  AllowedIPs = mkAddresses 101;
+                  PublicKey = "H8tkZspaUWMvWz1XMjeEWIKlGTBT7jdZ29lvNiGUMAg="; # fone
+                };
+              }
+            ];
         };
       };
 
       networking = {
         firewall = {
-          interfaces = {
-            lan.allowedUDPPorts = [
-              53 # dns
-              67 # dhcp
-            ];
-            wan.allowedUDPPorts = [ cfg.wireguard.port ];
-          };
-          trustedInterfaces = [ "wg" ];
+          interfaces.wan.allowedUDPPorts = [ cfg.wireguard.port ];
+          trustedInterfaces = [
+            "lan"
+            "wg"
+          ];
         };
         nat = {
           enable = true;
