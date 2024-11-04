@@ -26,6 +26,10 @@ let
         ipv4 = pickIpv4 subnet.ipv4 1;
         ipv6 = pickIpv6 subnet.ipv6 "1";
       };
+      dhcpRange.ipv4 = {
+        start = pickIpv4 subnet.ipv4 50;
+        end = pickIpv4 subnet.ipv4 150;
+      };
     };
     wg.subnet = {
       ipv4 = toIpv4 [
@@ -34,10 +38,12 @@ let
         39
         0
       ] 24;
+      # 2600:1700:591:3b3e::1
       ipv6 = toIpv6 [
-        "fd00"
-        "105"
-        "39"
+        "2600"
+        "1700"
+        "591"
+        "3b3e"
       ] 64;
     };
     scott.subnet = {
@@ -79,60 +85,34 @@ in
       group = config.users.users.systemd-network.group;
     };
 
+    systemd.services.systemd-networkd.requiredBy = [ "dhcpcd.service" ];
+
     systemd.network = {
       networks = {
-        "10-wan" = {
-          name = "wan";
-          DHCP = "yes";
-          networkConfig.IPv6AcceptRA = true;
-          dhcpV6Config = {
-            WithoutRA = "solicit";
-            UseDNS = false;
-          };
-          ipv6AcceptRAConfig.UseDNS = false;
-          dhcpV4Config.UseDNS = false;
-        };
         "20-lan" = {
           name = "lan";
-          DHCP = "no";
-          networkConfig = {
-            Address = with ips.lan.gateway; [
-              ipv4.cidr
-              ipv6.cidr
-            ];
-            DNS = cfg.dns;
-            DHCPServer = true;
-            DHCPPrefixDelegation = true;
-            IPv6SendRA = true;
-            IPv6AcceptRA = false;
-          };
-          dhcpServerConfig.PoolOffset = 100;
-          dhcpPrefixDelegationConfig = {
-            UplinkInterface = "wan";
-            Announce = "yes";
-          };
+          networkConfig.Address = with ips.lan.gateway; [
+            ipv4.cidr
+            ipv6.cidr
+          ];
         };
         "25-wg" = {
           name = "wg";
           routes =
             let
+              mkRoute = src: dest: {
+                routeConfig = {
+                  PreferredSource = src.address;
+                  Destination = dest.cidr;
+                };
+              };
               mkRoutes = src: dest: [
-                {
-                  routeConfig = {
-                    PreferredSource = src.ipv4.address;
-                    Destination = dest.ipv4.cidr;
-                  };
-                }
-                {
-                  routeConfig = {
-                    PreferredSource = src.ipv6.address;
-                    Destination = dest.ipv6.cidr;
-                  };
-                }
+                (mkRoute src.ipv4 dest.ipv4)
+                (mkRoute src.ipv6 dest.ipv6)
               ];
             in
             lib.flatten [
-              (mkRoutes ips.lan.gateway ips.wg.subnet)
+              (mkRoute ips.lan.gateway.ipv4 ips.wg.subnet.ipv4)
               (mkRoutes ips.lan.gateway ips.scott.subnet)
             ];
         };
@@ -196,15 +176,89 @@ in
       };
       nat = {
         enable = true;
-        enableIPv6 = true;
         internalIPs = [
           ips.lan.subnet.ipv4.cidr
           ips.wg.subnet.ipv4.cidr
         ];
-        internalIPv6s = [ ips.wg.subnet.ipv6.cidr ];
         externalInterface = "wan";
       };
       hostId = "c04107a1"; # required by ZFS to ensure that a pool isn't accidentally imported on a wrong machine
+      dhcpcd = {
+        enable = true;
+        persistent = true;
+        allowInterfaces = [ "wan" ];
+        extraConfig = ''
+          noipv6rs        # disable routing solicitation
+          interface wan
+            ipv6rs        # enable routing solicitation for wan
+            ia_na 1       # request an IPv6 address
+            ia_pd 2 lan/0 # request a PD
+            ia_pd 3 wg/0  # request a PD
+        '';
+      };
+    };
+
+    services.resolved.enable = false;
+    services.dnsmasq = {
+      enable = true;
+      settings = {
+        server = [
+          "1.1.1.1"
+          "1.0.0.1"
+        ];
+
+        # If you want dnsmasq to listen for DHCP and DNS requests only on
+        # specified interfaces (and the loopback) give the name of the
+        # interface (eg eth0) here.
+        # Repeat the line for more than one interface.
+        #interface=
+        # Or you can specify which interface _not_ to listen on
+        except-interface = "wan";
+
+        # Set the DHCP server to authoritative mode. In this mode it will barge in
+        # and take over the lease for any client which broadcasts on the network,
+        # whether it has a record of the lease or not. This avoids long timeouts
+        # when a machine wakes up on a new network. DO NOT enable this if there's
+        # the slightest chance that you might end up accidentally configuring a DHCP
+        # server for your campus/company accidentally. The ISC server uses
+        # the same option, and this URL provides more information:
+        # http://www.isc.org/files/auth.html
+        dhcp-authoritative = true;
+
+        # Do router advertisements for all subnets where we're doing DHCPv6
+        # Unless overridden by ra-stateless, ra-names, et al, the router
+        # advertisements will have the M and O bits set, so that the clients
+        # get addresses and configuration from DHCPv6, and the A bit reset, so the
+        # clients don't use SLAAC addresses.
+        enable-ra = true;
+
+        dhcp-range = [
+          # Do stateless DHCP, SLAAC, and generate DNS names for SLAAC addresses
+          # from DHCPv4 leases.
+          "::,constructor:lan,ra-stateless,ra-names"
+
+          # Uncomment this to enable the integrated DHCP server, you need
+          # to supply the range of addresses available for lease and optionally
+          # a lease time. If you have more than one network, you will need to
+          # repeat this for each network on which you want to supply DHCP
+          # service.
+          (with ips.lan.dhcpRange.ipv4; "${start.address},${end.address},12h")
+        ];
+
+        # Never forward plain names (without a dot or domain part)
+        domain-needed = true;
+
+        # Never forward addresses in the non-routed address spaces.
+        bogus-priv = true;
+
+        # Uncomment this to filter useless windows-originated DNS requests
+        # which can trigger dial-on-demand links needlessly.
+        # Note that (amongst other things) this blocks all SRV requests,
+        # so don't use it if you use eg Kerberos, SIP, XMMP or Google-talk.
+        # This option only affects forwarding, SRV records originating for
+        # dnsmasq (via srv-host= lines) are not suppressed by it.
+        filterwin2k = true;
+      };
     };
 
     services.openssh.ports = [ 105 ];
