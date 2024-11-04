@@ -11,16 +11,8 @@ let
   ips = with lib1os.ip; {
     lan = rec {
       subnet = {
-        ipv4 = toIpv4 [
-          10
-          105
-          0
-          0
-        ] 24;
-        ipv6 = toIpv6 [
-          "fd00"
-          "105"
-        ] 64;
+        ipv4 = fromIpv4Cidr "10.105.0.0/24";
+        ipv6 = fromIpv6Cidr "2600:1700:591:3b3f::/64";
       };
       gateway = {
         ipv4 = pickIpv4 subnet.ipv4 1;
@@ -32,31 +24,12 @@ let
       };
     };
     wg.subnet = {
-      ipv4 = toIpv4 [
-        10
-        105
-        39
-        0
-      ] 24;
-      # 2600:1700:591:3b3e::1
-      ipv6 = toIpv6 [
-        "2600"
-        "1700"
-        "591"
-        "3b3e"
-      ] 64;
+      ipv4 = fromIpv4Cidr "10.105.39.0/24";
+      ipv6 = fromIpv6Cidr "2600:1700:591:3b3e::/64";
     };
     scott.subnet = {
-      ipv4 = toIpv4 [
-        172
-        31
-        0
-        0
-      ] 16;
-      ipv6 = toIpv6 [
-        "fd00"
-        "100"
-      ] 32;
+      ipv4 = fromIpv4Cidr "172.31.0.0/16";
+      ipv6 = fromIpv6Cidr "fd00:100::/32";
     };
   };
 in
@@ -66,7 +39,7 @@ in
     with types;
     {
       enable = mkEnableOption "gateway";
-      dns = mkOption {
+      nameservers = mkOption {
         type = listOf str;
         default = [
           "1.1.1.1"
@@ -202,10 +175,7 @@ in
     services.dnsmasq = {
       enable = true;
       settings = {
-        server = [
-          "1.1.1.1"
-          "1.0.0.1"
-        ];
+        server = cfg.nameservers;
 
         # If you want dnsmasq to listen for DHCP and DNS requests only on
         # specified interfaces (and the loopback) give the name of the

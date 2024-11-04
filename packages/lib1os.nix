@@ -42,6 +42,13 @@ with types;
           cidr = toCidr address prefixLength;
         };
 
+      fromIpv4Cidr =
+        cidr:
+        let
+          tokens = splitString "/" cidr;
+        in
+        toIpv4 (map toInt (splitString "." (elemAt tokens 0))) (toInt (elemAt tokens 1));
+
       pickIpv4 =
         ipv4: octetOrOctets:
         let
@@ -61,6 +68,13 @@ with types;
           address = toIpv6Address quartets;
           cidr = toCidr address prefixLength;
         };
+
+      fromIpv6Cidr =
+        cidr:
+        let
+          tokens = splitString "/" cidr;
+        in
+        toIpv6 (remove "" (splitString ":" (elemAt tokens 0))) (elemAt tokens 1);
 
       pickIpv6 =
         ipv6: quartetOrQuartets:
