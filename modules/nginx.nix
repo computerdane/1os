@@ -16,6 +16,11 @@ in
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
+      virtualHosts = lib.genAttrs config.oneos.domains.domains (name: {
+        enableACME = true;
+        forceSSL = true;
+        locations."/".return = "404";
+      });
     };
   };
 }
