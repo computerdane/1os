@@ -5,6 +5,7 @@
   ./domains.nix
   ./dynamic-dns.nix
   ./factorio-server.nix
+  ./file-share.nix
   ./gaming.nix
   ./gateway.nix
   ./gpu-amd.nix
