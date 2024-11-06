@@ -9,6 +9,7 @@
   ./gateway.nix
   ./gpu-amd.nix
   ./hostname.nix
+  ./livestream-server.nix
   ./nginx.nix
   ./quilt-server.nix
   ./vault.nix

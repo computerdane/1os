@@ -13,6 +13,7 @@
     };
     factorio-server.enable = true;
     gateway.enable = true;
+    livestream-server.enable = true;
     vault.enable = true;
   };
 }
