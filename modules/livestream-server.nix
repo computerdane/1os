@@ -57,7 +57,7 @@ in
             locations."/" = {
               inherit proxyPass;
               proxyWebsockets = true;
-              basicAuthFile = config.sops.secrets.owncast-basic-auth.path;
+              # basicAuthFile = config.sops.secrets.owncast-basic-auth.path;
             };
             locations."/admin".proxyPass = "${proxyPass}/admin";
           };
