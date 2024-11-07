@@ -30,6 +30,7 @@ let
     scott.subnet = {
       ipv4 = fromIpv4Cidr "172.31.0.0/16";
       ipv6 = fromIpv6Cidr "fd00:100::/32";
+      ipv6-public = fromIpv6Cidr "2001:470:be1c::/48";
     };
   };
 in
@@ -87,6 +88,7 @@ in
             lib.flatten [
               (mkRoute ips.lan.gateway.ipv4 ips.wg.subnet.ipv4)
               (mkRoutes ips.lan.gateway ips.scott.subnet)
+              (mkRoute ips.lan.gateway.ipv6 ips.scott.subnet.ipv6-public)
             ];
         };
       };
@@ -131,6 +133,7 @@ in
                 AllowedIPs = with ips.scott.subnet; [
                   ipv4.cidr
                   ipv6.cidr
+                  ipv6-public.cidr
                 ];
                 PublicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4="; # scott
               };
