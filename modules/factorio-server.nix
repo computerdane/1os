@@ -6,14 +6,14 @@
 }:
 
 let
-  version = "2.0.14";
+  version = "2.0.15";
   factorio-headless-latest = pkgs.factorio-headless.override {
     versionsJson = pkgs.writeText "versions.json" (
       builtins.toJSON {
         x86_64-linux.headless.stable = {
           name = "factorio_headless_x64-${version}.tar.xz";
           needsAuth = false;
-          sha256 = "sha256-WkvEw7KpftH8WOt5YyHoSNzGRDW9kQE92ceKFKjOiBU=";
+          sha256 = "sha256-cLRBy4B4EaYFhsARBySMHY164EO9HyNnX8kk+6qlONg=";
           tarDirectory = "x64";
           url = "https://www.factorio.com/get-download/${version}/headless/linux64";
           inherit version;
