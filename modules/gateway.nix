@@ -218,8 +218,19 @@ in
           (with ips.lan.dhcpRange.ipv4; "${start.address},${end.address},12h")
         ];
 
-        # Never forward plain names (without a dot or domain part)
-        domain-needed = true;
+        # Set the domain for dnsmasq. this is optional, but if it is set, it
+        # does the following things.
+        # 1) Allows DHCP hosts to have fully qualified domain names, as long
+        #     as the domain part matches this setting.
+        # 2) Sets the "domain" DHCP option thereby potentially setting the
+        #    domain of all systems configured by DHCP
+        # 3) Provides the domain part for "expand-hosts"
+        domain = "one.lan";
+
+        # Always set the name of the host with hardware address
+        # 11:22:33:44:55:66 to be "fred"
+        #dhcp-host=11:22:33:44:55:66,fred
+        dhcp-host = [ "9c:6b:00:2f:0e:be,fishtank" ];
 
         # Never forward addresses in the non-routed address spaces.
         bogus-priv = true;
