@@ -3,6 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     sops-nix.url = "github:Mic92/sops-nix";
+    nf6.url = "github:computerdane/nf6";
   };
 
   outputs =
@@ -11,6 +12,7 @@
       nixpkgs,
       nixpkgs-unstable,
       sops-nix,
+      nf6,
     }:
     let
       hosts = {
@@ -43,6 +45,8 @@
           pkgs-unstable = import nixpkgs-unstable { inherit system; };
 
           pkgs-1os = pkgs.callPackage ./packages/all-packages.nix { };
+
+          pkgs-nf6 = nf6.packages.${system};
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -55,7 +59,7 @@
           ];
 
           specialArgs = {
-            inherit pkgs-unstable pkgs-1os;
+            inherit pkgs-unstable pkgs-1os pkgs-nf6;
             lib1os = pkgs-1os.lib1os;
             oneos-name = name;
           };
