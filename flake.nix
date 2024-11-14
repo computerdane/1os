@@ -2,8 +2,14 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    sops-nix.url = "github:Mic92/sops-nix";
-    nf6.url = "github:computerdane/nf6";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nf6 = {
+      url = "github:computerdane/nf6";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

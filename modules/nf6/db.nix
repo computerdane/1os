@@ -8,13 +8,6 @@
 
 let
   cfg = config.oneos.nf6-db;
-
-  initUserSql = pkgs.writeText "create-user.sql" ''
-    create database nf6 owner nf6_api;
-    grant usage, create on schema public to nf6_api;
-    \c nf6;
-    set role nf6_api;
-  '';
 in
 {
   options.oneos.nf6-db.enable = lib.mkEnableOption "nf6-db";
@@ -32,16 +25,20 @@ in
 
     systemd.services.nf6-db-init = {
       requires = [ "postgresql.service" ];
+      after = [ "postgresql.service" ];
       wantedBy = [ "multi-user.target" ];
       path = [ pkgs.postgresql ];
       preStart = ''
         sleep 5
       '';
       script = ''
-        PG_PASS=$(cat "${config.sops.secrets.postgres-nf6_api-password-db.path}")
-        echo "create user nf6_api with password '$PG_PASS';" > /tmp/init.sql
-        cat "${initUserSql}" >> /tmp/init.sql
-        cat "${pkgs-nf6.init-sql}" >> /tmp/init.sql
+        PG_NF6_API_PASS=$(cat "${config.sops.secrets.postgres-nf6_api-password-db.path}")
+
+        cat "${pkgs-nf6.init-tables-sql}" >> /tmp/init.sql
+        cat "${pkgs-nf6.init-api-user-sql}" >> /tmp/init.sql
+        cat "${pkgs-nf6.init-git-user-sql}" >> /tmp/init.sql
+
+        sed -i -e "s/PG_NF6_API_PASS/$PG_NF6_API_PASS/g" /tmp/init.sql
 
         psql -d nf6 -f /tmp/init.sql
       '';

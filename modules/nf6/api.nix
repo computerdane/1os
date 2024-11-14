@@ -7,8 +7,6 @@
 
 let
   cfg = config.oneos.nf6-api;
-
-  baseDir = "/var/lib/nf6-api/data";
 in
 {
   options.oneos.nf6-api =
@@ -24,11 +22,11 @@ in
         type = str;
         default = "nf6-api";
       };
-      insecurePort = mkOption {
+      portInsecure = mkOption {
         type = port;
         default = 6968;
       };
-      port = mkOption {
+      portSecure = mkOption {
         type = port;
         default = 6969;
       };
@@ -43,12 +41,12 @@ in
       };
 
       networking.firewall.allowedTCPPorts = [
-        insecurePort
-        port
+        portInsecure
+        portSecure
       ];
       networking.firewall.allowedUDPPorts = [
-        insecurePort
-        port
+        portInsecure
+        portSecure
       ];
 
       users.users.${user} = {
@@ -58,16 +56,19 @@ in
       users.groups.${group} = { };
 
       systemd.services.nf6-api = {
-        requires = [ "nf6-db-init.service" ];
+        requires = [
+          "postgresql.service"
+          "nf6-db-init.service"
+        ];
+        after = [ "nf6-db-init.service" ];
         wantedBy = [ "multi-user.target" ];
         path = [ pkgs-nf6.server-api ];
         script = ''
           PG_PASS=$(cat "${config.sops.secrets.postgres-nf6_api-password-api.path}")
-          nf-api \
-            --base-dir="${baseDir}" \
-            --insecure-port="${toString insecurePort}" \
-            --port="${toString port}" \
-            --db-url="postgres://nf6_api:$PG_PASS@localhost/nf6"
+          nfapi \
+            --dbUrl "postgres://nf6_api:$PG_PASS@localhost/nf6" \
+            --portInsecure "${toString portInsecure}" \
+            --portSecure "${toString portSecure}"
         '';
         serviceConfig = {
           User = user;
@@ -75,7 +76,7 @@ in
         };
       };
 
-      systemd.tmpfiles.settings."10-nf6-api".${baseDir}.d = {
+      systemd.tmpfiles.settings."10-nf6-api"."/var/lib/nfapi".d = {
         inherit user group;
         mode = "0755";
       };
