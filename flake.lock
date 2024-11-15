@@ -8,11 +8,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1731612986,
-        "narHash": "sha256-NXyTa5qm+clv5V8UDOlwTiFD+5C4sXhkVlRBc5ssZ8c=",
+        "lastModified": 1731652276,
+        "narHash": "sha256-XXpW+hBF/AwLCODgehE6sXdKH9m10TheBRLtoYHh+go=",
         "owner": "computerdane",
         "repo": "nf6",
-        "rev": "d75c1b0204ac797098de589dfcf6a6327e87f831",
+        "rev": "33555aecb302e79b1f45bcc69dbe5017c7bf4d29",
         "type": "github"
       },
       "original": {

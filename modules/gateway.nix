@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   lib1os,

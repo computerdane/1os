@@ -17,6 +17,7 @@
     # livestream-server.enable = true;
     nf6-api.enable = true;
     nf6-db.enable = true;
+    nf6-git.enable = true;
     vault.enable = true;
   };
 }

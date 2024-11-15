@@ -17,6 +17,10 @@ in
       owner = "postgres";
       group = "postgres";
     };
+    sops.secrets.postgres-nf6_git-password-db = {
+      owner = "postgres";
+      group = "postgres";
+    };
 
     services.postgresql = {
       enable = true;
@@ -33,12 +37,14 @@ in
       '';
       script = ''
         PG_NF6_API_PASS=$(cat "${config.sops.secrets.postgres-nf6_api-password-db.path}")
+        PG_NF6_GIT_PASS=$(cat "${config.sops.secrets.postgres-nf6_git-password-db.path}")
 
         cat "${pkgs-nf6.init-tables-sql}" >> /tmp/init.sql
         cat "${pkgs-nf6.init-api-user-sql}" >> /tmp/init.sql
         cat "${pkgs-nf6.init-git-user-sql}" >> /tmp/init.sql
 
         sed -i -e "s/PG_NF6_API_PASS/$PG_NF6_API_PASS/g" /tmp/init.sql
+        sed -i -e "s/PG_NF6_GIT_PASS/$PG_NF6_GIT_PASS/g" /tmp/init.sql
 
         psql -d nf6 -f /tmp/init.sql
       '';

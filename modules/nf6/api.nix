@@ -65,7 +65,7 @@ in
         path = [ pkgs-nf6.server-api ];
         script = ''
           PG_PASS=$(cat "${config.sops.secrets.postgres-nf6_api-password-api.path}")
-          nfapi \
+          nf6-api \
             --dbUrl "postgres://nf6_api:$PG_PASS@localhost/nf6" \
             --portInsecure "${toString portInsecure}" \
             --portSecure "${toString portSecure}"
@@ -76,7 +76,7 @@ in
         };
       };
 
-      systemd.tmpfiles.settings."10-nf6-api"."/var/lib/nfapi".d = {
+      systemd.tmpfiles.settings."10-nf6-api"."/var/lib/nf6-api/data".d = {
         inherit user group;
         mode = "0755";
       };
