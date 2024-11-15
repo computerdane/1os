@@ -59,6 +59,7 @@
 
           modules = nixpkgs.lib.flatten [
             sops-nix.nixosModules.sops
+            pkgs-nf6.nixosModules
             ./configuration.nix
             (import ./modules/all-modules.nix)
             host.modules
