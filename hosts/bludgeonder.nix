@@ -39,6 +39,7 @@
   services = {
     nf6-api = {
       enable = true;
+      openFirewall = true;
       postgresPasswordFile = config.sops.secrets.postgres-nf6_api-password-api.path;
     };
     nf6-db = {
