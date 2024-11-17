@@ -66,6 +66,7 @@ in
       networks = {
         "20-lan" = {
           name = "lan";
+          dns = cfg.nameservers;
           networkConfig.Address = with ips.lan.gateway; [
             ipv4.cidr
             ipv6.cidr

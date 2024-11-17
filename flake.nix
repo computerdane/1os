@@ -10,6 +10,7 @@
       url = "github:computerdane/nf6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
@@ -19,6 +20,7 @@
       nixpkgs-unstable,
       sops-nix,
       nf6,
+      utils,
     }:
     let
       hosts = {
@@ -72,5 +74,14 @@
           };
         }
       ) hosts;
-    };
+    }
+    // (utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        packages = pkgs.callPackage ./packages/all-packages.nix { };
+      }
+    ));
 }

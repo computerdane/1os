@@ -1,6 +1,7 @@
 [
   ./acme.nix
   ./auto-update.nix
+  ./bop.nix
   ./desktop.nix
   ./domains.nix
   ./dynamic-dns.nix

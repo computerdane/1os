@@ -2,10 +2,12 @@
 
 {
   oneos = {
+    # acme.useStaging = true;
     auto-update = {
       pull = true;
       push = true;
     };
+    bop.enable = true;
     dynamic-dns = {
       enable = true;
       root = true;
