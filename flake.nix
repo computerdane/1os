@@ -10,7 +10,10 @@
       url = "github:computerdane/nf6";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    utils.url = "github:numtide/flake-utils";
+    bop = {
+      url = "github:computerdane/bop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -20,7 +23,7 @@
       nixpkgs-unstable,
       sops-nix,
       nf6,
-      utils,
+      bop,
     }:
     let
       hosts = {
@@ -53,8 +56,8 @@
           pkgs-unstable = import nixpkgs-unstable { inherit system; };
 
           pkgs-1os = pkgs.callPackage ./packages/all-packages.nix { };
-
           pkgs-nf6 = nf6.packages.${system};
+          pkgs-bop = bop.packages.${system};
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -68,20 +71,16 @@
           ];
 
           specialArgs = {
-            inherit pkgs-unstable pkgs-1os pkgs-nf6;
+            inherit
+              pkgs-unstable
+              pkgs-1os
+              pkgs-nf6
+              pkgs-bop
+              ;
             lib1os = pkgs-1os.lib1os;
             oneos-name = name;
           };
         }
       ) hosts;
-    }
-    // (utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in
-      {
-        packages = pkgs.callPackage ./packages/all-packages.nix { };
-      }
-    ));
+    };
 }

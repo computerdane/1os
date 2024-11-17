@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgs-bop,
   ...
 }:
 
@@ -22,7 +23,7 @@ in
         type = str;
         default = "bop";
       };
-      finderPort = mkOption {
+      port = mkOption {
         type = port;
         default = 8085;
       };
@@ -35,18 +36,6 @@ in
   config =
     let
       domain = "${cfg.subdomain}.${cfg.domain}";
-
-      bopFinder = pkgs.writeShellApplication {
-        name = "bop-finder";
-        runtimeInputs = with pkgs; [
-          gawk
-          fd
-        ];
-        text = ''
-          cd "${cfg.musicPath}"
-          fd -t f "$(echo "$*" | tr -d "-")" | awk '{print "https://${domain}/" $0}'
-        '';
-      };
     in
     lib.mkIf cfg.enable {
 
@@ -61,13 +50,13 @@ in
         nginx.enable = true;
       };
 
-      networking.firewall.allowedTCPPorts = [ cfg.finderPort ];
+      networking.firewall.allowedTCPPorts = [ cfg.port ];
 
-      systemd.services.bop = {
+      systemd.services.bop-api = {
         wantedBy = [ "multi-user.target" ];
-        path = [ pkgs.nmap ];
+        path = [ pkgs-bop.server-api ];
         script = ''
-          ncat -l ${toString cfg.finderPort} -k -c "xargs -n1 ${bopFinder}/bin/bop-finder"
+          bop-api listen "${cfg.musicPath}" "https://${domain}/" -p ${toString cfg.port}
         '';
         serviceConfig.DynamicUser = true;
       };
