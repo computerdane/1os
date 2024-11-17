@@ -44,7 +44,7 @@ in
         ];
         text = ''
           cd "${cfg.musicPath}"
-          fd -t f '$*' | awk '{print "https://${domain}/" $0}'
+          fd -t f "$*" | awk '{print "https://${domain}/" $0}'
         '';
       };
     in
