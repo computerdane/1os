@@ -7,7 +7,14 @@
       pull = true;
       push = true;
     };
-    bop.enable = true;
+    bop = {
+      enable = true;
+      authorizedKeys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGut2t5lGOa1UrDfiMedZi93m17SU8CwlT9UvUMRgEHz john@nixos"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDIPLz8u9B6CEFgUyOtdFTJmkbNA3A9xoKA94UMirGrz" # scott
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICnjmTXWpxkporvlxiJoK/lxccZ1Q1VtLuTVSLvjKNwK" # allie
+      ] ++ config.users.users.dane.openssh.authorizedKeys.keys;
+    };
     dynamic-dns = {
       enable = true;
       root = true;

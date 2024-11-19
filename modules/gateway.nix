@@ -247,7 +247,10 @@ in
       };
     };
 
-    services.openssh.ports = [ 105 ];
+    services.openssh.ports = [
+      22
+      105
+    ];
 
     boot.kernel.sysctl = {
       "net.ipv6.conf.all.forwarding" = 1;

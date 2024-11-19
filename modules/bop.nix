@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   pkgs-bop,
   ...
 }:
@@ -31,6 +30,10 @@ in
         type = str;
         default = "/nas/hl/music";
       };
+      authorizedKeys = mkOption {
+        type = listOf str;
+        default = [ ];
+      };
     };
 
   config =
@@ -48,6 +51,14 @@ in
           domains = [ cfg.domain ];
         };
         nginx.enable = true;
+      };
+
+      users.groups.bop = { };
+      users.users.bop = {
+        isNormalUser = true;
+        home = cfg.musicPath;
+        group = "bop";
+        openssh.authorizedKeys.keys = cfg.authorizedKeys;
       };
 
       networking.firewall.allowedTCPPorts = [ cfg.port ];
