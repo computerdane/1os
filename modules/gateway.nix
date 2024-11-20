@@ -24,6 +24,9 @@ let
         end = pickIpv4 subnet.ipv4 150;
       };
     };
+    wgnf6.subnet = {
+      ipv6 = fromIpv6Cidr "2600:1700:591:3b3d::/64";
+    };
     wg.subnet = {
       ipv4 = fromIpv4Cidr "10.105.39.0/24";
       ipv6 = fromIpv6Cidr "2600:1700:591:3b3e::/64";
@@ -76,6 +79,9 @@ in
             ipv6.cidr
           ];
         };
+        "26-wgnf6" = {
+          name = "wgnf6";
+        };
         "25-wg" = {
           name = "wg";
           routes =
@@ -98,10 +104,10 @@ in
             ];
         };
       };
-      netdevs."26-wg-nf6" = {
+      netdevs."26-wgnf6" = {
         netdevConfig = {
           Kind = "wireguard";
-          Name = "wg-nf6";
+          Name = "wgnf6";
         };
         wireguardConfig = {
           ListenPort = 51820;
@@ -186,6 +192,7 @@ in
             ia_na 1       # request an IPv6 address
             ia_pd 2 lan/0 # request a PD
             ia_pd 3 wg/0  # request a PD
+            ia_pd 4 wgnf6/0
         '';
       };
     };
