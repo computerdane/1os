@@ -57,6 +57,7 @@ in
       users.users.bop = {
         isNormalUser = true;
         home = cfg.musicPath;
+        homeMode = "777";
         group = "bop";
         openssh.authorizedKeys.keys = cfg.authorizedKeys;
       };

@@ -55,9 +55,13 @@ in
     };
 
   config = lib.mkIf cfg.enable {
-    sops.secrets.gateway-wireguard-key = {
-      owner = config.users.users.systemd-network.name;
-      group = config.users.users.systemd-network.group;
+    sops.secrets.gateway-wireguard-key = with config.users.users.systemd-network; {
+      owner = name;
+      inherit group;
+    };
+    sops.secrets.gateway-wireguard-nf6-key = with config.users.users.systemd-network; {
+      owner = name;
+      inherit group;
     };
 
     systemd.services.systemd-networkd.requiredBy = [ "dhcpcd.service" ];
@@ -92,6 +96,16 @@ in
               (mkRoutes ips.lan.gateway ips.scott.subnet)
               (mkRoute ips.lan.gateway.ipv6 ips.scott.subnet.ipv6-public)
             ];
+        };
+      };
+      netdevs."26-wg-nf6" = {
+        netdevConfig = {
+          Kind = "wireguard";
+          Name = "wg-nf6";
+        };
+        wireguardConfig = {
+          ListenPort = 51820;
+          PrivateKeyFile = config.sops.secrets.gateway-wireguard-nf6-key.path;
         };
       };
       netdevs."25-wg" = {
