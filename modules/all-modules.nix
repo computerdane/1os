@@ -1,5 +1,6 @@
 [
   ./acme.nix
+  ./ai.nix
   ./auto-update.nix
   ./bop.nix
   ./desktop.nix

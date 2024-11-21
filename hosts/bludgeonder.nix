@@ -3,6 +3,7 @@
 {
   oneos = {
     # acme.useStaging = true;
+    ai.enable = true;
     auto-update = {
       pull = true;
       push = true;

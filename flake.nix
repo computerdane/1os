@@ -24,7 +24,7 @@
       sops-nix,
       nf6,
       bop,
-    }:
+    }@inputs:
     let
       hosts = {
 
@@ -76,6 +76,7 @@
               pkgs-1os
               pkgs-nf6
               pkgs-bop
+              inputs
               ;
             lib1os = pkgs-1os.lib1os;
             oneos-name = name;
