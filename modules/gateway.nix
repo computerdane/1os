@@ -13,7 +13,7 @@ let
     lan = rec {
       subnet = {
         ipv4 = fromIpv4Cidr "10.105.0.0/24";
-        ipv6 = fromIpv6Cidr "2600:1700:591:3b3f::/64";
+        ipv6 = fromIpv6Cidr "2600:1700:591:3b3e::/64";
       };
       gateway = {
         ipv4 = pickIpv4 subnet.ipv4 1;
@@ -29,7 +29,7 @@ let
     };
     wg.subnet = {
       ipv4 = fromIpv4Cidr "10.105.39.0/24";
-      ipv6 = fromIpv6Cidr "2600:1700:591:3b3e::/64";
+      ipv6 = fromIpv6Cidr "2600:1700:591:3b3c::/64";
     };
     scott.subnet = {
       ipv4 = fromIpv4Cidr "172.31.0.0/16";
@@ -73,6 +73,7 @@ in
       networks = {
         "20-lan" = {
           name = "lan";
+          DHCP = "no";
           dns = cfg.nameservers;
           networkConfig.Address = with ips.lan.gateway; [
             ipv4.cidr
@@ -81,9 +82,11 @@ in
         };
         "26-wgnf6" = {
           name = "wgnf6";
+          DHCP = "no";
         };
         "25-wg" = {
           name = "wg";
+          DHCP = "no";
           routes =
             let
               mkRoute = src: dest: {
