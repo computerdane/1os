@@ -166,7 +166,10 @@ in
 
     networking = {
       firewall = {
-        interfaces.wan.allowedUDPPorts = [ cfg.wireguardPort ];
+        interfaces.wan.allowedUDPPorts = [
+          cfg.wireguardPort
+          51820
+        ];
         trustedInterfaces = [
           "lan"
           "wg"
