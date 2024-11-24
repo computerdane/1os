@@ -29,11 +29,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1732396979,
-        "narHash": "sha256-xLisoMcMWsD6lnIwPQoIwGedY8RRByNWu0EJYa40FJ0=",
+        "lastModified": 1732417097,
+        "narHash": "sha256-7QXSNAU2fGmwEKAAtXaLjNOm8ZAIVzTPlV8NTAud1PM=",
         "owner": "computerdane",
         "repo": "nf6",
-        "rev": "662fc4a05fdee9c255fb9a448a0f23f2683920b6",
+        "rev": "9e5fc0314885d72901e142effc305a2208f150bf",
         "type": "github"
       },
       "original": {
@@ -60,11 +60,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1731890469,
-        "narHash": "sha256-D1FNZ70NmQEwNxpSSdTXCSklBH1z2isPR84J6DQrJGs=",
+        "lastModified": 1732238832,
+        "narHash": "sha256-sQxuJm8rHY20xq6Ah+GwIUkF95tWjGRd1X8xF+Pkk38=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5083ec887760adfe12af64830a66807423a859a7",
+        "rev": "8edf06bea5bcbee082df1b7369ff973b91618b8d",
         "type": "github"
       },
       "original": {
