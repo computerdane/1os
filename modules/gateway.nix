@@ -116,6 +116,14 @@ in
           ListenPort = 51820;
           PrivateKeyFile = config.sops.secrets.gateway-wireguard-nf6-key.path;
         };
+        wireguardPeers = [
+          {
+            wireguardPeerConfig = {
+              AllowedIPs = [ "2600:1700:591:3b3d:ebf6:f740:2abf:3db3" ];
+              PublicKey = "if6cHbap7n5HJBK2Pv1PZVHBm22jcovMf7Ut1qna0zY=";
+            };
+          }
+        ];
       };
       netdevs."25-wg" = {
         netdevConfig = {

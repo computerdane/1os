@@ -56,7 +56,6 @@
           pkgs-unstable = import nixpkgs-unstable { inherit system; };
 
           pkgs-1os = pkgs.callPackage ./packages/all-packages.nix { };
-          pkgs-nf6 = nf6.packages.${system};
           pkgs-bop = bop.packages.${system};
         in
         nixpkgs.lib.nixosSystem {
@@ -64,7 +63,7 @@
 
           modules = nixpkgs.lib.flatten [
             sops-nix.nixosModules.sops
-            pkgs-nf6.nixosModules
+            nf6.nixosModules.${system}.server
             ./configuration.nix
             (import ./modules/all-modules.nix)
             host.modules
@@ -74,7 +73,6 @@
             inherit
               pkgs-unstable
               pkgs-1os
-              pkgs-nf6
               pkgs-bop
               inputs
               ;
