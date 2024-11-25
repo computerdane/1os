@@ -38,6 +38,8 @@
     group = "nf6_api";
   };
 
+  sops.secrets.nf6-vpn-tls-priv-key = { };
+
   services.nf6 = {
     enable = true;
     openFirewall = true;
@@ -50,9 +52,21 @@
       tls-ca-priv-key-path = config.sops.secrets.nf6-api-tls-ca-priv-key.path;
       tls-ca-cert-path = ../static/nf6-ca.crt;
       wg-server-endpoint = "nf6.sh:51820";
+      wg-server-tls-pub-key-path = ../static/nf6-vpn.pub;
       wg-server-wg-pub-key = "LZRMjOX+Kk2iXWR5EHsf208AG4VVf0/ZOT56vAQ2iUE=";
     };
+    vpnSettings = {
+      api-tls-pub-key-path = ../static/nf6-api.pub;
+      tls-cert-path = ../static/nf6-vpn.crt;
+      tls-priv-key-path = config.sops.secrets.nf6-vpn-tls-priv-key.path;
+      wg-device-name = "wgnf6";
+      wg-priv-key-path = config.sops.secrets.gateway-wireguard-nf6-key.path;
+    };
   };
+
+  services.syncplay.enable = true;
+  networking.firewall.allowedTCPPorts = [ 8999 ];
+  networking.firewall.allowedUDPPorts = [ 8999 ];
 
   # sops.secrets.postgres-nf6_api-password-db = {
   #   owner = "postgres";

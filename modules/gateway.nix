@@ -83,6 +83,10 @@ in
         "26-wgnf6" = {
           name = "wgnf6";
           DHCP = "no";
+          networkConfig.Address = [
+            "2600:1700:591:3b3d::1"
+            "10.105.69.1/24"
+          ];
         };
         "25-wg" = {
           name = "wg";
@@ -116,14 +120,18 @@ in
           ListenPort = 51820;
           PrivateKeyFile = config.sops.secrets.gateway-wireguard-nf6-key.path;
         };
-        wireguardPeers = [
-          {
-            wireguardPeerConfig = {
-              AllowedIPs = [ "2600:1700:591:3b3d:ebf6:f740:2abf:3db3" ];
-              PublicKey = "if6cHbap7n5HJBK2Pv1PZVHBm22jcovMf7Ut1qna0zY=";
-            };
-          }
-        ];
+        #         wireguardPeers = [
+        #           {
+        #             wireguardPeerConfig = {
+        #               AllowedIPs = [
+        #                 "2600:1700:591:3b3d::69"
+        #                 "10.105.69.69"
+        #               ];
+        #               PublicKey = "lmmFQl/pLRzy9YtPbDpVTkFLrTRPvaxMSZsprdQQ4j4=
+        # ";
+        #             };
+        #           }
+        #         ];
       };
       netdevs."25-wg" = {
         netdevConfig = {
