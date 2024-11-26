@@ -29,11 +29,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1732576246,
-        "narHash": "sha256-W3XSXIaWkymTi5Epr/Wyb8mEIPK/ASCOuhd5x1sffIU=",
+        "lastModified": 1732583049,
+        "narHash": "sha256-DW9URCl9betgjNV9AmLlnBrMf/XzjpauBX766xxfhkQ=",
         "owner": "computerdane",
         "repo": "nf6",
-        "rev": "3236539be3aea7505740623654a165a8eae8667f",
+        "rev": "812c26c05fd34f628ee3bb7c2a0811f58ea8da25",
         "type": "github"
       },
       "original": {
