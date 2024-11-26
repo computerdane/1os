@@ -38,7 +38,7 @@
     group = "nf6_api";
   };
 
-  sops.secrets.nf6-vpn-tls-priv-key = { };
+  sops.secrets.nf6-vip-tls-priv-key = { };
 
   services.nf6 = {
     enable = true;
@@ -51,14 +51,14 @@
       tls-cert-path = ../static/nf6-api.crt;
       tls-ca-priv-key-path = config.sops.secrets.nf6-api-tls-ca-priv-key.path;
       tls-ca-cert-path = ../static/nf6-ca.crt;
-      wg-server-endpoint = "nf6.sh:51820";
-      wg-server-tls-pub-key-path = ../static/nf6-vpn.pub;
-      wg-server-wg-pub-key = "LZRMjOX+Kk2iXWR5EHsf208AG4VVf0/ZOT56vAQ2iUE=";
+      vip-wg-endpoint = "nf6.sh:51820";
+      vip-tls-pub-key-path = ../static/nf6-vip.pub;
+      vip-wg-pub-key = "LZRMjOX+Kk2iXWR5EHsf208AG4VVf0/ZOT56vAQ2iUE=";
     };
-    vpnSettings = {
+    vipSettings = {
       api-tls-pub-key-path = ../static/nf6-api.pub;
-      tls-cert-path = ../static/nf6-vpn.crt;
-      tls-priv-key-path = config.sops.secrets.nf6-vpn-tls-priv-key.path;
+      tls-cert-path = ../static/nf6-vip.crt;
+      tls-priv-key-path = config.sops.secrets.nf6-vip-tls-priv-key.path;
       wg-device-name = "wgnf6";
       wg-priv-key-path = config.sops.secrets.gateway-wireguard-nf6-key.path;
     };
