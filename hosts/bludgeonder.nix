@@ -47,12 +47,12 @@
       account-prefix6-len = 68;
       db-url = "dbname=nf6";
       global-prefix6 = "2600:1700:591:3b3d::/64";
-      tls-priv-key-path = config.sops.secrets.nf6-api-tls-priv-key.path;
-      tls-cert-path = ../static/nf6-api.crt;
-      tls-ca-priv-key-path = config.sops.secrets.nf6-api-tls-ca-priv-key.path;
       tls-ca-cert-path = ../static/nf6-ca.crt;
-      vip-wg-endpoint = "nf6.sh:51820";
+      tls-ca-priv-key-path = config.sops.secrets.nf6-api-tls-ca-priv-key.path;
+      tls-cert-path = ../static/nf6-api.crt;
+      tls-priv-key-path = config.sops.secrets.nf6-api-tls-priv-key.path;
       vip-tls-pub-key-path = ../static/nf6-vip.pub;
+      vip-wg-endpoint = "nf6.sh:51820";
       vip-wg-pub-key = "LZRMjOX+Kk2iXWR5EHsf208AG4VVf0/ZOT56vAQ2iUE=";
     };
     vipSettings = {
