@@ -44,6 +44,14 @@
           ];
         };
 
+        limbo = {
+          system = "x86_64-linux";
+          modules = [
+            ./hardware/limbo.nix
+            ./hosts/limbo.nix
+          ];
+        };
+
       };
     in
     {
