@@ -43,6 +43,7 @@
 
   users.users.dane = {
     isNormalUser = true;
+    initialPassword = "abc123";
     extraGroups = [
       "wheel"
       "network"
