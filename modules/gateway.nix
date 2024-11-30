@@ -275,7 +275,10 @@ in
         # Always set the name of the host with hardware address
         # 11:22:33:44:55:66 to be "fred"
         #dhcp-host=11:22:33:44:55:66,fred
-        dhcp-host = [ "9c:6b:00:2f:0e:be,fishtank" ];
+        dhcp-host = [
+          "9c:6b:00:2f:0e:be,fishtank"
+          "2c:f0:5d:26:99:b0,limbo"
+        ];
 
         # Never forward addresses in the non-routed address spaces.
         bogus-priv = true;
