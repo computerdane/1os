@@ -5,7 +5,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   modulesPath,
   ...
 }:
@@ -28,7 +27,7 @@
     '';
   };
 
-  boot.kernelPackages = pkgs-unstable.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -40,7 +39,7 @@
   ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "nct6775" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.universal-pidff ];
+  # boot.extraModulePackages = [ config.boot.kernelPackages.universal-pidff ];
 
   boot.supportedFilesystems = [ "ntfs" ];
 

@@ -18,6 +18,7 @@
     sops
     age
     ssh-to-age
+    waypipe
     wireguard-tools
   ];
 
