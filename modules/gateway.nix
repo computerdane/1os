@@ -94,10 +94,8 @@ in
           routes =
             let
               mkRoute = src: dest: {
-                routeConfig = {
-                  PreferredSource = src.address;
-                  Destination = dest.cidr;
-                };
+                PreferredSource = src.address;
+                Destination = dest.cidr;
               };
               mkRoutes = src: dest: [
                 (mkRoute src.ipv4 dest.ipv4)
@@ -157,27 +155,21 @@ in
           in
           [
             {
-              wireguardPeerConfig = {
-                AllowedIPs = mkAllowedIps 100;
-                PublicKey = "W9WHvF9Z8DNpMHVgYfcvY/ep93iC/R4PJKcQr0ty3RA="; # schlaptop
-              };
+              AllowedIPs = mkAllowedIps 100;
+              PublicKey = "W9WHvF9Z8DNpMHVgYfcvY/ep93iC/R4PJKcQr0ty3RA="; # schlaptop
             }
             {
-              wireguardPeerConfig = {
-                AllowedIPs = mkAllowedIps 101;
-                PublicKey = "H8tkZspaUWMvWz1XMjeEWIKlGTBT7jdZ29lvNiGUMAg="; # fone
-              };
+              AllowedIPs = mkAllowedIps 101;
+              PublicKey = "H8tkZspaUWMvWz1XMjeEWIKlGTBT7jdZ29lvNiGUMAg="; # fone
             }
             {
-              wireguardPeerConfig = {
-                Endpoint = "thotlab.net:51820";
-                AllowedIPs = with ips.scott.subnet; [
-                  ipv4.cidr
-                  ipv6.cidr
-                  ipv6-public.cidr
-                ];
-                PublicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4="; # scott
-              };
+              Endpoint = "thotlab.net:51820";
+              AllowedIPs = with ips.scott.subnet; [
+                ipv4.cidr
+                ipv6.cidr
+                ipv6-public.cidr
+              ];
+              PublicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4="; # scott
             }
           ];
       };
