@@ -49,13 +49,10 @@
     SUBSYSTEM=="pci", DRIVER=="amdgpu", ATTR{pp_power_profile_mode}="3d_full_screen"
   '';
 
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
+  hardware.bluetooth.enable = true;
 
-  hardware.opengl.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
+  hardware.graphics.enable32Bit = true;
   systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 
   boot.loader = {
