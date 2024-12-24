@@ -36,6 +36,14 @@
           ];
         };
 
+        eefan = {
+          system = "x86_64-linux";
+          modules = [
+            ./hardware/eefan.nix
+            ./hosts/eefan.nix
+          ];
+        };
+
         fishtank = {
           system = "x86_64-linux";
           modules = [

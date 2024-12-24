@@ -11,6 +11,7 @@
   ./gaming.nix
   ./gateway.nix
   ./gpu-amd.nix
+  ./gpu-nvidia.nix
   ./hostname.nix
   ./livestream-server.nix
   ./nginx.nix
