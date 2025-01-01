@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs-unstable,
+  pkgs,
   ...
 }:
 
@@ -12,7 +12,7 @@ in
   options.oneos.gpu-amd.enable = lib.mkEnableOption "gpu-amd";
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ pkgs-unstable.btop-rocm ];
-    programs.fish.shellAliases.btop = "${pkgs-unstable.btop-rocm}/bin/btop";
+    environment.systemPackages = [ pkgs.btop-rocm ];
+    programs.fish.shellAliases.btop = "${pkgs.btop-rocm}/bin/btop";
   };
 }
