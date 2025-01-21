@@ -36,6 +36,7 @@
     "usbhid"
     "usb_storage"
     "sd_mod"
+    "amdgpu" # required for hardware.fancontrol to use GPU temps
   ];
   # boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "nct6775" ];
