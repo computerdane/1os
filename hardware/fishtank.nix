@@ -16,7 +16,7 @@
     enable = true;
     config = ''
       INTERVAL=10
-      FCTEMPS=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm7=/sys/devices/pci0000:00/0000:00:03.1/0000:0e:00.0/0000:0f:00.0/0000:10:00.0/hwmon/hwmon0/temp1_input /sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm4=/sys/devices/pci0000:00/0000:00:03.1/0000:0e:00.0/0000:0f:00.0/0000:10:00.0/hwmon/hwmon0/temp1_input
+      FCTEMPS=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm7=/sys/devices/pci0000:00/0000:00:03.1/0000:0e:00.0/0000:0f:00.0/0000:10:00.0/hwmon/hwmon[[:print:]]*/temp1_input /sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm4=/sys/devices/pci0000:00/0000:00:03.1/0000:0e:00.0/0000:0f:00.0/0000:10:00.0/hwmon/hwmon[[:print:]]*/temp1_input
       FCFANS=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm7=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/fan7_input+/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/fan4_input /sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm4=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/fan4_input
       MINTEMP=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm7=40 /sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm4=40
       MAXTEMP=/sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm7=70 /sys/devices/platform/nct6775.656/hwmon/hwmon[[:print:]]*/pwm4=70
@@ -37,7 +37,7 @@
     "usb_storage"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  # boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "nct6775" ];
   # boot.extraModulePackages = [ config.boot.kernelPackages.universal-pidff ];
 
@@ -51,9 +51,9 @@
 
   hardware.bluetooth.enable = true;
 
-  hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
-  hardware.graphics.enable32Bit = true;
-  systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
+  # hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
+  # hardware.graphics.enable32Bit = true;
+  # systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 
   boot.loader = {
     efi = {

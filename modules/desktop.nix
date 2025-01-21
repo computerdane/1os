@@ -43,5 +43,8 @@ in
     services.displayManager.autoLogin.enable = true;
     services.displayManager.autoLogin.user = "dane";
     services.displayManager.defaultSession = "plasma";
+
+    # enable ozone wayland support in chromium and electron apps
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
   };
 }

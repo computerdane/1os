@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   oneos = {
@@ -8,4 +8,6 @@
     gaming.enable = true;
     gpu-amd.enable = true;
   };
+
+  environment.systemPackages = [ pkgs.godot_4 ];
 }
