@@ -17,4 +17,5 @@
   ./nginx.nix
   ./quilt-server.nix
   ./vault.nix
+  ./virtualisation.nix
 ]
