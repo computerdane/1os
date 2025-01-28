@@ -7,8 +7,11 @@
     dynamic-dns.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
-    virtualisation.enable = true;
+    # virtualisation.enable = true;
   };
 
-  environment.systemPackages = [ pkgs.godot_4 ];
+  environment.systemPackages = with pkgs; [
+    godot_4
+    heroic
+  ];
 }
