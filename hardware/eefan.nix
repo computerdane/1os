@@ -14,6 +14,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  hardware.bluetooth.enable = true;
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.loader.systemd-boot.enable = true;
