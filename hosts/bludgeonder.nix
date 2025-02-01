@@ -16,6 +16,7 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICnjmTXWpxkporvlxiJoK/lxccZ1Q1VtLuTVSLvjKNwK" # allie
       ] ++ config.users.users.dane.openssh.authorizedKeys.keys;
     };
+    chatwick.enable = true;
     dynamic-dns = {
       enable = true;
       root = true;
