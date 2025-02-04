@@ -25,6 +25,11 @@ in
 
     services.nginx.enable = true;
 
+    systemd.services = lib.mkIf config.oneos.gateway.enable {
+      "acme-fixperms".wants = [ "dnsmasq.service" ];
+      "acme-fixperms".after = [ "dnsmasq.service" ];
+    };
+
     security.acme = {
       acceptTerms = true;
 
@@ -33,6 +38,7 @@ in
         group = config.services.nginx.group;
         dnsProvider = "cloudflare";
         dnsResolver = "1.1.1.1:53";
+        dnsPropagationCheck = true;
         environmentFile = config.sops.secrets.cloudflare-api-key.path;
         server = lib.mkIf cfg.useStaging "https://acme-staging-v02.api.letsencrypt.org/directory";
       };
