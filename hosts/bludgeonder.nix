@@ -14,8 +14,8 @@
       root = true;
       ipv4 = true;
     };
-    factorio-server.enable = true;
-    file-share.enable = true;
+    # factorio-server.enable = true;
+    # file-share.enable = true;
     gateway.enable = true;
     # livestream-server.enable = true;
     vault.enable = true;
