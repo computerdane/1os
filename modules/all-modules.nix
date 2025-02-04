@@ -2,7 +2,6 @@
   ./acme.nix
   ./ai.nix
   ./auto-update.nix
-  ./bop.nix
   ./chatwick.nix
   ./desktop.nix
   ./domains.nix
