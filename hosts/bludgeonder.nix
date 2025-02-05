@@ -17,6 +17,10 @@
     # factorio-server.enable = true;
     # file-share.enable = true;
     gateway.enable = true;
+    jellyfin = {
+      enable = true;
+      subdomain = "watch";
+    };
     # livestream-server.enable = true;
     vault.enable = true;
   };

@@ -13,6 +13,7 @@
   ./gpu-amd.nix
   ./gpu-nvidia.nix
   ./hostname.nix
+  ./jellyfin.nix
   ./livestream-server.nix
   ./nginx.nix
   ./quilt-server.nix
