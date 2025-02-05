@@ -6,6 +6,7 @@
   ./desktop.nix
   ./domains.nix
   ./dynamic-dns.nix
+  ./fabric-servers.nix
   ./factorio-server.nix
   ./file-share.nix
   ./gaming.nix
