@@ -14,7 +14,10 @@
       root = true;
       ipv4 = true;
     };
-    fabric-servers.vanilla.enable = true;
+    fabric-servers.vanilla = {
+      enable = true;
+      ops = [ "Dane47" ];
+    };
     # factorio-server.enable = true;
     # file-share.enable = true;
     gateway.enable = true;
