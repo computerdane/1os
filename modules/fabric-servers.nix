@@ -56,6 +56,9 @@ in
                 default = 25566;
               };
 
+              openFirewall = mkEnableOption "open mc server port";
+              openFirewallRcon = mkEnableOption "open mc rcon port";
+
               ops = mkOption {
                 type = listOf str;
                 default = [ ];
@@ -70,44 +73,64 @@ in
       );
     };
 
-  config.users.users =
-    with lib.attrsets;
-    mapAttrs' (
+  config.networking = lib.mkMerge (
+    lib.attrsets.mapAttrsToList (
       name: cfg:
-      nameValuePair cfg.user {
-        isNormalUser = true;
-        group = cfg.group;
+      let
+        ports =
+          (if cfg.openFirewall then [ cfg.port ] else [ ])
+          ++ (if cfg.openFirewallRcon then [ cfg.rconPort ] else [ ]);
+      in
+      lib.mkIf (cfg.enable) {
+
+        firewall.allowedUDPPorts = ports;
+        firewall.allowedTCPPorts = ports;
+
       }
-    ) servers;
+    ) servers
+  );
 
-  config.users.groups = with lib.attrsets; mapAttrs' (name: cfg: nameValuePair cfg.group { }) servers;
-
-  config.systemd.services =
-    (lib.attrsets.mapAttrs' (
+  config.users = lib.mkMerge (
+    lib.attrsets.mapAttrsToList (
       name: cfg:
-      lib.attrsets.nameValuePair "${cfg.serviceName}-init" (
-        lib.mkIf cfg.enable {
+      lib.mkIf (cfg.enable) {
+
+        users.${cfg.user} = {
+          isNormalUser = true;
+          group = cfg.group;
+        };
+
+        groups.${cfg.group} = { };
+
+      }
+    ) servers
+  );
+
+  config.systemd = lib.mkMerge (
+    lib.attrsets.mapAttrsToList (
+      name: cfg:
+      lib.mkIf (cfg.enable) {
+
+        services."${cfg.serviceName}-init" = {
           script = ''
             mkdir -p "${cfg.dataDir}"
             chown "${cfg.user}:${cfg.group}" "${cfg.dataDir}"
           '';
           serviceConfig.Type = "oneshot";
-        }
-      )
-    ) servers)
-    // (lib.attrsets.mapAttrs' (
-      name: cfg:
-      lib.attrsets.nameValuePair cfg.serviceName (
-        lib.mkIf cfg.enable {
+        };
+
+        services.${cfg.serviceName} = {
           requires = [ "${cfg.serviceName}-init.service" ];
           after = [ "${cfg.serviceName}-init.service" ];
           wantedBy = [ "multi-user.target" ];
+
           path = [
             pkgs.fabric-installer
             pkgs.mcrcon
             pkgs.openssl
             cfg.javaPackage
           ];
+
           preStart = ''
             fabric-installer server -downloadMinecraft ${
               if cfg.mcVersion != "latest" then "-mcversion ${cfg.mcVersion}" else ""
@@ -136,9 +159,11 @@ in
 
             chmod 600 server.properties
           '';
+
           script = ''
             java -jar fabric-server-launch.jar
           '';
+
           postStart = ''
             for i in {1..10};
             do
@@ -150,12 +175,15 @@ in
               sleep 15
             done
           '';
+
           serviceConfig = {
             WorkingDirectory = cfg.dataDir;
             User = cfg.user;
             Group = cfg.group;
           };
-        }
-      )
-    ) servers);
+        };
+
+      }
+    ) servers
+  );
 }

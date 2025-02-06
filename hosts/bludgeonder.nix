@@ -16,6 +16,7 @@
     };
     fabric-servers.vanilla = {
       enable = true;
+      openFirewall = true;
       ops = [ "Dane47" ];
     };
     # factorio-server.enable = true;
