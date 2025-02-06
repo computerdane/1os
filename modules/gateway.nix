@@ -289,6 +289,7 @@ in
       22
       105
     ];
+    services.fail2ban.enable = true;
 
     boot.kernel.sysctl = {
       "net.ipv6.conf.all.forwarding" = 1;
