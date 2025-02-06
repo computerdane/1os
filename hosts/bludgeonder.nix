@@ -15,7 +15,7 @@
       ipv4 = true;
     };
     fabric-servers.vanilla = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       ops = [ "Dane47" ];
     };
