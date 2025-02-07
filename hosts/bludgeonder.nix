@@ -14,10 +14,16 @@
       root = true;
       ipv4 = true;
     };
-    fabric-servers.vanilla = {
-      enable = false;
+    fabric-servers.main = {
+      enable = true;
       openFirewall = true;
+      mcVersion = "1.21.4";
       ops = [ "Dane47" ];
+      mods = [
+        "fabric-api"
+        "no-chat-reports"
+        "simple-voice-chat"
+      ];
     };
     # factorio-server.enable = true;
     # file-share.enable = true;

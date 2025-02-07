@@ -44,7 +44,7 @@ in
               };
               mcVersion = mkOption {
                 type = str;
-                default = "latest";
+                default = "1.21.4";
               };
 
               port = mkOption {
@@ -66,6 +66,11 @@ in
               serverProperties = mkOption {
                 type = attrsOf str;
                 default = { };
+              };
+
+              mods = mkOption {
+                type = listOf str;
+                default = [ ];
               };
             };
           }
@@ -124,17 +129,20 @@ in
           after = [ "${cfg.serviceName}-init.service" ];
           wantedBy = [ "multi-user.target" ];
 
-          path = [
-            pkgs.fabric-installer
-            pkgs.mcrcon
-            pkgs.openssl
-            cfg.javaPackage
-          ];
+          path =
+            with pkgs;
+            [
+              curl
+              fabric-installer
+              jq
+              mcrcon
+              openssl
+              wget
+            ]
+            ++ [ cfg.javaPackage ];
 
           preStart = ''
-            fabric-installer server -downloadMinecraft ${
-              if cfg.mcVersion != "latest" then "-mcversion ${cfg.mcVersion}" else ""
-            }
+            fabric-installer server -downloadMinecraft -mcversion "${cfg.mcVersion}"
             echo "eula=true" > eula.txt
 
             echo "" > server.properties
@@ -158,6 +166,22 @@ in
             echo "rcon.password=$(cat .rcon-password)" >> server.properties
 
             chmod 600 server.properties
+
+            echo "" > .mod-urls
+            ${lib.concatMapStringsSep "\n" (slug: ''
+              url=$(curl "https://api.modrinth.com/v2/project/${slug}/version?loaders=%5B%22fabric%22%5D&game_versions=%5B%22${cfg.mcVersion}%22%5D" | jq -r ".[0].files[0].url")
+              if [[ "$url" == "null" ]]; then
+                echo "Could not find mod: ${slug}"
+                exit 1
+              else
+                echo "$url" >> .mod-urls
+              fi
+            '') cfg.mods}
+
+            rm -rf mods
+            mkdir -p mods
+            cd mods
+            wget -i ../.mod-urls
           '';
 
           script = ''
@@ -168,7 +192,7 @@ in
             for i in {1..10};
             do
               if mcrcon -P ${toString cfg.rconPort} -p $(cat .rcon-password) ${
-                lib.concatStringsSep " " (lib.map (op: ''"op ${op}"'') cfg.ops)
+                lib.concatMapStringsSep " " (op: ''"op ${op}"'') cfg.ops
               }; then
                 break
               fi
