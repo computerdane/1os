@@ -175,15 +175,15 @@ in
             chmod 600 server.properties
 
             echo "" > .mod-urls
-            ${lib.concatMapStringsSep "\n" (slug: ''
-              url=$(curl "https://api.modrinth.com/v2/project/${slug}/version?loaders=%5B%22fabric%22%5D&game_versions=%5B%22${cfg.mcVersion}%22%5D" | jq -r ".[0].files[0].url")
+            for mod in ${lib.concatStringsSep " " cfg.mods}; do
+              url=$(curl "https://api.modrinth.com/v2/project/$mod/version?loaders=%5B%22fabric%22%5D&game_versions=%5B%22${cfg.mcVersion}%22%5D" | jq -r ".[0].files[0].url")
               if [[ "$url" == "null" ]]; then
-                echo "Could not find mod: ${slug}"
+                echo "Could not find mod: $mod"
                 exit 1
               else
                 echo "$url" >> .mod-urls
               fi
-            '') cfg.mods}
+            done
 
             rm -rf mods
             mkdir -p mods
