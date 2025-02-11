@@ -14,19 +14,39 @@
       root = true;
       ipv4 = true;
     };
-    fabric-servers.main = {
-      enable = true;
-      openFirewall = true;
-      mcVersion = "1.21.4";
-      enableWhitelist = true;
-      whitelist = [ "Dane47" ];
-      ops = [ "Dane47" ];
-      modrinthMods = [
-        "fabric-api"
-        "no-chat-reports"
-        "simple-voice-chat"
-      ];
-    };
+    fabric-servers.main =
+      let
+        voicePort = 25567;
+      in
+      {
+        enable = true;
+        mcVersion = "1.21.4";
+
+        port = 25565;
+        rconPort = 25566;
+        openFirewall = true;
+        openExtraUdpPorts = [ voicePort ];
+
+        enableWhitelist = true;
+        whitelist = [ "Dane47" ];
+
+        ops = [ "Dane47" ];
+
+        modrinthMods = [
+          "fabric-api"
+          "no-chat-reports"
+          "simple-voice-chat"
+        ];
+
+        modConfigs = [
+          {
+            path = "voicechat/voicechat-server.properties";
+            text = ''
+              port=${toString voicePort}
+            '';
+          }
+        ];
+      };
     # factorio-server.enable = true;
     # file-share.enable = true;
     gateway.enable = true;

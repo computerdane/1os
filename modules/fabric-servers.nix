@@ -58,6 +58,14 @@ in
 
               openFirewall = mkEnableOption "open mc server port";
               openFirewallRcon = mkEnableOption "open mc rcon port";
+              openExtraTcpPorts = mkOption {
+                type = listOf port;
+                default = [ ];
+              };
+              openExtraUdpPorts = mkOption {
+                type = listOf port;
+                default = [ ];
+              };
 
               ops = mkOption {
                 type = listOf str;
@@ -77,6 +85,25 @@ in
                 type = listOf str;
                 default = [ ];
               };
+
+              modConfigs = mkOption {
+                type = listOf (
+                  submodule {
+                    options = {
+                      path = mkOption {
+                        type = str;
+                        default = name;
+                      };
+                      text = mkOption {
+                        type = str;
+                        default = "";
+                      };
+                    };
+                  }
+
+                );
+                default = { };
+              };
             };
           }
         )
@@ -93,8 +120,8 @@ in
       in
       lib.mkIf (cfg.enable) {
 
-        firewall.allowedUDPPorts = ports;
-        firewall.allowedTCPPorts = ports;
+        firewall.allowedTCPPorts = ports ++ cfg.openExtraTcpPorts;
+        firewall.allowedUDPPorts = ports ++ cfg.openExtraUdpPorts;
 
       }
     ) servers
@@ -189,6 +216,16 @@ in
             mkdir -p mods
             cd mods
             wget -i ../.mod-urls
+            cd ..
+
+            rm -rf config
+            mkdir -p config
+            cd config
+            ${lib.concatMapStringsSep "\n" (modConfig: ''
+              mkdir -p "$(dirname "${modConfig.path}")"
+              cat "${pkgs.writeText modConfig.path modConfig.text}" > "${modConfig.path}"
+            '') cfg.modConfigs}
+            cd ..
           '';
 
           script = ''
