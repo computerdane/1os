@@ -215,6 +215,10 @@ in
               done
             '';
 
+          preStop = ''
+            mcrcon -P ${toString cfg.rconPort} -p $(cat .rcon-password) stop
+          '';
+
           serviceConfig = {
             WorkingDirectory = cfg.dataDir;
             User = cfg.user;
