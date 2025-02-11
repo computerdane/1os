@@ -87,27 +87,27 @@ in
               };
 
               modConfigs = mkOption {
-                type = listOf (
-                  submodule {
-                    options = {
-                      path = mkOption {
-                        type = str;
-                        default = name;
-                      };
-                      text = mkOption {
-                        type = str;
-                        default = "";
-                      };
+                type = listOf (submodule {
+                  options = {
+                    path = mkOption {
+                      type = str;
+                      default = name;
                     };
-                  }
+                    text = mkOption {
+                      type = str;
+                      default = "";
+                    };
+                  };
+                });
 
-                );
                 default = { };
               };
             };
           }
         )
       );
+
+      default = { };
     };
 
   config.networking = lib.mkMerge (
