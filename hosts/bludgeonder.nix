@@ -21,7 +21,7 @@
       enableWhitelist = true;
       whitelist = [ "Dane47" ];
       ops = [ "Dane47" ];
-      mods = [
+      modrinthMods = [
         "fabric-api"
         "no-chat-reports"
         "simple-voice-chat"
