@@ -84,5 +84,12 @@
           };
         }
       ) hosts;
+
+      modules = builtins.listToAttrs (
+        map (path: {
+          name = nixpkgs.lib.removeSuffix ".nix" (baseNameOf (toString path));
+          value = path;
+        }) (import ./modules/all-modules.nix)
+      );
     };
 }
