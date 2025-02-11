@@ -18,6 +18,8 @@
       enable = true;
       openFirewall = true;
       mcVersion = "1.21.4";
+      enableWhitelist = true;
+      whitelist = [ "Dane47" ];
       ops = [ "Dane47" ];
       mods = [
         "fabric-api"

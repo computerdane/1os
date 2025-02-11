@@ -63,6 +63,11 @@ in
                 type = listOf str;
                 default = [ ];
               };
+              enableWhitelist = mkEnableOption "whitelist";
+              whitelist = mkOption {
+                type = listOf str;
+                default = [ ];
+              };
               serverProperties = mkOption {
                 type = attrsOf str;
                 default = { };
@@ -145,6 +150,8 @@ in
             fabric-installer server -downloadMinecraft -mcversion "${cfg.mcVersion}"
             echo "eula=true" > eula.txt
 
+            rm -f ops.json whitelist.json
+
             echo "" > server.properties
             ${lib.concatStringsSep "\n" (
               lib.attrsets.mapAttrsToList (
@@ -188,17 +195,25 @@ in
             java -jar fabric-server-launch.jar
           '';
 
-          postStart = ''
-            for i in {1..10};
-            do
-              if mcrcon -P ${toString cfg.rconPort} -p $(cat .rcon-password) ${
-                lib.concatMapStringsSep " " (op: ''"op ${op}"'') cfg.ops
-              }; then
-                break
-              fi
-              sleep 15
-            done
-          '';
+          postStart =
+            let
+              commands =
+                [ "whitelist ${if cfg.enableWhitelist then "on" else "off"}" ]
+                ++ (map (user: "op ${user}") cfg.ops)
+                ++ (map (user: "whitelist add ${user}") cfg.whitelist);
+            in
+            ''
+              for i in {1..10};
+              do
+                if
+                  mcrcon -P ${toString cfg.rconPort} -p $(cat .rcon-password) \
+                    ${lib.concatMapStringsSep " " (cmd: ''"${cmd}"'') commands}
+                then
+                  break
+                fi
+                sleep 15
+              done
+            '';
 
           serviceConfig = {
             WorkingDirectory = cfg.dataDir;
