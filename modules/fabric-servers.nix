@@ -174,12 +174,13 @@ in
             ++ [ cfg.javaPackage ];
 
           preStart = ''
+            # Download server jar
             fabric-installer server -downloadMinecraft -mcversion "${cfg.mcVersion}"
+
+            # Accept EULA
             echo "eula=true" > eula.txt
 
-            rm -f ops.json whitelist.json
-
-            echo "" > server.properties
+            # Add attributes from cfg.serverProperties to server.properties
             ${lib.concatStringsSep "\n" (
               lib.attrsets.mapAttrsToList (
                 name: value:
@@ -190,18 +191,20 @@ in
               ) cfg.serverProperties
             )}
 
-            echo "enable-rcon=true" >> server.properties
-            echo "port=${toString cfg.port}" >> server.properties
-            echo "rcon.port=${toString cfg.rconPort}" >> server.properties
-
+            # Generate a random password for RCON
             openssl rand -base64 24 > .rcon-password
             chmod 600 .rcon-password
-            echo "enable-rcon=true"
-            echo "rcon.password=$(cat .rcon-password)" >> server.properties
 
+            # Set server.properties options managed by this Nix module
+            rm -f server.properties
+            echo "port=${toString cfg.port}" >> server.properties
+            echo "enable-rcon=true" >> server.properties
+            echo "rcon.port=${toString cfg.rconPort}" >> server.properties
+            echo "rcon.password=$(cat .rcon-password)" >> server.properties
             chmod 600 server.properties
 
-            echo "" > .mod-urls
+            # Populate a list of mod URLs from Modrinth
+            rm -f .mod-urls
             for mod in ${lib.concatStringsSep " " cfg.modrinthMods}; do
               url=$(curl "https://api.modrinth.com/v2/project/$mod/version?loaders=%5B%22fabric%22%5D&game_versions=%5B%22${cfg.mcVersion}%22%5D" | jq -r ".[0].files[0].url")
               if [[ "$url" == "null" ]]; then
@@ -212,12 +215,14 @@ in
               fi
             done
 
+            # Download mods
             rm -rf mods
             mkdir -p mods
             cd mods
             wget -i ../.mod-urls
             cd ..
 
+            # Write mod configs
             rm -rf config
             mkdir -p config
             cd config
@@ -226,6 +231,9 @@ in
               cat "${pkgs.writeText modConfig.path modConfig.text}" > "${modConfig.path}"
             '') cfg.modConfigs}
             cd ..
+
+            # Clear ops and whitelist since postStart script configures them
+            rm -f ops.json whitelist.json
           '';
 
           script = ''
@@ -235,13 +243,13 @@ in
           postStart =
             let
               commands =
-                [ "whitelist ${if cfg.enableWhitelist then "on" else "off"}" ]
-                ++ (map (user: "op ${user}") cfg.ops)
-                ++ (map (user: "whitelist add ${user}") cfg.whitelist);
+                [ "whitelist ${if cfg.enableWhitelist then "on" else "off"}" ] # Turn on whitelist
+                ++ (map (user: "whitelist add ${user}") cfg.whitelist) # Whitelist users
+                ++ (map (user: "op ${user}") cfg.ops); # Op users
             in
             ''
-              for i in {1..10};
-              do
+              # Try to run post-start RCON commands every 15 seconds
+              for i in {1..10}; do
                 if
                   mcrcon -P ${toString cfg.rconPort} -p $(cat .rcon-password) \
                     ${lib.concatMapStringsSep " " (cmd: ''"${cmd}"'') commands}
