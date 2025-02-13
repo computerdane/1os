@@ -8,7 +8,7 @@
     gaming.enable = true;
     gpu-amd = {
       enable = true;
-      useWeirdLibs = true;
+      # useWeirdLibs = true;
     };
     # virtualisation.enable = true;
   };
