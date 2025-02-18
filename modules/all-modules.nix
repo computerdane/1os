@@ -9,6 +9,7 @@
   ./fabric-servers.nix
   ./factorio-server.nix
   ./file-share.nix
+  ./forge-servers.nix
   ./gaming.nix
   ./gateway.nix
   ./gpu-amd.nix

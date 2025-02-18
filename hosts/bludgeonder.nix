@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   oneos = {
@@ -37,6 +37,41 @@
           "no-chat-reports"
           "simple-voice-chat"
         ];
+
+        modConfigs = [
+          {
+            path = "voicechat/voicechat-server.properties";
+            text = ''
+              port=${toString voicePort}
+            '';
+          }
+        ];
+      };
+    forge-servers.chp =
+      let
+        voicePort = 26002;
+      in
+      {
+        enable = true;
+        mcVersion = "1.20.1";
+        javaPackage = pkgs.temurin-jre-bin-17;
+
+        forgeJarUrl = "https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-installer.jar";
+
+        port = 26000;
+        rconPort = 26001;
+        openFirewall = true;
+        openExtraUdpPorts = [ voicePort ];
+
+        enableWhitelist = true;
+        whitelist = [
+          "Dane47"
+          "Jehova"
+        ];
+
+        ops = [ "Dane47" ];
+
+        modrinthModpack = "cave-horror-project-modpack";
 
         modConfigs = [
           {
