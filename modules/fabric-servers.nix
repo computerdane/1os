@@ -100,7 +100,7 @@ in
                   };
                 });
 
-                default = { };
+                default = [ ];
               };
             };
           }
