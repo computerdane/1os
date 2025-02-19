@@ -6,10 +6,8 @@
   ./desktop.nix
   ./domains.nix
   ./dynamic-dns.nix
-  ./fabric-servers.nix
   ./factorio-server.nix
   ./file-share.nix
-  ./forge-servers.nix
   ./gaming.nix
   ./gateway.nix
   ./gpu-amd.nix
@@ -17,6 +15,7 @@
   ./hostname.nix
   ./jellyfin.nix
   ./livestream-server.nix
+  ./minecraft-servers/default.nix
   ./nginx.nix
   ./quilt-server.nix
   ./vault.nix
