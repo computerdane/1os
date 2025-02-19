@@ -19,6 +19,14 @@ in
 
             enable = lib.mkEnableOption "a minecraft server";
 
+            autoStart = lib.mkOption {
+              default = false;
+              type = lib.types.bool;
+              description = ''
+                Whether or not to start the Minecraft server on boot.
+              '';
+            };
+
             mcVersion = lib.mkOption {
               default = "1.21.4";
               type = lib.types.str;
@@ -310,7 +318,6 @@ in
           rconPortStr = toString cfg.rconPort;
 
           serverProperties = cfg.serverProperties // {
-            port = portStr;
             server-port = portStr;
             "query.port" = portStr;
             enable-rcon = "true";
@@ -327,7 +334,7 @@ in
         in
         {
           "minecraft-server-${name}" = {
-            wantedBy = [ "multi-user.target" ];
+            wantedBy = lib.mkIf cfg.autoStart [ "multi-user.target" ];
 
             serviceConfig = {
               DynamicUser = true;
