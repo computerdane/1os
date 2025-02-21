@@ -13,13 +13,13 @@
 
 buildGoModule rec {
   pname = "mc-quick";
-  version = "1.0.1";
+  version = "1.0.2";
 
   src = fetchFromGitHub {
     owner = "computerdane";
     repo = "mc-quick";
     rev = "v${version}";
-    hash = "sha256-Oke6oO3LyUlzq3WFcCTxNNmldJTeHvHDvlIJOKC8owY=";
+    hash = "sha256-cLRWKJibcn/3jCuG5r356yzoQlw+tdRjhjgbu6jZYT8=";
   };
 
   vendorHash = "sha256-b5w+Gy9tUsYOf0usoZXDOTiso6S8UntO735N0hMSGYY=";
