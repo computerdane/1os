@@ -28,7 +28,7 @@ in
               '';
             };
 
-            version = lib.mkOption {
+            mcVersion = lib.mkOption {
               default = "1.21.4";
               type = lib.types.str;
               description = ''
@@ -357,7 +357,8 @@ in
               builtins.toJSON (
                 with cfg;
                 {
-                  inherit version loader overwrite;
+                  inherit loader overwrite;
+                  mc-version = mcVersion;
                   forge-version = forgeVersion;
                   modrinth-modpack = modrinthModpack;
                   modrinth-mod = modrinthMods;

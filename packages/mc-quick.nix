@@ -2,7 +2,6 @@
   bash,
   buildGoModule,
   coreutils,
-  fabric-installer,
   fetchFromGitHub,
   javaPackage ? temurin-jre-bin,
   lib,
@@ -12,18 +11,20 @@
   unzip,
 }:
 
-buildGoModule {
+buildGoModule rec {
   pname = "mc-quick";
-  version = "test";
+  version = "1.0.1";
 
   src = fetchFromGitHub {
     owner = "computerdane";
     repo = "mc-quick";
-    rev = "v1.0.0";
-    hash = "sha256-r8XPbxYRDVfQqu1hUs8Pwx6ChTtebt2EFmlv9U7fcHk=";
+    rev = "v${version}";
+    hash = "sha256-Oke6oO3LyUlzq3WFcCTxNNmldJTeHvHDvlIJOKC8owY=";
   };
 
-  vendorHash = "sha256-fZ6Z8tI9RQTIP7CsD9Qez7ssSSigDb3UU4NK8Cezq1E=";
+  vendorHash = "sha256-b5w+Gy9tUsYOf0usoZXDOTiso6S8UntO735N0hMSGYY=";
+
+  ldflags = [ "-X main.Version=v${version}" ];
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -33,7 +34,6 @@ buildGoModule {
         lib.makeBinPath [
           bash
           coreutils
-          fabric-installer
           javaPackage
           rsync
           unzip

@@ -12,7 +12,7 @@
       enable = true;
       acceptEula = true;
       autoStart = true;
-      version = "1.21.4";
+      mcVersion = "1.21.4";
       loader = "fabric";
       modrinthMods = [
         "fabric-api"
@@ -48,7 +48,7 @@
       inherit port rconPort;
       enable = true;
       acceptEula = true;
-      version = "1.20.1";
+      mcVersion = "1.20.1";
       loader = "forge";
       modrinthModpack = "cave-horror-project-modpack";
       ops = [
