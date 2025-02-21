@@ -15,7 +15,7 @@
   ./hostname.nix
   ./jellyfin.nix
   ./livestream-server.nix
-  ./minecraft-servers/default.nix
+  ./mc-quick.nix
   ./nginx.nix
   ./quilt-server.nix
   ./vault.nix

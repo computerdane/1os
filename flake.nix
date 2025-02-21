@@ -6,6 +6,7 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
@@ -14,6 +15,7 @@
       nixpkgs,
       nixpkgs-unstable,
       sops-nix,
+      utils,
     }@inputs:
     let
       hosts = {
@@ -52,16 +54,24 @@
 
       };
     in
-    {
+    (utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        packages = pkgs.callPackage ./packages/all-packages.nix { };
+      }
+    ))
+    // {
+      modules = import ./modules/all-modules.nix;
+
       nixosConfigurations = builtins.mapAttrs (
         name: host:
         let
           system = host.system;
-
-          pkgs = import nixpkgs { inherit system; };
           pkgs-unstable = import nixpkgs-unstable { inherit system; };
-
-          pkgs-1os = pkgs.callPackage ./packages/all-packages.nix { };
+          pkgs-1os = self.packages.${system};
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -69,7 +79,7 @@
           modules = nixpkgs.lib.flatten [
             sops-nix.nixosModules.sops
             ./configuration.nix
-            (import ./modules/all-modules.nix)
+            self.modules
             host.modules
           ];
 
@@ -84,12 +94,5 @@
           };
         }
       ) hosts;
-
-      modules = builtins.listToAttrs (
-        map (path: {
-          name = nixpkgs.lib.removeSuffix ".nix" (baseNameOf (toString path));
-          value = path;
-        }) (import ./modules/all-modules.nix)
-      );
     };
 }

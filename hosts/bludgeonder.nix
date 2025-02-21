@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  services.minecraft-servers.main =
+  services.mc-quick.main =
     let
       port = 25000;
       rconPort = 25001;
@@ -11,7 +11,8 @@
       inherit port rconPort;
       enable = true;
       acceptEula = true;
-      mcVersion = "1.21.4";
+      autoStart = true;
+      version = "1.21.4";
       loader = "fabric";
       modrinthMods = [
         "fabric-api"
@@ -37,7 +38,7 @@
       ];
     };
 
-  services.minecraft-servers.chp =
+  services.mc-quick.chp =
     let
       port = 26000;
       rconPort = 26001;
@@ -47,7 +48,7 @@
       inherit port rconPort;
       enable = true;
       acceptEula = true;
-      mcVersion = "1.20.1";
+      version = "1.20.1";
       loader = "forge";
       modrinthModpack = "cave-horror-project-modpack";
       ops = [

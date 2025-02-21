@@ -2,22 +2,23 @@
   config,
   lib,
   pkgs,
+  pkgs-1os,
   ...
 }:
 
 let
-  minecraft-servers = config.services.minecraft-servers;
+  mc-quick = config.services.mc-quick;
 in
 {
   options = {
 
-    services.minecraft-servers = lib.mkOption {
+    services.mc-quick = lib.mkOption {
       default = { };
       type = lib.types.attrsOf (
         lib.types.submodule {
           options = {
 
-            enable = lib.mkEnableOption "a minecraft server";
+            enable = lib.mkEnableOption "a minecraft server powered by mc-quick";
 
             autoStart = lib.mkOption {
               default = false;
@@ -27,7 +28,7 @@ in
               '';
             };
 
-            mcVersion = lib.mkOption {
+            version = lib.mkOption {
               default = "1.21.4";
               type = lib.types.str;
               description = ''
@@ -121,7 +122,7 @@ in
               type = lib.types.bool;
               description = ''
                 Opens the firewall for TCP/UDP traffic on the port specified
-                by {option}`services.minecraft-server.<name>.port`.
+                by {option}`services.mc-quick.<name>.port`.
               '';
             };
 
@@ -130,7 +131,7 @@ in
               type = lib.types.bool;
               description = ''
                 Opens the firewall for TCP/UDP traffic on the port specified
-                by {option}`services.minecraft-server.<name>.rconPort`.
+                by {option}`services.mc-quick.<name>.rconPort`.
               '';
             };
 
@@ -302,7 +303,7 @@ in
             allowedUDPPorts = ports;
           }
         )
-      ) minecraft-servers
+      ) mc-quick
     );
 
     systemd.services = lib.mkMerge (
@@ -333,36 +334,36 @@ in
 
         in
         {
-          "minecraft-server-${name}" = {
+          "mc-quick-${name}" = {
             wantedBy = lib.mkIf cfg.autoStart [ "multi-user.target" ];
 
             serviceConfig = {
               DynamicUser = true;
-              StateDirectory = "minecraft-server-${name}";
+              StateDirectory = "mc-quick-${name}";
             };
 
             path =
-              [ cfg.javaPackage ]
+              [
+                cfg.javaPackage
+                (pkgs-1os.mc-quick.override { javaPackage = cfg.javaPackage; })
+              ]
               ++ (with pkgs; [
                 bash
-                curl
-                fabric-installer
-                fd
-                jq
                 mcrcon
                 openssl
-                rsync
-                unzip
               ]);
 
-            environment = {
-              MC_VERSION = cfg.mcVersion;
-              LOADER = cfg.loader;
-              FORGE_VERSION = cfg.forgeVersion;
-              OVERWRITE = lib.trivial.boolToString cfg.overwrite;
-              MODRINTH_MODS = lib.concatStringsSep "\n" cfg.modrinthMods;
-              MODRINTH_MODPACK = cfg.modrinthModpack;
-            };
+            environment.CONFIG_FILE = pkgs.writeText "config.json" (
+              builtins.toJSON (
+                with cfg;
+                {
+                  inherit version loader overwrite;
+                  forge-version = forgeVersion;
+                  modrinth-modpack = modrinthModpack;
+                  modrinth-mod = modrinthMods;
+                }
+              )
+            );
 
             preStart = ''
               cd "$STATE_DIRECTORY"
@@ -385,12 +386,12 @@ in
 
             script = ''
               cd "$STATE_DIRECTORY"
-              ${./install.sh}
+              mc-quick install
               ${lib.concatMapStringsSep "\n" (file: ''
                 mkdir -p $(dirname "${file.path}")
                 cat "${pkgs.writeText file.path file.text}" > "${file.path}"
               '') cfg.files}
-              ${./start.sh}
+              mc-quick start
             '';
 
             preStop = ''
@@ -399,7 +400,7 @@ in
             '';
           };
         }
-      ) minecraft-servers
+      ) mc-quick
     );
 
   };
