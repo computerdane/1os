@@ -19,11 +19,11 @@ buildGoModule {
   src = fetchFromGitHub {
     owner = "computerdane";
     repo = "mc-quick";
-    rev = "2fa1fbbb052372cc2407ce1b04e0f0143f5f38df";
-    hash = "sha256-xBKReol0E4dLhpx3+ixiqQfwxv8JLIRkvjmJZrdnN2s=";
+    rev = "v1.0.0";
+    hash = "sha256-r8XPbxYRDVfQqu1hUs8Pwx6ChTtebt2EFmlv9U7fcHk=";
   };
 
-  vendorHash = "sha256-z6jg7cHcgvF7Zte8f7ior3ArckUCaGkg7s1G1i6NsHI=";
+  vendorHash = "sha256-fZ6Z8tI9RQTIP7CsD9Qez7ssSSigDb3UU4NK8Cezq1E=";
 
   nativeBuildInputs = [ makeWrapper ];
 
