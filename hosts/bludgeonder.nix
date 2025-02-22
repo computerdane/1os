@@ -79,7 +79,7 @@
       pull = true;
       push = true;
     };
-    chatwick.enable = true;
+    # chatwick.enable = true;
     dynamic-dns = {
       enable = true;
       root = true;
