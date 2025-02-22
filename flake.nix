@@ -64,8 +64,6 @@
       }
     ))
     // {
-      modules = import ./modules/all-modules.nix;
-
       nixosConfigurations = builtins.mapAttrs (
         name: host:
         let
@@ -79,7 +77,7 @@
           modules = nixpkgs.lib.flatten [
             sops-nix.nixosModules.sops
             ./configuration.nix
-            self.modules
+            (import ./modules/all-modules.nix)
             host.modules
           ];
 
@@ -94,5 +92,12 @@
           };
         }
       ) hosts;
+
+      modules = builtins.listToAttrs (
+        map (path: {
+          name = nixpkgs.lib.removeSuffix ".nix" (baseNameOf (toString path));
+          value = path;
+        }) (import ./modules/all-modules.nix)
+      );
     };
 }
