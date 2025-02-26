@@ -32,12 +32,17 @@ in
             ip -n pvpn link set pvpn up
             ip -n pvpn link set lo up
             ip -n pvpn route add default dev pvpn
+
+            mkdir -p /etc/netns/pvpn
+            echo "nameserver 10.2.0.1" > /etc/netns/pvpn/resolv.conf
           '';
         };
         stopScript = pkgs.writeShellApplication {
           name = "pvpn-down";
           runtimeInputs = [ pkgs.iproute2 ];
           text = ''
+            rm -rf /net/netns/pvpn
+
             ip -n pvpn route del default dev pvpn
             ip -n pvpn link del pvpn
 
