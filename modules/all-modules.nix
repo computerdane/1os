@@ -17,6 +17,7 @@
   ./livestream-server.nix
   ./mc-quick.nix
   ./nginx.nix
+  ./protonvpn.nix
   ./quilt-server.nix
   ./vault.nix
   ./virtualisation.nix
