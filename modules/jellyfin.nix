@@ -17,6 +17,10 @@ in
         type = str;
         default = config.oneos.domains.default;
       };
+      ipv4 = mkOption {
+        type = bool;
+        default = true;
+      };
     };
 
   config =
@@ -25,16 +29,7 @@ in
     in
     lib.mkIf cfg.enable {
 
-      oneos = {
-        acme.enable = true;
-        dynamic-dns = {
-          enable = true;
-          ipv4 = true;
-          subdomains = [ cfg.subdomain ];
-          domains = [ cfg.domain ];
-        };
-        nginx.enable = true;
-      };
+      oneos.dynamic-dns.subdomains = [ cfg.subdomain ];
 
       services.jellyfin = {
         enable = true;

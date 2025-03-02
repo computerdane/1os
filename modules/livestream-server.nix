@@ -29,16 +29,7 @@ in
         inherit group;
       };
 
-      oneos = {
-        acme.enable = true;
-        dynamic-dns = {
-          enable = true;
-          ipv4 = true;
-          subdomains = [ cfg.subdomain ];
-          domains = [ cfg.domain ];
-        };
-        nginx.enable = true;
-      };
+      oneos.dynamic-dns.subdomains = [ cfg.subdomain ];
 
       services.owncast = {
         enable = true;

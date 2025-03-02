@@ -4,7 +4,13 @@ let
   cfg = config.oneos.nginx;
 in
 {
-  options.oneos.nginx.enable = lib.mkEnableOption "nginx";
+  options.oneos.nginx = {
+    enable = lib.mkEnableOption "nginx";
+    root = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [
@@ -16,11 +22,13 @@ in
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts = lib.genAttrs config.oneos.domains.domains (name: {
-        enableACME = true;
-        forceSSL = true;
-        locations."/".return = "404";
-      });
+      virtualHosts = lib.mkIf cfg.root (
+        lib.genAttrs config.oneos.domains.domains (name: {
+          enableACME = true;
+          forceSSL = true;
+          locations."/".return = "404";
+        })
+      );
     };
   };
 }

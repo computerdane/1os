@@ -73,6 +73,7 @@
     };
 
   oneos = {
+    acme.enable = true;
     # acme.useStaging = true;
     # ai.enable = true;
     auto-update = {
@@ -91,6 +92,10 @@
     jellyfin = {
       enable = true;
       subdomain = "watch";
+    };
+    nginx = {
+      enable = true;
+      root = true;
     };
     # livestream-server.enable = true;
     vault.enable = true;

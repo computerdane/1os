@@ -32,16 +32,7 @@ in
 
       sops.secrets.openai-api-key = { };
 
-      oneos = {
-        acme.enable = true;
-        dynamic-dns = {
-          enable = true;
-          ipv4 = true;
-          subdomains = [ cfg.subdomain ];
-          domains = [ cfg.domain ];
-        };
-        nginx.enable = true;
-      };
+      oneos.dynamic-dns.subdomains = [ cfg.subdomain ];
 
       systemd.services.chatwick = {
         environment = {

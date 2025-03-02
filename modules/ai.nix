@@ -54,16 +54,7 @@ in
     lib.mkIf cfg.enable {
       sops.secrets.open-webui-env = { };
 
-      oneos = {
-        acme.enable = true;
-        dynamic-dns = {
-          enable = true;
-          ipv4 = true;
-          subdomains = [ cfg.subdomain ];
-          domains = [ cfg.domain ];
-        };
-        nginx.enable = true;
-      };
+      oneos.subdomains = [ cfg.subdomain ];
 
       services.open-webui = with cfg; {
         enable = true;
