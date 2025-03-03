@@ -13,6 +13,7 @@
       subdomain = "watch-beta";
       ipv4 = false;
     };
+    mount-9p.enable = true;
     nginx.enable = true;
     protonvpn.enable = true;
     # virtualisation.enable = true;

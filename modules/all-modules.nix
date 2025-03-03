@@ -16,6 +16,7 @@
   ./jellyfin.nix
   ./livestream-server.nix
   ./mc-quick.nix
+  ./mount-9p.nix
   ./nginx.nix
   ./protonvpn.nix
   ./quilt-server.nix

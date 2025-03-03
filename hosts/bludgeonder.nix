@@ -93,6 +93,10 @@
       enable = true;
       subdomain = "watch";
     };
+    mount-9p = {
+      enable = true;
+      isHost = true;
+    };
     nginx = {
       enable = true;
       root = true;
