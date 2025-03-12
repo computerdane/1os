@@ -3,30 +3,40 @@
   buildGoModule,
   coreutils,
   fetchFromGitHub,
+  installShellFiles,
   javaPackage ? temurin-jre-bin,
   lib,
   makeWrapper,
   rsync,
+  stdenv,
   temurin-jre-bin,
   unzip,
 }:
 
 buildGoModule rec {
   pname = "mc-quick";
-  version = "1.0.4";
+  version = "1.0.5";
 
   src = fetchFromGitHub {
     owner = "computerdane";
     repo = "mc-quick";
     rev = "v${version}";
-    hash = "sha256-CwtjwFvPfsNzTWeVu7OTimfNBtRxPeZ7393nq69esZo=";
+    hash = "sha256-JpBJHJSaFYMHVYDmrTpGwROIvVXrPQIZ7pbiIolGUVs=";
   };
 
-  vendorHash = "sha256-DHDfcaLOGEOmlbVTA8hmOi6Gnhek7L0QZ7J3im0YbSI=";
+  vendorHash = "sha256-xzgNJbuUFL+spUp66CEYz4kreA+UgdV4tyDGVVRlUMc=";
 
   ldflags = [ "-X main.Version=v${version}" ];
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [
+    installShellFiles
+    makeWrapper
+  ];
+
+  postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
+    installShellCompletion --cmd mc-quick \
+      --fish <($out/bin/mc-quick --fish-completions)
+  '';
 
   postFixup = ''
     wrapProgram $out/bin/mc-quick \
