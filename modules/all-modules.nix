@@ -1,6 +1,5 @@
 [
   ./acme.nix
-  # ./ai.nix
   ./auto-update.nix
   ./chatwick.nix
   ./desktop.nix
