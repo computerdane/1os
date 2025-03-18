@@ -20,7 +20,7 @@
   };
 
   specialisation.amdvlk.configuration = {
-    oneos.gpu-amd.useWeirdLibs = true;
+    oneos.gpu-amd.amdvlk = true;
   };
 
   environment.systemPackages = with pkgs; [

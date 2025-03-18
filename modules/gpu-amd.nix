@@ -11,7 +11,7 @@ in
 {
   options.oneos.gpu-amd = {
     enable = lib.mkEnableOption "gpu-amd";
-    useWeirdLibs = lib.mkEnableOption "weird-libs";
+    amdvlk = lib.mkEnableOption "amdvlk";
   };
 
   config = lib.mkIf cfg.enable {
@@ -19,15 +19,16 @@ in
       {
         enable = true;
         enable32Bit = true;
-      }
-      (lib.mkIf cfg.useWeirdLibs {
-        # https://nixos.org/manual/nixos/stable/index.html#sec-gpu-accel-vulkan-amd
-        # use amdvlk driver, vaapi, and opencl
+        # vaapi and opencl
         extraPackages = with pkgs; [
-          amdvlk
           libva
           rocmPackages.clr.icd
         ];
+      }
+      (lib.mkIf cfg.amdvlk {
+        # https://nixos.org/manual/nixos/stable/index.html#sec-gpu-accel-vulkan-amd
+        # use amdvlk driver
+        extraPackages = with pkgs; [ amdvlk ];
         extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
       })
     ];
