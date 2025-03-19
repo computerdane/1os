@@ -11,7 +11,6 @@
     jellyfin = {
       enable = true;
       subdomain = "watch-beta";
-      ipv4 = false;
     };
     mount-9p.enable = true;
     nginx.enable = true;

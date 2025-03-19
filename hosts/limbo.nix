@@ -1,17 +1,16 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   oneos = {
+    acme.enable = true;
     auto-update.pull = true;
-    desktop.enable = true;
     dynamic-dns.enable = true;
-    gaming.enable = true;
-  };
-
-  users.users.ethan = {
-    isNormalUser = true;
-    createHome = true;
-    extraGroups = [ "wheel" ];
-    shell = pkgs.fish;
+    gpu-nvidia.enable = true;
+    jellyfin = {
+      enable = true;
+      subdomain = "watch-test";
+    };
+    mount-9p.enable = true;
+    nginx.enable = true;
   };
 }

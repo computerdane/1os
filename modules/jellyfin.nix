@@ -17,10 +17,6 @@ in
         type = str;
         default = config.oneos.domains.default;
       };
-      ipv4 = mkOption {
-        type = bool;
-        default = true;
-      };
     };
 
   config =
