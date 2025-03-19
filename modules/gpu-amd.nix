@@ -33,7 +33,10 @@ in
       })
     ];
 
-    environment.systemPackages = [ pkgs.btop-rocm ];
+    environment.systemPackages = with pkgs; [
+      btop-rocm
+      radeontop
+    ];
     programs.fish.shellAliases.btop = "${pkgs.btop-rocm}/bin/btop";
   };
 }
