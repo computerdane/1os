@@ -3,25 +3,21 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    sops-nix.url = "github:Mic92/sops-nix";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    onix.url = "github:computerdane/onix/home-manager";
+    onixpkgs.url = "github:computerdane/onixpkgs/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    plasma-manager.url = "github:nix-community/plasma-manager";
 
-    onix = {
-      url = "github:computerdane/onix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    onixpkgs = {
-      url = "github:computerdane/onixpkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.onix.follows = "onix";
-      inputs.onix.inputs.nixpkgs.follows = "nixpkgs";
-    };
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    onix.inputs.nixpkgs.follows = "nixpkgs";
+    onixpkgs.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    onix.inputs.home-manager.follows = "home-manager";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
   outputs =
@@ -34,12 +30,17 @@
       treefmt-nix,
       onix,
       onixpkgs,
+      plasma-manager,
+      ...
     }:
     onix.init {
       src = ./.;
       modules = [
         sops-nix.nixosModules.sops
         (nixpkgs.lib.attrsets.attrValues onixpkgs.nixosModules)
+      ];
+      hmModules = [
+        plasma-manager.homeManagerModules.plasma-manager
       ];
       overlays = {
         onixpkgs = onixpkgs.overlays.default;
