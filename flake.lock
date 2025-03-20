@@ -100,11 +100,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1742506383,
-        "narHash": "sha256-tVLIYlftg5h7OUQJMjn+rJ3fkQJ5wBcGpN+mkN/TPYg=",
+        "lastModified": 1742510073,
+        "narHash": "sha256-pjVEfOlMg7Po8xBNOEPNiNYszy2AyPMgRDUrBiN36dE=",
         "owner": "computerdane",
         "repo": "onix",
-        "rev": "f4572c7d8d2fbc904fc59df54533808a9d2a9b6b",
+        "rev": "e7f8a562235688fe6ff70b162bd8b6f3abbe0dd6",
         "type": "github"
       },
       "original": {
