@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-1os,
   ...
 }:
 
@@ -345,7 +344,7 @@ in
             path =
               [
                 cfg.javaPackage
-                (pkgs-1os.mc-quick.override { javaPackage = cfg.javaPackage; })
+                (pkgs.mc-quick.override { javaPackage = cfg.javaPackage; })
               ]
               ++ (with pkgs; [
                 bash

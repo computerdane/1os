@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs-1os,
+  pkgs,
   ...
 }:
 
@@ -34,7 +34,7 @@ in
     };
 
     systemd.services.quilt-server = {
-      path = with pkgs-1os; [ quilt-server ];
+      path = [ pkgs.quilt-server ];
       serviceConfig = {
         WorkingDirectory = stateDir;
         User = user;

@@ -9,5 +9,8 @@
       ".sops.yaml"
     ];
   };
-  programs.shellcheck.enable = true;
+  programs.shellcheck = {
+    enable = true;
+    excludes = [ ".envrc" ];
+  };
 }

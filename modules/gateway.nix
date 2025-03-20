@@ -1,15 +1,14 @@
 {
-  pkgs,
   config,
   lib,
-  lib1os,
+  pkgs,
   ...
 }:
 
 let
   cfg = config.oneos.gateway;
 
-  ips = with lib1os.ip; {
+  ips = with pkgs.lib1os.ip; {
     lan = rec {
       subnet = {
         ipv4 = fromIpv4Cidr "10.105.0.0/24";
@@ -143,7 +142,7 @@ in
         wireguardPeers =
           let
             mkAllowedIps =
-              with lib1os.ip;
+              with pkgs.lib1os.ip;
               octet:
               let
                 quartet = toString octet;

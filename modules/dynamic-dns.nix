@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  lib1os,
+  pkgs,
   ...
 }:
 
@@ -45,7 +45,7 @@ in
       ipv4 = cfg.ipv4;
       domains = lib.flatten [
         (if cfg.root then cfg.domains else [ ])
-        (lib1os.genDomains cfg.subdomains cfg.domains)
+        (pkgs.lib1os.genDomains cfg.subdomains cfg.domains)
       ];
       apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
     };
