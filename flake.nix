@@ -16,6 +16,12 @@
       url = "github:computerdane/onix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    onixpkgs = {
+      url = "github:computerdane/onixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.onix.follows = "onix";
+      inputs.onix.inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -27,11 +33,18 @@
       sops-nix,
       treefmt-nix,
       onix,
+      onixpkgs,
     }:
     onix.init {
       src = ./.;
-      modules = [ sops-nix.nixosModules.sops ];
-      overlays = [ (final: prev: { unstable = import nixpkgs-unstable { system = prev.system; }; }) ];
+      modules = [
+        sops-nix.nixosModules.sops
+        (nixpkgs.lib.attrsets.attrValues onixpkgs.nixosModules)
+      ];
+      overlays = {
+        onixpkgs = onixpkgs.overlays.default;
+        unstable = (final: prev: { unstable = import nixpkgs-unstable { system = prev.system; }; });
+      };
     }
     // (
       let

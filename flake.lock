@@ -40,11 +40,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1742484524,
-        "narHash": "sha256-HbiYgNfmt7SPugQdDmqEzmbBu9tOBaHyLGHFH4WhWQw=",
+        "lastModified": 1742489791,
+        "narHash": "sha256-ll8LgoIcZszymMqu2PaUSuX7yLsjAK+hWRD55CzOlnU=",
         "owner": "computerdane",
         "repo": "onix",
-        "rev": "f29854571e907c6c778b6e68a31fe6394689a8fb",
+        "rev": "773617e05911e5e71dbcd68e5c426e3da46dfb84",
         "type": "github"
       },
       "original": {
@@ -53,11 +53,35 @@
         "type": "github"
       }
     },
+    "onixpkgs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "onix": [
+          "onix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1742490022,
+        "narHash": "sha256-oDYLsAQNgUnZCDFvPv/8JSEFHov2Fim0FpQOBonChZw=",
+        "owner": "computerdane",
+        "repo": "onixpkgs",
+        "rev": "9a235fb1bd1af0eccfe5f14ccdc5495ed51d19ac",
+        "type": "github"
+      },
+      "original": {
+        "owner": "computerdane",
+        "repo": "onixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "onix": "onix",
+        "onixpkgs": "onixpkgs",
         "sops-nix": "sops-nix",
         "systems": "systems_2",
         "treefmt-nix": "treefmt-nix"
