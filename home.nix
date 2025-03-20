@@ -62,6 +62,13 @@ in
     };
   };
 
+  programs.computerdane-helix = {
+    enable = true;
+    package = pkgs.unstable.helix;
+    defaultEditor = true;
+    languages.nix.enable = true;
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -111,49 +118,6 @@ in
     userName = "Dane Rieber";
     userEmail = "danerieber@gmail.com";
     extraConfig.init.defaultBranch = "main";
-  };
-
-  programs.helix = {
-    enable = true;
-    package = pkgs.unstable.helix;
-    defaultEditor = true;
-    themes = {
-      dracula_nobg = {
-        inherits = "dracula";
-        "ui.background" = "{}";
-      };
-    };
-    settings = {
-      theme = "dracula_nobg";
-      editor = {
-        line-number = "relative";
-        cursor-shape = {
-          insert = "bar";
-          normal = "block";
-          select = "underline";
-        };
-        indent-guides.render = true;
-        bufferline = "always";
-        soft-wrap.enable = true;
-        true-color = true;
-        rulers = [ 80 ];
-      };
-    };
-    languages.language-server.nixd.command = "nixd";
-    languages.language = [
-      {
-        name = "nix";
-        formatter.command = "nixfmt";
-        auto-format = true;
-        language-servers = [
-          "nixd"
-          {
-            name = "nil";
-            except-features = [ "completion" ];
-          }
-        ];
-      }
-    ];
   };
 
   programs.ssh = {
