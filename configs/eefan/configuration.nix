@@ -1,6 +1,8 @@
 { lib, pkgs, ... }:
 
 {
+  imports = [ ./hardware-configuration.nix ];
+
   oneos = {
     desktop.enable = true;
     gaming.enable = true;

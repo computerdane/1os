@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  imports = [ ./hardware-configuration.nix ];
+
   services.mc-quick.main =
     let
       port = 25000;

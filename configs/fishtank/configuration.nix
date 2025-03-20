@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  imports = [ ./hardware-configuration.nix ];
+
   oneos = {
     acme.enable = true;
     auto-update.pull = true;

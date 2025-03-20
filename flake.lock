@@ -40,11 +40,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1742435672,
-        "narHash": "sha256-VKA18ynNja8beywSAHkXG97/+jyQTzkqVS4OlpBW4gk=",
+        "lastModified": 1742436374,
+        "narHash": "sha256-0dm3Qo0toLVgJP5UONs1Bq4v42PIwFSteEiD2GiZUbU=",
         "owner": "computerdane",
         "repo": "onix",
-        "rev": "93642971c340a3d7a42b456e65c8a4d666cf688e",
+        "rev": "4129ab5ca1353239661b1ca0591f303e7644cbf4",
         "type": "github"
       },
       "original": {
