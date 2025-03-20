@@ -4,7 +4,14 @@ let
   inherit (pkgs) stdenv;
 in
 lib.mkMerge [
-  { programs.mpv.enable = true; }
+  {
+    programs.computerdane-helix.languages = {
+      go.enable = true;
+      web.enable = true;
+      python.enable = true;
+    };
+    programs.mpv.enable = true;
+  }
   (lib.mkIf stdenv.isLinux {
     home.packages = with pkgs; [
       mumble
