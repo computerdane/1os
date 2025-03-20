@@ -5,7 +5,7 @@
 
   oneos = {
     acme.enable = true;
-    auto-update.pull = true;
+    # auto-update.pull = true;
     dynamic-dns.enable = true;
     gpu-nvidia.enable = true;
     jellyfin = {
