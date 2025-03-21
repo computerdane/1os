@@ -1,5 +1,6 @@
 {
-  nixpkgs,
+  nixpkgs ? <nixpkgs>,
+  lib ? if nixpkgs == <nixpkgs> then (import nixpkgs { }).lib else nixpkgs.lib,
 }:
 
 let
@@ -18,10 +19,10 @@ let
   onix = import (fetchFromGitHub {
     owner = "computerdane";
     repo = "onix";
-    rev = "d4a040249e28c2cf9ea6afef3d5b41273d27e10d";
-    sha256 = "15asq35kkra2lq8i8mf8hv3nyzfdp16sahlpsyhd63phd5gxbyfc";
-    # sha256 = nixpkgs.lib.fakeSha256;
-  }) { inherit nixpkgs; };
+    rev = "d0d5cea5d97fd21c49f95a114b7a6e03da44b7ca";
+    sha256 = "1alb1ck41k2w4pl4d27p93a4sszkkw6cbzvqix3601h99fgrsrqk";
+    # sha256 = lib.fakeSha256;
+  }) { };
 
   sops = import "${
     fetchFromGitHub {
@@ -34,6 +35,9 @@ let
 in
 
 (onix.init {
+  inherit nixpkgs;
+  flake = false;
   src = ./.;
   extraModules = [ sops ];
+  nixpkgsConfig.allowUnfree = true;
 })
