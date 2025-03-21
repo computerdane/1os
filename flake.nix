@@ -8,15 +8,8 @@
     sops-nix.url = "github:Mic92/sops-nix";
   };
   outputs =
-    {
-      home-manager,
-      nixpkgs,
-      nixpkgs-unstable,
-      onix,
-      plasma-manager,
-      sops-nix,
-      ...
-    }:
+    { ... }@inputs:
+    with inputs;
 
     let
       unstableOverlayModule =
