@@ -13,12 +13,13 @@
 
     plasma-manager.inputs.home-manager.follows = "home-manager";
   };
+
   outputs =
     { ... }@inputs:
     with inputs;
 
     let
-      unstableOverlayModule =
+      overlaysModule =
         { ... }:
         {
           nixpkgs.overlays = [
@@ -32,11 +33,11 @@
       src = ./.;
       extraModules = [
         sops-nix.nixosModules.sops
-        unstableOverlayModule
+        overlaysModule
       ];
       extraHomeManagerModules = [
         plasma-manager.homeManagerModules.plasma-manager
-        unstableOverlayModule
+        overlaysModule
       ];
     };
 }
