@@ -39,5 +39,11 @@
         plasma-manager.homeManagerModules.plasma-manager
         overlaysModule
       ];
+    }
+    // {
+      templates.new-project = {
+        path = ./templates/new-project;
+        description = "starter for new projects";
+      };
     };
 }
