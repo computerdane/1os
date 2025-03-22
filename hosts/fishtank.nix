@@ -4,4 +4,6 @@
     "full"
     "kde"
   ];
+  users.john.hm-configs = [ "full" ];
+  users.aria.hm-configs = [ "full" ];
 }
