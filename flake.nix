@@ -6,6 +6,12 @@
     onix.url = "github:computerdane/onix/v0.1.0";
     plasma-manager.url = "github:nix-community/plasma-manager";
     sops-nix.url = "github:Mic92/sops-nix";
+
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
   outputs =
     { ... }@inputs:
