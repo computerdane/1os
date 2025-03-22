@@ -30,4 +30,18 @@
     kdenlive
     stress-ng
   ];
+
+  users.users.john = {
+    isNormalUser = true;
+    initialPassword = "abc123";
+    extraGroups = [ "network" ];
+    shell = pkgs.fish;
+  };
+
+  users.users.aria = {
+    isNormalUser = true;
+    initialPassword = "abc123";
+    extraGroups = [ "network" ];
+    shell = pkgs.fish;
+  };
 }
