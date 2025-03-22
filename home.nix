@@ -113,7 +113,7 @@ in
     })
   ];
 
-  programs.git = {
+  programs.git = lib.mkIf (config.home.username == "dane") {
     enable = true;
     userName = "Dane Rieber";
     userEmail = "danerieber@gmail.com";
@@ -149,8 +149,8 @@ in
   home.file.".profile".text = "fish";
   home.file.".zshrc".text = "fish";
 
-  home.username = "dane";
-  home.homeDirectory = if stdenv.isDarwin then "/Users/dane" else "/home/dane";
+  home.homeDirectory =
+    if stdenv.isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}";
 
   home.stateVersion = "24.05";
 
