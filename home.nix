@@ -126,24 +126,15 @@ in
     matchBlocks."knightf6.com".port = 105;
   };
 
+  home.editable-file.".config/shell_gpt/.sgptrc".text = ''
+    DEFAULT_MODEL=gpt-4o
+  '';
+
   home.file.".config/ghostty/config".text = ''
     theme = Dracula
     background-opacity = 0.9
     maximize = true
   '';
-
-  # Taken from https://github.com/nix-community/home-manager/issues/3090#issuecomment-2010891733
-  # Creates a file with specific permissions
-  home.file.".config/shell_gpt/.sgptrc_init" = {
-    text = ''
-      DEFAULT_MODEL=gpt-4o
-    '';
-    onChange = ''
-      rm -f ${config.home.homeDirectory}/.config/shell_gpt/.sgptrc
-      cp ${config.home.homeDirectory}/.config/shell_gpt/.sgptrc_init ${config.home.homeDirectory}/.config/shell_gpt/.sgptrc
-      chmod a+rw ${config.home.homeDirectory}/.config/shell_gpt/.sgptrc
-    '';
-  };
 
   # Use fish shell on systems with bash or zsh
   home.file.".profile".text = "fish";
