@@ -44,4 +44,7 @@
     extraGroups = [ "network" ];
     shell = pkgs.fish;
   };
+
+  programs.corectrl.enable = true;
+  programs.corectrl.gpuOverclock.enable = true;
 }
