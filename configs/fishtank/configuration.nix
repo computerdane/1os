@@ -8,6 +8,7 @@
     auto-update.pull = true;
     desktop.enable = true;
     dynamic-dns.enable = true;
+    extra-users.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
     jellyfin = {
@@ -30,20 +31,6 @@
     kdenlive
     stress-ng
   ];
-
-  users.users.john = {
-    isNormalUser = true;
-    initialPassword = "abc123";
-    extraGroups = [ "network" ];
-    shell = pkgs.fish;
-  };
-
-  users.users.aria = {
-    isNormalUser = true;
-    initialPassword = "abc123";
-    extraGroups = [ "network" ];
-    shell = pkgs.fish;
-  };
 
   programs.corectrl.enable = true;
   programs.corectrl.gpuOverclock.enable = true;
