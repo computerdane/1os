@@ -11,5 +11,11 @@
         hash = "sha256-LSnUOGbQoaVyct1QuE59J6vTsnYzm+WaH7xyi8gcXTw=";
       }
     }/rivals";
+    powerdevil.AC = {
+      autoSuspend.action = "nothing";
+      powerButtonAction = "shutDown";
+      powerProfile = "performance";
+    };
+    kscreenlocker.autoLock = false;
   };
 }
