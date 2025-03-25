@@ -104,6 +104,7 @@
       enable = true;
       root = true;
     };
+    protonvpn.enable = true;
     # livestream-server.enable = true;
     vault.enable = true;
   };
