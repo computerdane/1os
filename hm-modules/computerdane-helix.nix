@@ -199,5 +199,13 @@ in
       ])
     ]);
 
+    home.packages = mkIf cfg.languages.go.enable [
+      (pkgs.writeShellApplication {
+        name = "gowrap";
+        runtimeInputs = [ pkgs.uutils-coreutils ];
+        text = ''fmt -w 80 -p //'';
+      })
+    ];
+
   };
 }

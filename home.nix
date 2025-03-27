@@ -34,6 +34,7 @@ in
         tldr
         tree
         unzip
+        uutils-coreutils
         wget
         wireguard-tools
         zip
