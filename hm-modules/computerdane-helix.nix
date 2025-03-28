@@ -203,7 +203,7 @@ in
       (pkgs.writeShellApplication {
         name = "gowrap";
         runtimeInputs = [ pkgs.uutils-coreutils ];
-        text = ''fmt -w 80 -p //'';
+        text = ''fmt -w 80 -g 80 -p //'';
       })
     ];
 
