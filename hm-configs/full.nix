@@ -11,6 +11,13 @@ lib.mkMerge [
       python.enable = true;
     };
     programs.mpv.enable = true;
+
+    home.packages = with pkgs; [
+      bun
+      go
+      nodejs_22
+      python3
+    ];
   }
   (lib.mkIf stdenv.isLinux {
     home.packages = with pkgs; [
