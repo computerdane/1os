@@ -21,6 +21,7 @@ in
         ffmpeg-full
         gitui
         hll-arty-calc
+        hll-arty-tui
         jq
         mc-quick
         netcat

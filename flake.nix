@@ -1,11 +1,14 @@
 {
   inputs = {
+    hll-arty-tui.url = "github:computerdane/hll-arty-tui";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     onix.url = "github:computerdane/onix/v0.1.1";
     plasma-manager.url = "github:nix-community/plasma-manager";
     sops-nix.url = "github:Mic92/sops-nix";
+
+    hll-arty-tui.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -23,7 +26,10 @@
         { ... }:
         {
           nixpkgs.overlays = [
-            (final: prev: { unstable = import nixpkgs-unstable { system = prev.system; }; })
+            (final: prev: {
+              unstable = import nixpkgs-unstable { system = prev.system; };
+              hll-arty-tui = hll-arty-tui.packages.${prev.system}.default;
+            })
           ];
         };
     in
