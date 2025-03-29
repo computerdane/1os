@@ -86,7 +86,7 @@ let
         {
           inherit name auto-format;
           formatter = {
-            command = "prettier";
+            command = "${pkgs.nodePackages.prettier}/bin/prettier";
             args = [
               "--parser"
               parser
@@ -96,6 +96,7 @@ let
         };
     in
     {
+      languages.language-server.typescript-language-server.command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
       languages.language = [
         (mkTsLsp { name = "typescript"; })
         (mkTsLsp {
