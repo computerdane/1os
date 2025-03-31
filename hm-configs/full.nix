@@ -9,6 +9,7 @@ lib.mkMerge [
       go.enable = true;
       web.enable = true;
       python.enable = true;
+      rust.enable = true;
     };
     programs.mpv.enable = true;
 

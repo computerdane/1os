@@ -159,6 +159,17 @@ let
     ];
   };
 
+  rustConfig = {
+    languages.language-server.rust-analyzer.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+    languages.language = [
+      {
+        name = "rust";
+        formatter.command = "${pkgs.rustfmt}/bin/rustfmt";
+        auto-format = true;
+      }
+    ];
+  };
+
 in
 {
   options.programs.computerdane-helix = {
@@ -184,6 +195,7 @@ in
       go.enable = mkEnableOption "Golang LSP support";
       web.enable = mkEnableOption "TypeScript, JavaScript, HTML, CSS, JSON, and Markdown LSP support";
       python.enable = mkEnableOption "Python LSP support";
+      rust.enable = mkEnableOption "Rust LSP support";
     };
 
   };
@@ -197,6 +209,7 @@ in
         (mkIf go.enable goConfig)
         (mkIf web.enable webConfig)
         (mkIf python.enable pythonConfig)
+        (mkIf rust.enable rustConfig)
       ])
     ]);
 
