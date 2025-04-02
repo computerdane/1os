@@ -16,6 +16,7 @@ in
       [
         aria2
         asciiquarium
+        bop
         curl
         dua
         ffmpeg-full
@@ -93,7 +94,6 @@ in
         end
       '';
       shellAliases = {
-        bop = "nix run github:computerdane/bop-bun --";
         cat = "bat";
         gpt = "sgpt";
         my-tide-configure = "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Dotted --prompt_connection_andor_frame_color=Light --prompt_spacing=Sparse --icons='Few icons' --transient=No";
