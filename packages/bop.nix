@@ -5,15 +5,15 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "bop";
-  version = "0.1.2";
+  version = "0.1.4";
 
   src = fetchFromGitHub {
     owner = "computerdane";
     repo = "bop";
     rev = version;
-    hash = "sha256-jaUmZL9cPUlwDqNE8pXPNBYIKRhRYv/J43hPvdt9n8s=";
+    hash = "sha256-BXwpKbGCUCsH84eqbV7mCjfMquBfOk6dyvS9cuLklYg=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-GM73f5NYZsjdNTJZZiHSv6Kmjr3MkB6GF/BidIHcwKE=";
+  cargoHash = "sha256-WrAg6CUtP3tzNbYeeDBo/DbSaHLhWI2fVZAWMNnFR7E=";
 }
