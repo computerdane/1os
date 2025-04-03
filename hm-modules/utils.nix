@@ -8,6 +8,12 @@
 let
   inherit (pkgs) stdenv;
   cfg = config.oneos.utils;
+
+  ghosttySettings = {
+    theme = "catppuccin-mocha";
+    background-opacity = 0.9;
+    maximize = true;
+  };
 in
 {
   options.oneos.utils.enable = lib.mkEnableOption "utils";
@@ -66,22 +72,18 @@ in
       icons = "auto";
     };
 
-    programs.ghostty = {
-      enable = stdenv.isLinux;
-      settings = {
-        theme = "catppuccin-mocha";
-        background-opacity = 0.9;
-        maximize = true;
-      };
+    programs.ghostty = lib.mkIf stdenv.isLinux {
+      enable = true;
+      settings = ghosttySettings;
     };
 
-    home.file.".config/ghostty/config".text =
+    home.file.".config/ghostty/config" =
       with lib;
-      mkIf stdenv.isDarwin (
-        concatStringsSep "\n" (
-          mapAttrsToList (name: value: "${name} = ${toString value}") config.programs.ghostty.settings
-        )
-      );
+      mkIf stdenv.isDarwin {
+        text = mkIf stdenv.isDarwin (
+          concatStringsSep "\n" (mapAttrsToList (name: value: "${name} = ${toString value}") ghosttySettings)
+        );
+      };
 
   };
 }
