@@ -6,6 +6,7 @@
 }:
 
 let
+  inherit (pkgs) stdenv;
   cfg = config.oneos.utils;
 in
 {
@@ -35,6 +36,8 @@ in
     programs.tmux.enable = true;
     programs.zoxide.enable = true;
 
+    programs.firefox.enable = lib.mkIf stdenv.isLinux true;
+
     programs.btop = {
       enable = true;
       settings = {
@@ -61,6 +64,15 @@ in
       enableFishIntegration = true;
       git = true;
       icons = "auto";
+    };
+
+    programs.ghostty = lib.mkIf stdenv.isLinux {
+      enable = true;
+      settings = {
+        theme = "Dracula";
+        background-opacity = 0.9;
+        maximize = true;
+      };
     };
 
   };
