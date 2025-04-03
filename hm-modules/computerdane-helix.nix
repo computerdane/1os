@@ -187,7 +187,7 @@ in
     theme = mkOption {
       description = "Name of the Helix theme to use";
       type = str;
-      default = "dracula";
+      default = "catppuccin_mocha";
     };
 
     languages = {
