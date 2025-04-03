@@ -36,7 +36,7 @@ in
     programs.tmux.enable = true;
     programs.zoxide.enable = true;
 
-    programs.firefox.enable = lib.mkIf stdenv.isLinux true;
+    programs.firefox.enable = stdenv.isLinux;
 
     programs.btop = {
       enable = true;
@@ -66,20 +66,22 @@ in
       icons = "auto";
     };
 
-    programs.ghostty = lib.mkIf stdenv.isLinux {
-      enable = true;
+    programs.ghostty = {
+      enable = stdenv.isLinux;
       settings = {
-        theme = "Dracula";
+        theme = "catppuccin-mocha";
         background-opacity = 0.9;
         maximize = true;
       };
     };
 
-    home.file.".config/ghostty/config".text = lib.mkIf stdenv.isDarwin ''
-      theme = Dracula
-      background-opacity = 0.9
-      maximize = true
-    '';
+    home.file.".config/ghostty/config".text =
+      with lib;
+      mkIf stdenv.isDarwin (
+        concatStringsSep "\n" (
+          mapAttrsToList (name: value: "${name} = ${toString value}") config.programs.ghostty.settings
+        )
+      );
 
   };
 }
