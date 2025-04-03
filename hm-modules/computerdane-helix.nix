@@ -41,7 +41,7 @@ let
 
   nixConfig = {
     languages.language-server = {
-      nixd.command = "${pkgs.nixd}/bin/nixd";
+      nixd.command = "${(pkgs.unstable or pkgs).nixd}/bin/nixd";
       nil.command = "${pkgs.nil}/bin/nil";
     };
     languages.language = [
