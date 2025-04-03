@@ -75,5 +75,11 @@ in
       };
     };
 
+    home.file.".config/ghostty/config".text = lib.mkIf stdenv.isDarwin ''
+      theme = Dracula
+      background-opacity = 0.9
+      maximize = true
+    '';
+
   };
 }
