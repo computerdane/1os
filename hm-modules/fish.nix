@@ -53,6 +53,8 @@ in
         };
       })
     ];
+
+    # Use fish shell on systems with bash or zsh
     home.file = lib.mkIf stdenv.isDarwin {
       ".profile".text = "fish";
       ".zshrc".text = "fish";
