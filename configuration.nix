@@ -74,6 +74,8 @@
     options = "--delete-older-than 30d";
   };
 
+  nix.registry = import ./registry.nix;
+
   time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
 
