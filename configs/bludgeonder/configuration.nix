@@ -91,7 +91,6 @@
     # factorio-server.enable = true;
     # file-share.enable = true;
     gateway.enable = true;
-    gpu-amd.enable = true;
     jellyfin = {
       enable = true;
       subdomain = "watch";
