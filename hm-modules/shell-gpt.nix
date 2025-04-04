@@ -13,7 +13,7 @@ in
     with lib;
     with types;
     {
-      enable = mkEnableOption "shell_gpt";
+      enable = mkEnableOption "shell-gpt";
       defaultModel = mkOption {
         type = str;
         default = "gpt-4o";
