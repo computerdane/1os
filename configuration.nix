@@ -63,9 +63,12 @@
     experimental-features = [
       "nix-command"
       "flakes"
+      "ca-derivations"
     ];
     trusted-users = [ "dane" ];
     auto-optimise-store = true;
+    substituters = [ "https://cache.ngi0.nixos.org/" ];
+    trusted-public-keys = [ "cache.ngi0.nixos.org-1:KqH5CBLNSyX184S9BKZJo1LxrxJ9ltnY2uAs5c/f1MA=" ];
   };
 
   nix.gc = {
@@ -79,5 +82,8 @@
   time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    contentAddressedByDefault = true;
+  };
 }

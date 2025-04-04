@@ -14,15 +14,6 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.wl-clipboard ];
 
-    fonts.packages = with pkgs; [
-      (nerdfonts.override {
-        fonts = [
-          "Meslo"
-          "FiraCode"
-        ];
-      })
-    ];
-
     services.xserver.enable = true;
     services.xserver.displayManager.lightdm.enable = true;
     services.desktopManager.plasma6.enable = true;
