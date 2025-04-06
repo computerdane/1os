@@ -74,6 +74,11 @@
       openFirewallExtraPorts = [ voicePort ];
     };
 
+  services.murmur = {
+    enable = true;
+    openFirewall = true;
+  };
+
   oneos = {
     acme.enable = true;
     # acme.useStaging = true;
