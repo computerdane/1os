@@ -55,7 +55,7 @@ in
 
     programs.computerdane-helix = {
       enable = true;
-      package = pkgs.unstable.helix;
+      package = (pkgs.unstable or pkgs).helix;
       defaultEditor = true;
       languages.nix.enable = true;
     };
