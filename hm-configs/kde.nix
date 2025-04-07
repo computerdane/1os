@@ -1,6 +1,10 @@
-{ ... }:
+{ pkgs, ... }:
 
+let
+  inherit (pkgs) stdenv;
+in
 {
+  programs.firefox.enable = stdenv.isLinux;
   programs.plasma = {
     enable = true;
     powerdevil.AC = {
