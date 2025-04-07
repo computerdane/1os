@@ -36,6 +36,11 @@ let
         true-color = true;
         rulers = [ 80 ];
       };
+      keys.select = {
+        p.s = ":pipe sort";
+        p.w = ":pipe wrap";
+        p.c = ":pipe cwrap";
+      };
     };
   };
 
@@ -213,13 +218,20 @@ in
       ])
     ]);
 
-    home.packages = mkIf cfg.languages.go.enable [
-      (pkgs.writeShellApplication {
-        name = "gowrap";
-        runtimeInputs = [ pkgs.uutils-coreutils ];
-        text = ''fmt -w 80 -g 80 -p //'';
-      })
-    ];
+    home.packages =
+      let
+        mkWrapCmd =
+          name: pfx:
+          pkgs.writeShellApplication {
+            inherit name;
+            runtimeInputs = [ pkgs.uutils-coreutils ];
+            text = ''uutils-fmt -w 80 -g 80 -p "${pfx}"'';
+          };
+      in
+      mkMerge [
+        [ (mkWrapCmd "wrap" "") ]
+        (mkIf (cfg.languages.go.enable || cfg.languages.rust.enable) [ (mkWrapCmd "cwrap" "//") ])
+      ];
 
   };
 }
