@@ -42,8 +42,6 @@ in
     programs.tmux.enable = true;
     programs.zoxide.enable = true;
 
-    programs.firefox.enable = stdenv.isLinux;
-
     programs.btop = {
       enable = true;
       settings = {
