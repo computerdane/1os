@@ -45,11 +45,21 @@ in
     programs.btop = {
       enable = true;
       settings = {
-        color_theme = "Dracula";
+        color_theme = "catppuccin_mocha";
         theme_background = false;
         update_ms = 100;
       };
     };
+    home.file.".config/btop/themes".source =
+      let
+        catppuccin-btop = pkgs.fetchFromGitHub {
+          owner = "catppuccin";
+          repo = "btop";
+          rev = "1.0.0";
+          hash = "sha256-J3UezOQMDdxpflGax0rGBF/XMiKqdqZXuX4KMVGTxFk=";
+        };
+      in
+      "${catppuccin-btop}/themes";
 
     programs.computerdane-helix = {
       enable = true;
@@ -74,7 +84,6 @@ in
       enable = true;
       settings = ghosttySettings;
     };
-
     home.file.".config/ghostty/config" =
       with lib;
       mkIf stdenv.isDarwin {
