@@ -23,6 +23,6 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.bop ];
-    home.file.".config/bop/config.json".text = builtins.toJSON cfg.settings;
+    xdg.configFile."bop/config.json".text = builtins.toJSON cfg.settings;
   };
 }
