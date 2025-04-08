@@ -11,10 +11,10 @@
     extra-users.enable = true;
     gaming.enable = true;
     gpu-nvidia.enable = true;
-    jellyfin = {
-      enable = true;
-      subdomain = "watch-test";
-    };
+    # jellyfin = {
+    #   enable = true;
+    #   subdomain = "watch-test";
+    # };
     mount-9p.enable = true;
     nginx.enable = true;
   };
