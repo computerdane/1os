@@ -6,6 +6,6 @@
     "kde"
     "wallpapers"
   ];
-  users.john.hm-configs = [ "kde" ];
-  users.aria.hm-configs = [ "kde" ];
+  # users.john.hm-configs = [ "kde" ];
+  # users.aria.hm-configs = [ "kde" ];
 }

@@ -4,19 +4,19 @@
   imports = [ ./hardware-configuration.nix ];
 
   oneos = {
-    acme.enable = true;
+    # acme.enable = true;
     auto-update.pull = true;
     desktop.enable = true;
     dynamic-dns.enable = true;
-    extra-users.enable = true;
+    # extra-users.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
-    jellyfin = {
-      enable = true;
-      subdomain = "watch-beta";
-    };
+    # jellyfin = {
+    #   enable = true;
+    #   subdomain = "watch-beta";
+    # };
     mount-9p.enable = true;
-    nginx.enable = true;
+    # nginx.enable = true;
     protonvpn.enable = true;
     # virtualisation.enable = true;
   };
