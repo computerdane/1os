@@ -32,21 +32,37 @@ lib.mkMerge [
     nix.registry = import ./registry.nix;
   }
 
-  (onix.lib.mkForHosts
-    [
-      "fishtank"
-      "limbo"
-      "eefan"
-    ]
-    {
-      oneos =
-        if onix.meta.user == "dane" then
-          { profiles.danes-desktop.enable = true; }
-        else
-          { kde.enable = true; };
-    }
-  )
+  (onix.lib.mapHostUser {
 
-  (onix.lib.mkForHosts [ "shmacbook" ] { oneos.profiles.full.enable = true; })
+    "fishtank limbo eefan".dane = {
+      oneos = {
+        gaming.enable = true;
+        hll.enable = true;
+        kde.enable = true;
+        media.enable = true;
+        wallpapers.enable = true;
+      };
+    };
+
+    fishtank.dane = {
+      oneos = {
+        development.enable = true;
+        social.enable = true;
+      };
+    };
+
+    fishtank."john aria scott allie" = {
+      oneos.kde.enable = true;
+    };
+
+    shmacbook.dane = {
+      oneos = {
+        development.enable = true;
+        media.enable = true;
+        social.enable = true;
+      };
+    };
+
+  })
 
 ]

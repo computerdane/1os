@@ -22,6 +22,7 @@ in
 
     programs.bun.enable = true;
     programs.go.enable = true;
+    programs.shell-gpt.enable = true;
 
     programs.computerdane-helix.languages = {
       go.enable = true;
@@ -29,12 +30,6 @@ in
       python.enable = true;
       rust.enable = true;
     };
-
-    # home.file.".cargo/config.toml".text = ''
-    #   [target.x86_64-unknown-linux-gnu]
-    #   linker = "${pkgs.clang}/bin/clang"
-    #   rustflags = ["-C", "link-arg=-fuse-ld=${pkgs.mold}/bin/mold"]
-    # '';
 
   };
 }
