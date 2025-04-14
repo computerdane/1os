@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  onix,
   pkgs,
   ...
 }:
@@ -8,25 +9,44 @@
 let
   inherit (pkgs) stdenv;
 in
-{
-  oneos = {
-    fish.enable = true;
-    net-utils.enable = true;
-    utils.enable = true;
-  };
+lib.mkMerge [
 
-  programs.git = lib.mkIf (config.home.username == "dane") {
-    userName = "Dane Rieber";
-    userEmail = "danerieber@gmail.com";
-    extraConfig.init.defaultBranch = "main";
-  };
+  {
+    oneos = {
+      fish.enable = true;
+      net-utils.enable = true;
+      utils.enable = true;
+    };
 
-  home.homeDirectory =
-    if stdenv.isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}";
+    programs.git = lib.mkIf (config.home.username == "dane") {
+      userName = "Dane Rieber";
+      userEmail = "danerieber@gmail.com";
+      extraConfig.init.defaultBranch = "main";
+    };
 
-  home.stateVersion = "24.05";
+    home.homeDirectory =
+      if stdenv.isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}";
 
-  nix.registry = import ./registry.nix;
+    home.stateVersion = "24.05";
 
-  programs.home-manager.enable = true;
-}
+    nix.registry = import ./registry.nix;
+  }
+
+  (onix.lib.mkForHosts
+    [
+      "fishtank"
+      "limbo"
+      "eefan"
+    ]
+    {
+      oneos =
+        if onix.meta.user == "dane" then
+          { profiles.danes-desktop.enable = true; }
+        else
+          { kde.enable = true; };
+    }
+  )
+
+  (onix.lib.mkForHosts [ "shmacbook" ] { oneos.profiles.full.enable = true; })
+
+]
