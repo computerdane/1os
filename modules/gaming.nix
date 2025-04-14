@@ -21,6 +21,9 @@ in
 
     programs.gamescope.enable = true;
 
-    environment.systemPackages = with pkgs; [ protonup-qt ];
+    environment.systemPackages = [
+      pkgs.protonup-qt
+      pkgs.unstable.r2modman
+    ];
   };
 }
