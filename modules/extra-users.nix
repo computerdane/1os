@@ -13,19 +13,21 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    users.users.john = {
-      isNormalUser = true;
-      initialPassword = "abc123";
-      extraGroups = [ "network" ];
-      shell = pkgs.fish;
-    };
-
-    users.users.aria = {
-      isNormalUser = true;
-      initialPassword = "abc123";
-      extraGroups = [ "network" ];
-      shell = pkgs.fish;
-    };
+    users.users =
+      let
+        defaultUser = {
+          isNormalUser = true;
+          initialPassword = "abc123";
+          extraGroups = [ "network" ];
+          shell = pkgs.fish;
+        };
+      in
+      {
+        allie = defaultUser;
+        aria = defaultUser;
+        john = defaultUser;
+        scott = defaultUser;
+      };
 
   };
 }

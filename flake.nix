@@ -4,7 +4,7 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    onix.url = "github:computerdane/onix/v0.1.2";
+    onix.url = "github:computerdane/onix/hm-configs-host-user";
     plasma-manager.url = "github:nix-community/plasma-manager";
     sops-nix.url = "github:Mic92/sops-nix";
 

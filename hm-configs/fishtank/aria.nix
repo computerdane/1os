@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  oneos.kde.enable = true;
+}
