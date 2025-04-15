@@ -27,15 +27,20 @@ in
     programs.fish = lib.mkMerge [
       {
         enable = true;
-        shellInit = lib.mkIf config.programs.shell-gpt.enable ''
-          set fish_greeting
-          if test -e ~/.openai-api-key
-            export OPENAI_API_KEY=$(cat ~/.openai-api-key)
-          end
-          if test -e ~/.gemini-api-key
-            export GEMINI_API_KEY=$(cat ~/.gemini-api-key)
-          end
-        '';
+        shellInit = lib.mkIf config.programs.shell-gpt.enable (
+          let
+            loadSecret = varName: fileName: ''
+              if test -e ~/.${fileName}
+                export ${varName}=$(cat ~/.${fileName})
+              end
+            '';
+          in
+          ''
+            set fish_greeting
+            ${loadSecret "OPENAI_API_KEY" "litellm-api-key"}
+            ${loadSecret "GEMINI_API_KEY" "gemini-api-key"}
+          ''
+        );
         shellAliases = {
           cat = "bat";
           gpt = lib.mkIf config.programs.shell-gpt.enable "sgpt";
