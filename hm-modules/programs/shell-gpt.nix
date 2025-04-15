@@ -14,17 +14,17 @@ in
     with types;
     {
       enable = mkEnableOption "shell-gpt";
-      defaultModel = mkOption {
-        type = str;
-        default = "gpt-4o";
-        description = "Default OpenAI model to use";
+      settings = mkOption {
+        type = attrsOf str;
+        default = { };
+        description = "shell_gpt configuration file";
       };
     };
 
   config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.shell-gpt ];
-    home.editable-file.".config/shell_gpt/.sgptrc".text = ''
-      DEFAULT_MODEL=${cfg.defaultModel}
-    '';
+    home.editable-file.".config/shell_gpt/.sgptrc".text = lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (name: value: "${name}=${value}") cfg.settings
+    );
   };
 }
