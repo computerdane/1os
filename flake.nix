@@ -46,6 +46,7 @@
         plasma-manager.homeManagerModules.plasma-manager
         overlaysModule
       ];
+      extraSpecialArgs = { inherit nixpkgs-unstable; };
     }
     // {
       templates.new-project = {
