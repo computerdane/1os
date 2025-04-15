@@ -32,6 +32,9 @@ in
           if test -e ~/.openai-api-key
             export OPENAI_API_KEY=$(cat ~/.openai-api-key)
           end
+          if test -e ~/.gemini-api-key
+            export GEMINI_API_KEY=$(cat ~/.gemini-api-key)
+          end
         '';
         shellAliases = {
           cat = "bat";
