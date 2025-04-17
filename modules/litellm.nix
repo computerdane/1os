@@ -78,6 +78,10 @@ in
             model_name = "gemini-1.5-flash";
             litellm_params.model = "gemini/gemini-1.5-flash";
           }
+          {
+            model_name = "gemini-1.5-pro";
+            litellm_params.model = "gemini/gemini-1.5-pro";
+          }
         ];
       };
 
