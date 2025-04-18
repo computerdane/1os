@@ -19,7 +19,7 @@ in
       {
         home.packages = with pkgs; [
           hll-arty-calc
-          hll-arty-tui
+          # hll-arty-tui
           mc-quick
         ];
       }
