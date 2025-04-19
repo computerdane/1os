@@ -83,10 +83,7 @@
     acme.enable = true;
     # acme.useStaging = true;
     # ai.enable = true;
-    auto-update = {
-      pull = true;
-      push = true;
-    };
+    auto-update.enable = true;
     # chatwick.enable = true;
     dynamic-dns = {
       enable = true;
