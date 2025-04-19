@@ -2,11 +2,11 @@ let
   lib = import ./lib.nix;
 in
 
-lib.makeIt {
-  fishtank = [
-    ./configs/fishtank/configuration.nix
-    ./configs/fishtank/hardware-configuration.nix
-  ];
+lib.makeIt (self: {
+  fishtank = [ ];
+  bludgeonder = [ ];
+  limbo = [ ];
+  eefan = [ ];
 
   "dane@fishtank" = [
     ./homeconfigs/full.nix
@@ -14,8 +14,9 @@ lib.makeIt {
     ./homeconfigs/kde.nix
     ./homeconfigs/wallpapers/home.nix
   ];
+  "dane@limbo" = self."dane@fishtank";
 
   "dane@shmacbook" = [
     ./homeconfigs/full.nix
   ];
-}
+})
