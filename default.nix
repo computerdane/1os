@@ -16,6 +16,8 @@ lib.makeIt (self: {
   ];
   "dane@limbo" = self."dane@fishtank";
 
+  "dane@bludgeonder" = [];
+
   "dane@shmacbook" = [
     ./homeconfigs/full.nix
   ];
