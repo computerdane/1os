@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  nixpkgs-unstable,
   pkgs,
   ...
 }:
@@ -10,7 +9,7 @@ let
   cfg = config.oneos.litellm;
 in
 {
-  imports = [ "${nixpkgs-unstable}/nixos/modules/services/misc/litellm.nix" ];
+  imports = [ <nixpkgs-unstable/nixos/modules/services/misc/litellm.nix> ];
 
   options.oneos.litellm =
     with lib;
