@@ -7,15 +7,9 @@ rec {
     ];
   };
 
-  modules = (import ./modules/all-modules.nix) ++ [
-    "<sops-nix>/modules/sops"
-  ];
-  homeModules = (import ./hm-modules/all-modules.nix) ++ [
-    "${<plasma-manager>}/modules"
-    ./home.nix
-  ];
+  pkgs = import <nixpkgs> nixpkgs;
 
-  getHomeConfigs = builtins.mapAttrs (
+  makeIt = builtins.mapAttrs (
     name: value:
     if (builtins.match "^.+@.+$" name) != null then
       let
@@ -23,19 +17,25 @@ rec {
       in
       {
         inherit nixpkgs;
-        imports = homeModules ++ value;
+        imports =
+          value
+          ++ import ./homemodules/all-modules.nix
+          ++ [
+            <plasma-manager/modules>
+            ./home.nix
+          ];
         home.username = username;
       }
     else
-      throw "Home Manager configs must be defined as user@host"
+      pkgs.nixos {
+        networking.hostName = name;
+        imports =
+          value
+          ++ import ./modules/all-modules.nix
+          ++ [
+            <sops-nix/modules/sops>
+            ./configuration.nix
+          ];
+      }
   );
-
-  getNixosConfigs = builtins.mapAttrs (
-    name: value: {
-      inherit nixpkgs;
-      imports = modules ++ value;
-    }
-  );
-
-  makeIt = { nixos, home }: (getNixosConfigs nixos) // (getHomeConfigs home);
 }
