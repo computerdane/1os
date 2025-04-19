@@ -2,8 +2,10 @@ rec {
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
-      (_: _: { unstable = import <nixpkgs-unstable> { }; })
-      (final: prev: import ./packages/all-packages.nix { pkgs = prev; })
+      (_: _: {
+        unstable = import <nixpkgs-unstable> { };
+        dane = import <nixpkgs-dane> { };
+      })
     ];
   };
 
