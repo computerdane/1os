@@ -5,7 +5,6 @@
 
   oneos = {
     # acme.enable = true;
-    auto-update.pull = true;
     desktop.enable = true;
     dynamic-dns.enable = true;
     # extra-users.enable = true;
