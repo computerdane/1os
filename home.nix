@@ -26,7 +26,5 @@ in
 
   home.stateVersion = "24.05";
 
-  nix.registry = import ./registry.nix;
-
   programs.home-manager.enable = true;
 }
