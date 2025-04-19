@@ -1,4 +1,4 @@
-rec {
+let
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
@@ -8,8 +8,9 @@ rec {
       })
     ];
   };
-
   pkgs = import <nixpkgs> nixpkgs;
+in
+{
 
   makeIt =
     it:
