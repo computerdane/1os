@@ -17,9 +17,9 @@ in
     mkIf cfg.enable (mkMerge [
 
       {
-        home.packages = with pkgs; [
+        home.packages = with pkgs.dane; [
           hll-arty-calc
-          # hll-arty-tui
+          hll-arty-tui
           mc-quick
         ];
       }
