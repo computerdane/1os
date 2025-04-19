@@ -19,6 +19,7 @@ in
     path = with pkgs; [
       bash
       git
+      nix
       nixos-rebuild
     ];
     script = ''
@@ -27,7 +28,7 @@ in
       cd 1os
       git checkout no-flakes
       ./update.sh
-      ./switch.sh
+      nixos-rebuild switch -f default.nix -A ${config.networking.hostName}
     '';
     startAt = "*-*-* 04:00:00";
   };
