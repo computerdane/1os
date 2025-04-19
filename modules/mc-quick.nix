@@ -344,7 +344,7 @@ in
             path =
               [
                 cfg.javaPackage
-                (pkgs.mc-quick.override { javaPackage = cfg.javaPackage; })
+                (pkgs.dane.mc-quick.override { javaPackage = cfg.javaPackage; })
               ]
               ++ (with pkgs; [
                 bash
