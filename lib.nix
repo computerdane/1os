@@ -11,7 +11,6 @@ let
   pkgs = import <nixpkgs> nixpkgs;
 in
 {
-
   makeIt =
     it:
     builtins.mapAttrs (
