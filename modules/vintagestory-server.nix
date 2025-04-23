@@ -30,11 +30,11 @@ in
 
     systemd.services.vintagestory-server = {
       wantedBy = [ "multi-user.target" ];
-      serviceConfig.DynamicUser = true;
-      path = [ pkgs.vintagestory ];
-      script = ''
-        vintagestory-server --dataPath "$STATE_DIRECTORY" --port ${toString cfg.port}
-      '';
+      serviceConfig = {
+        DynamicUser = true;
+        WorkingDirectory = "/tmp";
+        ExecStart = ''${pkgs.vintagestory}/bin/vintagestory-server --dataPath $STATE_DIRECTORY --port ${toString cfg.port}'';
+      };
     };
 
   };
