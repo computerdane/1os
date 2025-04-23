@@ -35,7 +35,20 @@
               (_: _: {
                 unstable = import <nixpkgs-unstable> {
                   inherit config;
-                  overlays = [ overlay ];
+                  overlays = [
+                    overlay
+                    (_: prev: {
+                      vintagestory = (
+                        prev.vintagestory.overrideDerivation (_: rec {
+                          version = "1.20.8";
+                          src = prev.fetchurl {
+                            url = "https://cdn.vintagestory.at/gamefiles/stable/vs_client_linux-x64_${version}.tar.gz";
+                            hash = "sha256-IINeXUpW894ipgyEB6jYcmeImIFLzADI+jIX6ADthH8=";
+                          };
+                        })
+                      );
+                    })
+                  ];
                 };
               })
               overlay
