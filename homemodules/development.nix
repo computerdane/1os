@@ -28,6 +28,7 @@ in
       web.enable = true;
       python.enable = true;
       rust.enable = true;
+      c.enable = true;
     };
 
     # home.file.".cargo/config.toml".text = ''
