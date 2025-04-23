@@ -27,7 +27,10 @@
       let
         itConfig = {
           nixpkgsConfig = rec {
-            config.allowUnfree = true;
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [ "dotnet-runtime-7.0.20" ];
+            };
             overlays = [
               (_: _: {
                 unstable = import <nixpkgs-unstable> {

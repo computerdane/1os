@@ -25,7 +25,16 @@ in
       }
 
       (mkIf stdenv.isLinux {
-        home.packages = [ pkgs.prismlauncher ];
+        home.packages = with pkgs; [
+          prismlauncher
+          (unstable.vintagestory.overrideDerivation (oldAttrs: rec {
+            version = "1.20.8";
+            src = fetchurl {
+              url = "https://cdn.vintagestory.at/gamefiles/stable/vs_client_linux-x64_${version}.tar.gz";
+              hash = "sha256-IINeXUpW894ipgyEB6jYcmeImIFLzADI+jIX6ADthH8=";
+            };
+          }))
+        ];
         programs.obs-studio.enable = true;
       })
 
