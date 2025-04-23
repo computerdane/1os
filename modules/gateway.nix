@@ -8,7 +8,7 @@
 let
   cfg = config.oneos.gateway;
 
-  ips = with pkgs.dane.lib.oneos.ip; {
+  ips = with pkgs.lib1os.ip; {
     lan = rec {
       subnet = {
         ipv4 = fromIpv4Cidr "10.105.0.0/24";
@@ -142,7 +142,7 @@ in
         wireguardPeers =
           let
             mkAllowedIps =
-              with pkgs.dane.lib.oneos.ip;
+              with pkgs.lib1os.ip;
               octet:
               let
                 quartet = toString octet;

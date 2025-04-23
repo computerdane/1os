@@ -1,14 +1,14 @@
-[
-  ./development.nix
-  ./editable-file.nix
-  ./fish.nix
-  ./gaming.nix
-  ./media.nix
-  ./net-utils.nix
-  ./social.nix
-  ./utils.nix
+{
+  development = ./development.nix;
+  editable-file = ./editable-file.nix;
+  fish = ./fish.nix;
+  gaming = ./gaming.nix;
+  media = ./media.nix;
+  net-utils = ./net-utils.nix;
+  social = ./social.nix;
+  utils = ./utils.nix;
 
-  ./programs/bop.nix
-  ./programs/computerdane-helix.nix
-  ./programs/shell-gpt.nix
-]
+  bop = ./programs/bop.nix;
+  computerdane-helix = ./programs/computerdane-helix.nix;
+  shell-gpt = ./programs/shell-gpt.nix;
+}
