@@ -26,10 +26,15 @@
     // (
       let
         itConfig = {
-          nixpkgsConfig = {
+          nixpkgsConfig = rec {
             config.allowUnfree = true;
             overlays = [
-              (_: _: { unstable = import <nixpkgs-unstable> { overlays = [ overlay ]; }; })
+              (_: _: {
+                unstable = import <nixpkgs-unstable> {
+                  inherit config;
+                  overlays = [ overlay ];
+                };
+              })
               overlay
             ];
           };

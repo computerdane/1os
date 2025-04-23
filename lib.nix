@@ -50,6 +50,7 @@ rec {
           attrNames
           elemAt
           filter
+          hasAttr
           listToAttrs
           mapAttrs
           split
@@ -68,7 +69,7 @@ rec {
         ) nixos;
         homeConfigurations =
           let
-            userHostModules = (filterAttrsNameMatches ''^.+'.+$'' home);
+            userHostModules = filterAttrsNameMatches ''^.+'.+$'' home;
 
             defaultUserModules = mapAttrs' (sel: modules: nameValuePair (elemAt (split "'" sel) 0) modules) (
               filterAttrsNameMatches ''^.+'$'' home
@@ -78,7 +79,7 @@ rec {
             defaultHosts = (attrNames defaultHostModules) ++ (attrNames nixos);
 
             pairs = flatten (map (user: map (host: "${user}'${host}") defaultHosts) defaultUsers);
-            unmatchedPairs = filter (sel: !(userHostModules ? sel)) pairs;
+            unmatchedPairs = filter (sel: !(hasAttr sel userHostModules)) pairs;
             unmatchedPairsAttrs = listToAttrs (
               map (sel: {
                 name = sel;
