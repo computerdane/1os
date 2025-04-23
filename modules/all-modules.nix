@@ -1,24 +1,24 @@
-[
-  ./acme.nix
-  ./auto-update.nix
-  ./chatwick.nix
-  ./desktop.nix
-  ./domains.nix
-  ./dynamic-dns.nix
-  ./extra-users.nix
-  ./factorio-server.nix
-  ./file-share.nix
-  ./gaming.nix
-  ./gateway.nix
-  ./gpu-amd.nix
-  ./gpu-nvidia.nix
-  ./jellyfin.nix
-  ./litellm.nix
-  ./livestream-server.nix
-  ./mc-quick.nix
-  ./mount-9p.nix
-  ./nginx.nix
-  ./protonvpn.nix
-  ./vault.nix
-  ./virtualisation.nix
-]
+{
+  acme = ./acme.nix;
+  auto-update = ./auto-update.nix;
+  chatwick = ./chatwick.nix;
+  desktop = ./desktop.nix;
+  domains = ./domains.nix;
+  dynamic-dns = ./dynamic-dns.nix;
+  extra-users = ./extra-users.nix;
+  factorio-server = ./factorio-server.nix;
+  file-share = ./file-share.nix;
+  gaming = ./gaming.nix;
+  gateway = ./gateway.nix;
+  gpu-amd = ./gpu-amd.nix;
+  gpu-nvidia = ./gpu-nvidia.nix;
+  jellyfin = ./jellyfin.nix;
+  litellm = ./litellm.nix;
+  livestream-server = ./livestream-server.nix;
+  mc-quick = ./mc-quick.nix;
+  mount-9p = ./mount-9p.nix;
+  nginx = ./nginx.nix;
+  protonvpn = ./protonvpn.nix;
+  vault = ./vault.nix;
+  virtualisation = ./virtualisation.nix;
+}

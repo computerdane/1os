@@ -22,7 +22,7 @@ in
     };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.dane.bop ];
+    home.packages = [ pkgs.bop ];
     xdg.configFile."bop/config.json".text = builtins.toJSON cfg.settings;
   };
 }
