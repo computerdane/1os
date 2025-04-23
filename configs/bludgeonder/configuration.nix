@@ -109,5 +109,9 @@
     protonvpn.enable = true;
     # livestream-server.enable = true;
     vault.enable = true;
+    vintagestory-server = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 }

@@ -20,5 +20,6 @@
   nginx = ./nginx.nix;
   protonvpn = ./protonvpn.nix;
   vault = ./vault.nix;
+  vintagestory-server = ./vintagestory-server.nix;
   virtualisation = ./virtualisation.nix;
 }
