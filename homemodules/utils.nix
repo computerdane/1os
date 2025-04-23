@@ -38,6 +38,7 @@ in
     programs.fd.enable = true;
     programs.fzf.enable = true;
     programs.git.enable = true;
+    programs.nix-index.enable = true;
     programs.ssh.enable = true;
     programs.tmux.enable = true;
     programs.zoxide.enable = true;
