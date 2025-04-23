@@ -175,6 +175,17 @@ let
     ];
   };
 
+  cConfig = {
+    languages.language-server.clangd.command = "${pkgs.stdenv.cc.cc}/bin/clangd";
+    languages.language = [
+      {
+        name = "c";
+        formatter.command = "${pkgs.stdenv.cc.cc}/bin/clang-format";
+        auto-format = true;
+      }
+    ];
+  };
+
 in
 {
   options.programs.computerdane-helix = {
@@ -201,6 +212,7 @@ in
       web.enable = mkEnableOption "TypeScript, JavaScript, HTML, CSS, JSON, and Markdown LSP support";
       python.enable = mkEnableOption "Python LSP support";
       rust.enable = mkEnableOption "Rust LSP support";
+      c.enable = mkEnableOption "C LSP support";
     };
 
   };
@@ -215,6 +227,7 @@ in
         (mkIf web.enable webConfig)
         (mkIf python.enable pythonConfig)
         (mkIf rust.enable rustConfig)
+        (mkIf c.enable cConfig)
       ])
     ]);
 
@@ -231,6 +244,7 @@ in
       mkMerge [
         [ (mkWrapCmd "wrap" "") ]
         (mkIf (cfg.languages.go.enable || cfg.languages.rust.enable) [ (mkWrapCmd "cwrap" "//") ])
+        (mkIf cfg.languages.c.enable [ pkgs.lldb_19 ])
       ];
 
   };
