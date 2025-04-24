@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -112,6 +112,7 @@
     vintagestory-server = {
       enable = true;
       openFirewall = true;
+      package = pkgs.unstable.vintagestory;
     };
   };
 }
