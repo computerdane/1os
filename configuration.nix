@@ -74,6 +74,8 @@
     options = "--delete-older-than 30d";
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
 }

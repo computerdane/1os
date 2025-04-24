@@ -1,5 +1,0 @@
-https://nixos.org/channels/nixos-24.11 nixpkgs
-https://nixos.org/channels/nixos-unstable nixpkgs-unstable
-https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz home-manager
-https://github.com/nix-community/plasma-manager/archive/trunk.tar.gz plasma-manager
-https://github.com/Mic92/sops-nix/archive/master.tar.gz sops-nix

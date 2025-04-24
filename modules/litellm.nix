@@ -9,8 +9,6 @@ let
   cfg = config.oneos.litellm;
 in
 {
-  imports = [ <nixpkgs-unstable/nixos/modules/services/misc/litellm.nix> ];
-
   options.oneos.litellm =
     with lib;
     with types;
@@ -53,16 +51,6 @@ in
 
       services.litellm = {
         enable = true;
-        package = pkgs.unstable.litellm.override (prev: {
-          python3Packages = prev.python3Packages // {
-            litellm = prev.python3Packages.litellm.override (prev: {
-              rq = prev.rq.overrideAttrs {
-                doCheck = false;
-                doInstallCheck = false;
-              };
-            });
-          };
-        });
         port = 7773;
         environmentFile = config.sops.secrets.litellm-environment.path;
         settings.model_list = [

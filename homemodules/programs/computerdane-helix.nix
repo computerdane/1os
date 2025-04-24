@@ -46,7 +46,7 @@ let
 
   nixConfig = {
     languages.language-server = {
-      nixd.command = "${(pkgs.unstable or pkgs).nixd}/bin/nixd";
+      nixd.command = "${pkgs.nixd}/bin/nixd";
       nil.command = "${pkgs.nil}/bin/nil";
     };
     languages.language = [
@@ -126,44 +126,6 @@ let
       ];
     };
 
-  pythonConfig = {
-    languages.language-server = {
-      pyright = {
-        command = "${pkgs.pyright}/bin/pyright-langserver";
-        args = [ "--stdio" ];
-      };
-      ruff-lsp = {
-        command = "${pkgs.ruff-lsp}/bin/ruff-lsp";
-        config = {
-          documentFormatting = true;
-          settings.run = "onSave";
-        };
-      };
-    };
-    languages.language = [
-      {
-        name = "python";
-        auto-format = true;
-        language-servers = [
-          {
-            name = "pyright";
-            except-features = [
-              "format"
-              "diagnostics"
-            ];
-          }
-          {
-            name = "ruff-lsp";
-            only-features = [
-              "format"
-              "diagnostics"
-            ];
-          }
-        ];
-      }
-    ];
-  };
-
   rustConfig = {
     languages.language-server.rust-analyzer.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
     languages.language = [
@@ -210,7 +172,6 @@ in
       nix.enable = mkEnableOption "Nix LSP support";
       go.enable = mkEnableOption "Golang LSP support";
       web.enable = mkEnableOption "TypeScript, JavaScript, HTML, CSS, JSON, and Markdown LSP support";
-      python.enable = mkEnableOption "Python LSP support";
       rust.enable = mkEnableOption "Rust LSP support";
       c.enable = mkEnableOption "C LSP support";
     };
@@ -225,7 +186,6 @@ in
         (mkIf nix.enable nixConfig)
         (mkIf go.enable goConfig)
         (mkIf web.enable webConfig)
-        (mkIf python.enable pythonConfig)
         (mkIf rust.enable rustConfig)
         (mkIf c.enable cConfig)
       ])

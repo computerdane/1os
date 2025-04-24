@@ -27,7 +27,7 @@
   environment.systemPackages = with pkgs; [
     godot_4
     heroic
-    kdenlive
+    kdePackages.kdenlive
     stress-ng
   ];
 
