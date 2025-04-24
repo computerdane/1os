@@ -14,6 +14,7 @@ in
     with types;
     {
       enable = mkEnableOption "vintagestory-server";
+      package = mkPackageOption pkgs "vintagestory" { };
       port = mkOption {
         type = port;
         default = 42420;
@@ -33,7 +34,7 @@ in
       serviceConfig = {
         DynamicUser = true;
         WorkingDirectory = "/tmp";
-        ExecStart = ''${pkgs.vintagestory}/bin/vintagestory-server --dataPath $STATE_DIRECTORY --port ${toString cfg.port}'';
+        ExecStart = ''${cfg.package}/bin/vintagestory-server --dataPath $STATE_DIRECTORY --port ${toString cfg.port}'';
       };
     };
 
