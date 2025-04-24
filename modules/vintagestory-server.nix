@@ -20,6 +20,10 @@ in
         default = 42420;
       };
       openFirewall = mkEnableOption "open firewall";
+      settings = mkOption {
+        type = attrs;
+        default = { };
+      };
     };
 
   config = lib.mkIf cfg.enable {
@@ -34,7 +38,8 @@ in
       serviceConfig = {
         DynamicUser = true;
         WorkingDirectory = "/tmp";
-        ExecStart = ''${cfg.package}/bin/vintagestory-server --dataPath $STATE_DIRECTORY --port ${toString cfg.port}'';
+        StateDirectory = "vintagestory-server";
+        ExecStart = ''${cfg.package}/bin/vintagestory-server --dataPath $STATE_DIRECTORY --port ${toString cfg.port} --withconfig "${builtins.toJSON cfg.settings}"'';
       };
     };
 

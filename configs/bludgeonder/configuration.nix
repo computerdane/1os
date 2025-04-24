@@ -113,6 +113,7 @@
       enable = true;
       openFirewall = true;
       package = pkgs.unstable.vintagestory;
+      settings.WhitelistMode = 1;
     };
   };
 }
