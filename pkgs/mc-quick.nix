@@ -4,13 +4,14 @@
   coreutils,
   fetchFromGitHub,
   installShellFiles,
-  javaPackage ? temurin-jre-bin,
   lib,
   makeWrapper,
   rsync,
   stdenv,
   temurin-jre-bin,
   unzip,
+
+  javaPackage ? temurin-jre-bin,
 }:
 
 buildGoModule rec {

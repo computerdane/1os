@@ -21,12 +21,12 @@ in
     extraConfig.init.defaultBranch = "main";
   };
 
+  home.packages = [ pkgs.digirain ];
+
   home.homeDirectory =
     if stdenv.isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}";
 
   home.stateVersion = "24.05";
-
-  nix.registry = import ./registry.nix;
 
   programs.home-manager.enable = true;
 }

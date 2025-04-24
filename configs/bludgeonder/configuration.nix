@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -82,19 +82,11 @@
   oneos = {
     acme.enable = true;
     # acme.useStaging = true;
-    # ai.enable = true;
-    auto-update = {
-      pull = true;
-      push = true;
-    };
-    # chatwick.enable = true;
     dynamic-dns = {
       enable = true;
       root = true;
       ipv4 = true;
     };
-    # factorio-server.enable = true;
-    # file-share.enable = true;
     gateway.enable = true;
     jellyfin = {
       enable = true;
@@ -110,7 +102,12 @@
       root = true;
     };
     protonvpn.enable = true;
-    # livestream-server.enable = true;
     vault.enable = true;
+    vintagestory-server = {
+      enable = true;
+      openFirewall = true;
+      package = pkgs.unstable.vintagestory;
+      settings.WhitelistMode = 1;
+    };
   };
 }

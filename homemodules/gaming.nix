@@ -25,7 +25,10 @@ in
       }
 
       (mkIf stdenv.isLinux {
-        home.packages = [ pkgs.prismlauncher ];
+        home.packages = with pkgs; [
+          prismlauncher
+          vintagestory
+        ];
         programs.obs-studio.enable = true;
       })
 
