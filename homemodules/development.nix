@@ -20,6 +20,7 @@ in
     ];
 
     programs.bun.enable = true;
+    programs.gh.enable = true;
     programs.go.enable = true;
 
     programs.computerdane-helix.languages = {
