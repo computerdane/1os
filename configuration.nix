@@ -15,6 +15,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    home-manager
     sops
     age
     ssh-to-age
