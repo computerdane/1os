@@ -71,6 +71,7 @@
                       inherit system;
                       modules = (builtins.attrValues config.flake.nixosModules) ++ [
                         inputs.sops-nix.nixosModules.sops
+                        inputs.thothub.nixosModules.thots
                         ./configuration.nix
                         "${./.}/configs/${hostname}/configuration.nix"
                         "${./.}/configs/${hostname}/hardware-configuration.nix"

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -28,6 +28,13 @@
           level = 4;
           bypassesPlayerLimit = true;
         }
+        (
+          (builtins.elemAt config.thots.scott.minecraftAccounts 0)
+          // {
+            level = 4;
+            bypassesPlayerLimit = true;
+          }
+        )
       ];
       enableWhitelist = true;
       files = [

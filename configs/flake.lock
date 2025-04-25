@@ -2,17 +2,32 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1745279238,
-        "narHash": "sha256-AQ7M9wTa/Pa/kK5pcGTgX/DGqMHyzsyINfN7ktsI7Fo=",
+        "lastModified": 1745487689,
+        "narHash": "sha256-FQoi3R0NjQeBAsEOo49b5tbDPcJSMWc3QhhaIi9eddw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9684b53175fc6c09581e94cc85f05ab77464c7e3",
+        "rev": "5630cf13cceac06cefe9fc607e8dfa8fb342dde3",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixos-24.11",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1745111456,
+        "narHash": "sha256-6k3oWdGcWOIzh3OQBkIf+HBU+xH5vbZtUhwzXEX4NWI=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "eab2ba94b72a8664e0fb92912160151d99db850e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
         "type": "github"
       }
     },
@@ -36,7 +51,8 @@
       "inputs": {
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "thothub": "thothub"
       }
     },
     "sops-nix": {
@@ -56,6 +72,24 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "thothub": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1745614708,
+        "narHash": "sha256-ljF8x9Q2xFncpxcMpYTRMQCUTJlI2F9RfWOyBDQhIP0=",
+        "owner": "computerdane",
+        "repo": "thothub",
+        "rev": "8e2f111fe42d0ef98693ec4a1089b33eac6d17db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "computerdane",
+        "repo": "thothub",
         "type": "github"
       }
     }
