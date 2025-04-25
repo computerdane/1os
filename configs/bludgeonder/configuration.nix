@@ -94,6 +94,7 @@
       root = true;
       ipv4 = true;
     };
+    extra-users.enable = true;
     gateway.enable = true;
     jellyfin = {
       enable = true;

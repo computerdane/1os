@@ -13,18 +13,11 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    users.users.john = {
+    users.users.scott = with config.thots.scott; {
       isNormalUser = true;
-      initialPassword = "abc123";
-      extraGroups = [ "network" ];
-      shell = pkgs.fish;
-    };
-
-    users.users.aria = {
-      isNormalUser = true;
-      initialPassword = "abc123";
-      extraGroups = [ "network" ];
-      shell = pkgs.fish;
+      inherit hashedPassword;
+      openssh.authorizedKeys.keys = sshKeysList;
+      shell = pkgs.${shell};
     };
 
   };
