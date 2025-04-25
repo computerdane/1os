@@ -21,8 +21,8 @@
         ];
 
         flake = {
-          nixosModules = import ./modules/all-modules.nix;
-          homeModules = import ./homemodules/all-modules.nix;
+          nixosModules = import ./modules;
+          homeModules = import ./homemodules;
           overlays.vintagestory_latest = _: prev: {
             vintagestory = prev.vintagestory.overrideDerivation (_: rec {
               version = "1.20.8";
@@ -50,8 +50,8 @@
               perSystem =
                 { config, pkgs, ... }:
                 {
-                  packages = (import ./pkgs/all-packages.nix { inherit (pkgs) callPackage; });
-                  overlayAttrs = config.packages // (import ./legacypkgs/all-packages.nix { inherit (pkgs) lib; });
+                  packages = (import ./pkgs { inherit (pkgs) callPackage; });
+                  overlayAttrs = config.packages // (import ./legacypkgs { inherit (pkgs) lib; });
                 };
             };
         };
