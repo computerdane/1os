@@ -23,6 +23,6 @@
     stress-ng
   ];
 
-  programs.corectrl.enable = true;
-  programs.corectrl.gpuOverclock.enable = true;
+  # programs.corectrl.enable = true;
+  # programs.corectrl.gpuOverclock.enable = true;
 }
