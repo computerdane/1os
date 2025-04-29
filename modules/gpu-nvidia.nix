@@ -19,6 +19,8 @@ in
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia.open = true;
 
+    boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+
     environment.systemPackages = [ btop-cuda ];
     programs.fish.shellAliases.btop = "${btop-cuda}/bin/btop";
   };
