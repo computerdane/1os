@@ -8,7 +8,14 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    sops.secrets.nixbuild-key = { };
+    sops.secrets.nixbuild-key = {
+      mode = "0440";
+      owner = config.users.users.nobody.name;
+      group = config.users.groups.nixbuild.name;
+    };
+
+    users.groups.nixbuild = { };
+    users.users.dane.extraGroups = [ "nixbuild" ];
 
     programs.ssh.extraConfig = ''
       Host eu.nixbuild.net
