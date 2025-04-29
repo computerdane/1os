@@ -45,6 +45,10 @@ in
           ];
         }
       ];
+      settings.substituters = [ "ssh://eu.nixbuild.net" ];
+      settings.trusted-public-keys = [
+        "nixbuild.net/NMLPEQ-1:KJc+6kHLrauNsKeZOPKLWg9kD0oTWsbWeNUkTrTp6V8="
+      ];
     };
 
   };
