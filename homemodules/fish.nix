@@ -19,10 +19,8 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    home.packages = with pkgs.fishPlugins; [
-      puffer
-      tide
-    ];
+    home.packages = [ pkgs.fishPlugins.puffer ];
+    programs.starship.enable = true;
 
     programs.fish = lib.mkMerge [
       {
@@ -44,7 +42,6 @@ in
         shellAliases = {
           cat = "bat";
           gpt = lib.mkIf config.programs.shell-gpt.enable "sgpt";
-          my-tide-configure = "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Dotted --prompt_connection_andor_frame_color=Light --prompt_spacing=Sparse --icons='Few icons' --transient=No";
         };
       }
       (lib.mkIf stdenv.isLinux {
