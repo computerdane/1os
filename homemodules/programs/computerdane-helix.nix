@@ -152,6 +152,27 @@ let
     ];
   };
 
+  pythonConfig = {
+    languages.language-server.pylsp = {
+      command = "${
+        pkgs.python3.withPackages (
+          ps: with ps; [
+            python-lsp-server
+            python-lsp-ruff
+          ]
+        )
+      }/bin/pylsp";
+      plugins.ruff.enabled = true;
+      plugins.ruff.lineLength = cfg.lineLength;
+    };
+    languages.language = [
+      {
+        name = "python";
+        auto-format = true;
+      }
+    ];
+  };
+
 in
 {
   options.programs.computerdane-helix = {
@@ -178,6 +199,13 @@ in
       web.enable = mkEnableOption "TypeScript, JavaScript, HTML, CSS, JSON, and Markdown LSP support";
       rust.enable = mkEnableOption "Rust LSP support";
       c.enable = mkEnableOption "C LSP support";
+      python.enable = mkEnableOption "Python LSP support";
+    };
+
+    lineLength = mkOption {
+      description = "Sets line length settings for wrapping shortcuts and some formatters";
+      type = int;
+      default = 80;
     };
 
   };
@@ -192,6 +220,7 @@ in
         (mkIf web.enable webConfig)
         (mkIf rust.enable rustConfig)
         (mkIf c.enable cConfig)
+        (mkIf python.enable pythonConfig)
       ])
     ]);
 
@@ -202,7 +231,11 @@ in
           pkgs.writeShellApplication {
             inherit name;
             runtimeInputs = [ pkgs.uutils-coreutils ];
-            text = ''uutils-fmt -w 80 -g 80 -p "${pfx}"'';
+            text =
+              let
+                ll = toString cfg.lineLength;
+              in
+              ''uutils-fmt -w ${ll} -g ${ll} -p "${pfx}"'';
           };
       in
       mkMerge [
