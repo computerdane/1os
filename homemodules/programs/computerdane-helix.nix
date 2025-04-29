@@ -131,7 +131,11 @@ let
     languages.language = [
       {
         name = "rust";
-        formatter.command = "${pkgs.rustfmt}/bin/rustfmt --edition 2021";
+        formatter.command = "${pkgs.rustfmt}/bin/rustfmt";
+        formatter.args = [
+          "--edition"
+          "2021"
+        ];
         auto-format = true;
       }
     ];
