@@ -28,6 +28,7 @@ in
       web.enable = true;
       rust.enable = true;
       c.enable = true;
+      python.enable = true;
     };
 
   };
