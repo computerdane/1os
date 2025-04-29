@@ -16,5 +16,6 @@
     };
     mount-9p.enable = true;
     nginx.enable = true;
+    nixbuild.enable = true;
   };
 }

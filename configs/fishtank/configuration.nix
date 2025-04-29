@@ -9,6 +9,7 @@
     gaming.enable = true;
     gpu-amd.enable = true;
     mount-9p.enable = true;
+    nixbuild.enable = true;
     protonvpn.enable = true;
   };
 
@@ -22,7 +23,4 @@
     kdePackages.kdenlive
     stress-ng
   ];
-
-  # programs.corectrl.enable = true;
-  # programs.corectrl.gpuOverclock.enable = true;
 }

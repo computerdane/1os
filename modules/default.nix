@@ -18,6 +18,7 @@
   mc-quick = import ./mc-quick.nix;
   mount-9p = import ./mount-9p.nix;
   nginx = import ./nginx.nix;
+  nixbuild = import ./nixbuild.nix;
   protonvpn = import ./protonvpn.nix;
   vault = import ./vault.nix;
   vintagestory-server = import ./vintagestory-server.nix;

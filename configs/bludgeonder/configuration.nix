@@ -109,6 +109,7 @@
       enable = true;
       root = true;
     };
+    nixbuild.enable = true;
     protonvpn.enable = true;
     vault.enable = true;
     vintagestory-server = {

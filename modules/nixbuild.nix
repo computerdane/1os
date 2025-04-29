@@ -1,0 +1,44 @@
+{ config, lib, ... }:
+
+let
+  cfg = config.oneos.nixbuild;
+in
+{
+  options.oneos.nixbuild.enable = lib.mkEnableOption "enable nixbuild.net as a remote builder";
+
+  config = lib.mkIf cfg.enable {
+
+    sops.secrets.nixbuild-key = { };
+
+    programs.ssh.extraConfig = ''
+      Host eu.nixbuild.net
+        PubkeyAcceptedKeyTypes ssh-ed25519
+        ServerAliveInterval 60
+        IPQoS throughput
+        IdentityFile ${config.sops.secrets.nixbuild-key.path}
+    '';
+
+    programs.ssh.knownHosts = {
+      nixbuild = {
+        hostNames = [ "eu.nixbuild.net" ];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+      };
+    };
+
+    nix = {
+      distributedBuilds = true;
+      buildMachines = [
+        {
+          hostName = "eu.nixbuild.net";
+          system = "x86_64-linux";
+          maxJobs = 100;
+          supportedFeatures = [
+            "benchmark"
+            "big-parallel"
+          ];
+        }
+      ];
+    };
+
+  };
+}
