@@ -136,9 +136,9 @@
     };
     wireguardPeers = [
       {
-        endpoint = "thotlab.net:51820";
-        publicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4=";
-        cidrs = [
+        Endpoint = "thotlab.net:51820";
+        PublicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4=";
+        AllowedIPs = [
           "172.31.0.0/16"
           "fd00:100::/32"
           "2001:470:be1c::/48"

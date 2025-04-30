@@ -43,9 +43,9 @@ in
         type = types.listOf (
           types.submodule {
             options = {
-              endpoint = mkOption { type = types.str; };
-              publicKey = mkOption { type = types.str; };
-              cidrs = mkOption { type = types.listOf types.str; };
+              Endpoint = mkOption { type = types.str; };
+              PublicKey = mkOption { type = types.str; };
+              AllowedIPs = mkOption { type = types.listOf types.str; };
             };
           }
         );
@@ -114,11 +114,11 @@ in
         DHCP = "no";
         routes = lib.flatten (
           map (
-            { cidrs, ... }:
+            { AllowedIPs, ... }:
             map (cidr: {
               PreferredSource = with cfg.lan; if isIpv6 cidr then ipv6.addr else ipv4.addr;
               Destination = cidr;
-            }) cidrs
+            }) AllowedIPs
           ) cfg.wireguardPeers
         );
       };
@@ -132,18 +132,7 @@ in
           ListenPort = cfg.wireguardPort;
           PrivateKeyFile = config.sops.secrets.gateway-wireguard-key.path;
         };
-        wireguardPeers = map (
-          {
-            endpoint,
-            publicKey,
-            cidrs,
-          }:
-          {
-            Endpoint = endpoint;
-            PublicKey = publicKey;
-            AllowedIPs = cidrs;
-          }
-        ) cfg.wireguardPeers;
+        wireguardPeers = cfg.wireguardPeers;
       };
 
       networking.nat = {
