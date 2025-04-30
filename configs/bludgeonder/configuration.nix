@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  thothub-lib,
+  ...
+}:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -21,21 +26,13 @@
         "simple-voice-chat"
         "no-chat-reports"
       ];
-      ops = [
-        {
-          uuid = "6cfede5c-8117-4673-bd7d-0a17bbab69e2";
-          name = "Dane47";
-          level = 4;
-          bypassesPlayerLimit = true;
-        }
-        (
-          (builtins.elemAt config.thots.scott.minecraftAccounts 0)
-          // {
-            level = 4;
-            bypassesPlayerLimit = true;
-          }
-        )
-      ];
+      ops = thothub-lib.toMinecraftOps (
+        with config.thots;
+        [
+          dane
+          scott
+        ]
+      );
       enableWhitelist = true;
       files = [
         {

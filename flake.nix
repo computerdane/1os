@@ -87,7 +87,10 @@
                           }
                         )
                       ];
-                      specialArgs.nixpkgs-unstable = inputs.nixpkgs-unstable;
+                      specialArgs = {
+                        nixpkgs-unstable = inputs.nixpkgs-unstable;
+                        thothub-lib = inputs.thothub.lib;
+                      };
                     }
                   )
                   (
