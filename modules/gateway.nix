@@ -36,6 +36,8 @@ let
       ipv6-public = fromIpv6Cidr "2001:470:be1c::/48";
     };
   };
+
+  sopsFile = ../secrets/bludgeonder.yaml;
 in
 {
   options.oneos.gateway =
@@ -59,11 +61,11 @@ in
   config = lib.mkIf cfg.enable {
     sops.secrets.gateway-wireguard-key = with config.users.users.systemd-network; {
       owner = name;
-      inherit group;
+      inherit group sopsFile;
     };
     sops.secrets.gateway-wireguard-nf6-key = with config.users.users.systemd-network; {
       owner = name;
-      inherit group;
+      inherit group sopsFile;
     };
 
     systemd.services.systemd-networkd.requiredBy = [ "dhcpcd.service" ];

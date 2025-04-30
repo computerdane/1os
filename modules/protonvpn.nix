@@ -12,7 +12,7 @@ in
   options.oneos.protonvpn.enable = lib.mkEnableOption "protonvpn";
 
   config = lib.mkIf cfg.enable {
-    sops.secrets.protonvpn-wireguard-config = { };
+    sops.secrets.protonvpn-wireguard-config.sopsFile = ../secrets/protonvpn.yaml;
 
     systemd.services."protonvpn-netns-interface" =
       let

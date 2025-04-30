@@ -44,6 +44,7 @@ in
       sops.secrets.litellm-environment = with config.users.users.litellm; {
         owner = name;
         inherit group;
+        sopsFile = ../secrets/bludgeonder.yaml;
       };
 
       systemd.services.litellm.serviceConfig = {
