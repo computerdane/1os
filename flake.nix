@@ -90,6 +90,7 @@
                       specialArgs = {
                         nixpkgs-unstable = inputs.nixpkgs-unstable;
                         thothub-lib = inputs.thothub.lib;
+                        hosts = hosts.hosts;
                       };
                     }
                   )

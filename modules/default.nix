@@ -10,6 +10,7 @@
   file-share = import ./file-share.nix;
   gaming = import ./gaming.nix;
   gateway = import ./gateway.nix;
+  gatewayv2 = import ./gatewayv2.nix;
   gpu-amd = import ./gpu-amd.nix;
   gpu-nvidia = import ./gpu-nvidia.nix;
   jellyfin = import ./jellyfin.nix;

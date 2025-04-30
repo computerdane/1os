@@ -12,21 +12,6 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  systemd.network.links = {
-    "10-wan" = {
-      matchConfig.PermanentMACAddress = "00:8e:25:73:01:41";
-      linkConfig.Name = "wan";
-    };
-    "20-lan" = {
-      matchConfig.PermanentMACAddress = "fc:aa:14:0e:54:c7";
-      linkConfig.Name = "lan";
-    };
-    "30-pc" = {
-      matchConfig.PermanentMACAddress = "00:e0:4c:64:32:5d";
-      linkConfig.Name = "pc";
-    };
-  };
-
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
@@ -39,6 +24,9 @@
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [ "nas" ];
+  # required by ZFS to ensure that a pool isn't accidentally imported on the
+  # wrong machine
+  networking.hostId = "c04107a1";
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -75,5 +63,5 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "23.05";
 }
