@@ -13,6 +13,7 @@ let
     theme = "catppuccin-mocha";
     background-opacity = 0.9;
     maximize = true;
+    font-family = "ComicShannsMono Nerd Font";
   };
 in
 {
