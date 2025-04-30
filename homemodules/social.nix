@@ -17,7 +17,6 @@ in
     mkIf cfg.enable (
       mkIf stdenv.isLinux {
         home.packages = with pkgs; [
-          mumble
           signal-desktop
           vesktop
         ];
