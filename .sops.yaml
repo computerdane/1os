@@ -2,6 +2,7 @@ keys:
   - &dane_fishtank age1wnvhthprrmq2w4u2w8l3jshcrejdzqsc2elvdlc6ml7tupa27qyqswg3n8
   - &dane_bludgeonder age1mg25snt8p559cqh4zlsc7ef8zu56kqmpw97yhdnhag7ajweasskst4ehr8
   - &dane_eefan age1atfh3z72573uumrxaxshfphw5d4uve33yln5dhavgvwwhdl5sfusyq95f4
+  - &dane_limbo age1m2wu58a05q2j79efzffjhkdt85s33pcgkg57m30tasw9jq8uyc8qnx6lq3
   - &system_fishtank age1yvxla8dregzr9q79hn8s6lm69zptwaefc0gnmcqn54ttkxf0hfyqpl843q
   - &system_bludgeonder age147y6tn5lh3eca03z4m6gj6fz6xrthtk4gps2egqp0gvp7nh4f5kqe6u4at
   - &system_limbo age1w544z79j3a3ycafywlcj7f7qkx4mg7s909ll0fev974jjlkjeqkq05lzmp
@@ -13,6 +14,7 @@ creation_rules:
         - *dane_fishtank
         - *dane_bludgeonder
         - *dane_eefan
+        - *dane_limbo
         - *system_fishtank
         - *system_bludgeonder
         - *system_limbo
