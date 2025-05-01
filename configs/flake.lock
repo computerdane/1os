@@ -80,11 +80,11 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1746035767,
-        "narHash": "sha256-XWEQoMEbb+rHPqexvA90kYCtcRO3rlaSCtWinQzjooY=",
+        "lastModified": 1746055080,
+        "narHash": "sha256-6I5TpCLMz/ytKBdH/I90QOSc4jdmTKeW1YBlqTBXzqs=",
         "owner": "computerdane",
         "repo": "thothub",
-        "rev": "dc5ac52e7cdf1b0b0595e9d3841b1b9c6a02ae93",
+        "rev": "5df579db01cd93c74ba9a6ac9a30eb561b69d2ad",
         "type": "github"
       },
       "original": {

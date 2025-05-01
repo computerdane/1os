@@ -134,16 +134,6 @@
         maxAddr = "10.105.0.150";
       };
     };
-    wireguardPeers = [
-      {
-        Endpoint = "thotlab.net:51820";
-        PublicKey = "7Rbjel+ivF1LD76TfcYgYLyxhe89b3r7vlF3iG6dYE4=";
-        AllowedIPs = [
-          "172.31.0.0/16"
-          "fd00:100::/32"
-          "2001:470:be1c::/48"
-        ];
-      }
-    ];
+    wireguardPeers = config.thots.scott.wireguardPeers or [ ];
   };
 }
