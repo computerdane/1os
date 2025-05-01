@@ -62,8 +62,8 @@
         "simple-voice-chat"
         "no-chat-reports"
       ];
-      ops = thothub-lib.toMinecraftOps (thothub-lib.flattenMinecraftAccounts [ config.thots.dane ]);
-      whitelist = thothub-lib.flattenMinecraftAccounts (builtins.attrValues config.thots);
+      ops = thothub-lib.toMinecraftOps (thothub-lib.flatSelect "minecraftAccounts" [ config.thots.dane ]);
+      whitelist = thothub-lib.flatSelect "minecraftAccounts" (builtins.attrValues config.thots);
       enableWhitelist = true;
       files = [
         {
