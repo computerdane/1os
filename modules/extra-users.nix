@@ -13,19 +13,16 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    users.users.scott = with config.thots.scott; {
-      isNormalUser = true;
-      inherit hashedPassword;
-      openssh.authorizedKeys.keys = sshKeysList;
-      shell = pkgs.${shell};
-    };
+    users.users = lib.mapAttrs (
+      name: thot: with thot; {
+        isNormalUser = true;
+        inherit hashedPassword;
+        openssh.authorizedKeys.keys = sshKeysList;
+        shell = pkgs.${shell};
+      }
+    ) (lib.filterAttrs (name: _: name != "dane") config.thots);
 
-    users.users.john = with config.thots.john; {
-      isNormalUser = true;
-      inherit hashedPassword;
-      openssh.authorizedKeys.keys = sshKeysList;
-      shell = pkgs.${shell};
-    };
+    programs.zsh.enable = true; # zsh users need this enabled
 
   };
 }
