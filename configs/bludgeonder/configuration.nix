@@ -73,6 +73,8 @@
           '';
         }
       ];
+      openFirewall = true;
+      openFirewallExtraPorts = [ voicePort ];
     };
 
   services.mc-quick.chp =
