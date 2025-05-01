@@ -6,6 +6,7 @@
   oneos = {
     desktop.enable = true;
     dynamic-dns.enable = true;
+    extra-users.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
     mount-9p.enable = true;
