@@ -20,5 +20,12 @@ in
       shell = pkgs.${shell};
     };
 
+    users.users.john = with config.thots.john; {
+      isNormalUser = true;
+      inherit hashedPassword;
+      openssh.authorizedKeys.keys = sshKeysList;
+      shell = pkgs.${shell};
+    };
+
   };
 }
