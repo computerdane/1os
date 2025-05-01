@@ -88,14 +88,8 @@
       mcVersion = "1.20.1";
       loader = "forge";
       modrinthModpack = "cave-horror-project-modpack";
-      ops = [
-        {
-          uuid = "6cfede5c-8117-4673-bd7d-0a17bbab69e2";
-          name = "Dane47";
-          level = 4;
-          bypassesPlayerLimit = true;
-        }
-      ];
+      ops = thothub-lib.toMinecraftOps (thothub-lib.flatSelect "minecraftAccounts" [ config.thots.dane ]);
+      whitelist = thothub-lib.flatSelect "minecraftAccounts" (builtins.attrValues config.thots);
       enableWhitelist = true;
       files = [
         {
