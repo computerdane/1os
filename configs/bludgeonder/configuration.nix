@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   thothub-lib,
   ...
@@ -130,6 +131,8 @@
         maxAddr = "10.105.0.150";
       };
     };
-    wireguardPeers = config.thots.scott.wireguardPeers or [ ];
+    wireguardPeers = thothub-lib.flatSelect "wireguardPeers" (
+      builtins.attrValues (lib.filterAttrs (name: _: name != "dane") config.thots)
+    );
   };
 }
