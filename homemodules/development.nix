@@ -16,7 +16,9 @@ in
     home.packages = with pkgs; [
       cargo
       nodejs_22
+      python3
       rustc
+      uv
     ];
 
     programs.bun.enable = true;
