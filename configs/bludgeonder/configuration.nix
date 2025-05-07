@@ -22,7 +22,6 @@
       enable = true;
       subdomain = "watch";
     };
-    jellyreq.enable = true;
     litellm.enable = true;
     mount-9p = {
       enable = true;
@@ -32,8 +31,8 @@
       enable = true;
       root = true;
     };
-    nixbuild.enable = true;
     protonvpn.enable = true;
+    servarr.enable = true;
     vault.enable = true;
     vintagestory-server = {
       enable = true;

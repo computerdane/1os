@@ -14,7 +14,6 @@
   gpu-amd = import ./gpu-amd.nix;
   gpu-nvidia = import ./gpu-nvidia.nix;
   jellyfin = import ./jellyfin.nix;
-  jellyreq = import ./jellyreq.nix;
   litellm = import ./litellm.nix;
   livestream-server = import ./livestream-server.nix;
   mc-quick = import ./mc-quick.nix;
@@ -22,6 +21,7 @@
   nginx = import ./nginx.nix;
   nixbuild = import ./nixbuild.nix;
   protonvpn = import ./protonvpn.nix;
+  servarr = import ./servarr.nix;
   vault = import ./vault.nix;
   vintagestory-server = import ./vintagestory-server.nix;
   virtualisation = import ./virtualisation.nix;
