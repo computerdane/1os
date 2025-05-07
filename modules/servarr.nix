@@ -8,9 +8,23 @@
 
 let
   cfg = config.oneos.servarr;
+  domain = "${cfg.subdomain}.${cfg.domain}";
 in
 {
-  options.oneos.servarr.enable = lib.mkEnableOption "servarr";
+  options.oneos.servarr =
+    with lib;
+    with types;
+    {
+      enable = mkEnableOption "servarr";
+      subdomain = mkOption {
+        type = str;
+        default = "jellyseerr";
+      };
+      domain = mkOption {
+        type = str;
+        default = config.oneos.domains.default;
+      };
+    };
 
   # Use services from unstable
   disabledModules = [
@@ -108,6 +122,15 @@ in
       after = [ "pvpn-netns.service" ];
       bindsTo = [ "pvpn-netns.service" ];
       serviceConfig.NetworkNamespacePath = "/run/netns/pvpn";
+    };
+
+    oneos.dynamic-dns.subdomains = [ cfg.subdomain ];
+    services.nginx.virtualHosts.${domain} = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://[::1]:${toString config.services.jellyseerr.port}";
+      };
     };
 
   };

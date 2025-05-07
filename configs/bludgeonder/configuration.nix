@@ -32,7 +32,10 @@
       root = true;
     };
     protonvpn.enable = true;
-    servarr.enable = true;
+    servarr = {
+      enable = true;
+      subdomain = "request";
+    };
     vault.enable = true;
     vintagestory-server = {
       enable = true;

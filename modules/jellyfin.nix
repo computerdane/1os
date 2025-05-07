@@ -29,7 +29,7 @@ in
 
       services.jellyfin = {
         enable = true;
-        openFirewall = true;
+        # openFirewall = true;
       };
 
       services.nginx = {
