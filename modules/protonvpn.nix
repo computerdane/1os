@@ -14,7 +14,7 @@ in
   config = lib.mkIf cfg.enable {
     sops.secrets.protonvpn-wireguard-config.sopsFile = ../secrets/protonvpn.yaml;
 
-    systemd.services."protonvpn-netns-interface" =
+    systemd.services."pvpn-netns" =
       let
         startScript = pkgs.writeShellApplication {
           name = "pvpn-up";
@@ -35,6 +35,13 @@ in
 
             mkdir -p /etc/netns/pvpn
             echo "nameserver 10.2.0.1" > /etc/netns/pvpn/resolv.conf
+
+            ip link add veth-to-pvpn type veth peer name veth-from-pvpn
+            ip link set veth-from-pvpn netns pvpn
+            ip addr add 10.105.1.1/24 dev veth-to-pvpn
+            ip -n pvpn addr add 10.105.1.2/24 dev veth-from-pvpn
+            ip link set veth-to-pvpn up
+            ip -n pvpn link set veth-from-pvpn up
           '';
         };
         stopScript = pkgs.writeShellApplication {
@@ -42,6 +49,8 @@ in
           runtimeInputs = [ pkgs.iproute2 ];
           text = ''
             rm -rf /net/netns/pvpn
+
+            ip link del veth-to-pvpn
 
             ip -n pvpn route del default dev pvpn
             ip -n pvpn link del pvpn

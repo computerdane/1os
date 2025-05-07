@@ -14,6 +14,7 @@
   gpu-amd = import ./gpu-amd.nix;
   gpu-nvidia = import ./gpu-nvidia.nix;
   jellyfin = import ./jellyfin.nix;
+  jellyreq = import ./jellyreq.nix;
   litellm = import ./litellm.nix;
   livestream-server = import ./livestream-server.nix;
   mc-quick = import ./mc-quick.nix;

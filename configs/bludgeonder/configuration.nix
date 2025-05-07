@@ -22,6 +22,7 @@
       enable = true;
       subdomain = "watch";
     };
+    jellyreq.enable = true;
     litellm.enable = true;
     mount-9p = {
       enable = true;
