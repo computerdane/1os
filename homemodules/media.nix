@@ -15,6 +15,7 @@ in
 
     home.packages = with pkgs; [
       ffmpeg-full
+      managarr
     ];
 
     programs.mpv.enable = true;
