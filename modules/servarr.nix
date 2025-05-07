@@ -117,6 +117,7 @@ in
         seed-time = 24 * 60; # Seed for 1 day
       };
       downloadDirPermission = "0775";
+      openPorts = true;
     };
     systemd.services.aria2 = {
       after = [ "pvpn-netns.service" ];
@@ -128,9 +129,7 @@ in
     services.nginx.virtualHosts.${domain} = {
       enableACME = true;
       forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://[::1]:${toString config.services.jellyseerr.port}";
-      };
+      locations."/".proxyPass = "http://[::1]:${toString config.services.jellyseerr.port}";
     };
 
   };
