@@ -34,6 +34,7 @@ in
       lan = {
         ipv4 = ipOption;
         ipv6 = ipOption;
+        ipv6Prefix = mkOption { type = types.str; };
         dhcpRange = {
           offset = mkOption { type = types.int; };
           size = mkOption { type = types.int; };
@@ -112,15 +113,25 @@ in
       systemd.network.networks."20-lan" = {
         name = "lan";
         DHCP = "no";
-        networkConfig.DHCPServer = "yes";
+        dns = cfg.nameservers;
+        address = with cfg.lan; [
+          (toCidr ipv4)
+          (toCidr ipv6)
+        ];
+        networkConfig = {
+          DHCPServer = "yes";
+          IPv6SendRA = "yes";
+        };
         dhcpServerConfig = with cfg.lan.dhcpRange; {
           PoolOffset = offset;
           PoolSize = size;
         };
-        dns = cfg.nameservers;
-        networkConfig.Address = with cfg.lan; [
-          (toCidr ipv4)
-          (toCidr ipv6)
+        ipv6Prefixes = [
+          {
+            AddressAutoconfiguration = true;
+            OnLink = true;
+            Prefix = cfg.lan.ipv6Prefix;
+          }
         ];
       };
 
@@ -128,7 +139,7 @@ in
         name = "lan25g";
         DHCP = "no";
         dns = cfg.nameservers;
-        networkConfig.Address = with cfg.lan25g; [
+        address = with cfg.lan25g; [
           (toCidr ipv4)
           (toCidr ipv6)
         ];

@@ -130,6 +130,7 @@
         addr = "2600:1700:280:496f::1";
         len = 64;
       };
+      ipv6Prefix = "2600:1700:280:496f::/64";
       dhcpRange = {
         offset = 50;
         size = 100;
