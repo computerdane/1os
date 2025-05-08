@@ -11,6 +11,7 @@
     limbo = {
       system = "x86_64-linux";
       mac = "2c:f0:5d:26:99:b0";
+      ip = "10.105.25.10";
     };
     eefan.system = "x86_64-linux";
     shmacbook = {

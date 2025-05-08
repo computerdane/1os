@@ -119,6 +119,7 @@
     mac = {
       wan = "00:8e:25:73:01:41";
       lan = "fc:aa:14:0e:54:c7";
+      lan25g = "00:e0:4c:64:32:5d";
     };
     lan = {
       ipv4 = {
@@ -130,8 +131,18 @@
         len = 64;
       };
       dhcpRange = {
-        minAddr = "10.105.0.50";
-        maxAddr = "10.105.0.150";
+        offset = 50;
+        size = 100;
+      };
+    };
+    lan25g = {
+      ipv4 = {
+        addr = "10.105.25.1";
+        len = 24;
+      };
+      ipv6 = {
+        addr = "2600:1700:280:496e::1";
+        len = 64;
       };
     };
     wireguardPeers = thothub-lib.flatSelect "wireguardPeers" (

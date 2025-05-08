@@ -57,7 +57,7 @@
                 builtins.mapAttrs
                   (
                     hostname:
-                    { system, ... }:
+                    host@{ system, ... }:
                     inputs.nixpkgs.lib.nixosSystem {
                       inherit system;
                       modules = (builtins.attrValues config.flake.nixosModules) ++ [
@@ -91,6 +91,7 @@
                         nixpkgs-unstable = inputs.nixpkgs-unstable;
                         thothub-lib = inputs.thothub.lib;
                         hosts = hosts.hosts;
+                        inherit host;
                       };
                     }
                   )
