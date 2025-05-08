@@ -9,6 +9,7 @@ in
     with types;
     {
       enable = mkEnableOption "jellyfin";
+      openFirewall = mkEnableOption "open firewall";
       subdomain = mkOption {
         type = str;
         default = "jellyfin";
@@ -29,7 +30,7 @@ in
 
       services.jellyfin = {
         enable = true;
-        # openFirewall = true;
+        openFirewall = cfg.openFirewall;
       };
 
       services.nginx = {

@@ -1,9 +1,4 @@
-{
-  config,
-  hosts,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.oneos.gatewayv2;

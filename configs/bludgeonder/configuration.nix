@@ -9,6 +9,17 @@
 {
   imports = [ ./hardware-configuration.nix ];
 
+  services.nginx = {
+    virtualHosts."watch-beta.nf6.sh" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://10.105.25.2:8096";
+        proxyWebsockets = true;
+      };
+    };
+  };
+
   oneos = {
     acme.enable = true;
     # acme.useStaging = true;
@@ -16,6 +27,7 @@
       enable = true;
       root = true;
       ipv4 = true;
+      subdomains = [ "watch-beta" ];
     };
     extra-users.enable = true;
     jellyfin = {

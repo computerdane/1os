@@ -25,6 +25,7 @@
     gpu-nvidia.enable = true;
     jellyfin = {
       enable = true;
+      openFirewall = true;
       subdomain = "watch-test";
     };
     mount-9p = {
