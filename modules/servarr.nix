@@ -114,7 +114,8 @@ in
         async-dns = false;
         show-console-readout = false;
         bt-detach-seed-only = true; # Don't count seeding towards max download count
-        seed-time = 24 * 60; # Seed for 1 day
+        # seed-time = 24 * 60; # Seed for 1 day
+        seed-time = 0; # Don't seed (fix this)
       };
       downloadDirPermission = "0775";
       openPorts = true;
