@@ -13,14 +13,30 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    users.users = lib.mapAttrs (
-      name: thot: with thot; {
-        isNormalUser = true;
-        inherit hashedPassword;
-        openssh.authorizedKeys.keys = sshKeysList;
-        shell = pkgs.${shell};
-      }
-    ) (lib.filterAttrs (name: _: name != "dane") config.thots);
+    users.users =
+      lib.mapAttrs
+        (
+          name: thot: with thot; {
+            isNormalUser = true;
+            inherit hashedPassword;
+            openssh.authorizedKeys.keys = sshKeysList;
+            # shell = pkgs.${shell};
+            shell = pkgs.fish;
+          }
+        )
+        (
+          lib.filterAttrs (
+            name: _:
+            builtins.elem name [
+              "allie"
+              "aria"
+              "ethan"
+              "john"
+              "mason"
+              "scott"
+            ]
+          ) config.thots
+        );
 
     programs.zsh.enable = true; # zsh users need this enabled
 
