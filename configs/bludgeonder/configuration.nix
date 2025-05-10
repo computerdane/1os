@@ -67,7 +67,7 @@
       enable = true;
       acceptEula = true;
       autoStart = true;
-      mcVersion = "1.21.4";
+      mcVersion = "1.21.5";
       loader = "fabric";
       modrinthMods = [
         "fabric-api"
