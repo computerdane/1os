@@ -25,11 +25,6 @@ in
 
     services.nginx.enable = true;
 
-    systemd.services = lib.mkIf config.oneos.gateway.enable {
-      "acme-fixperms".wants = [ "dnsmasq.service" ];
-      "acme-fixperms".after = [ "dnsmasq.service" ];
-    };
-
     security.acme = {
       acceptTerms = true;
 

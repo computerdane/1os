@@ -28,12 +28,7 @@
       openFirewall = true;
       subdomain = "watch-test";
     };
-    mount-9p = {
-      enable = true;
-      host = "10.105.25.1";
-    };
     nginx.enable = true;
-    nixbuild.enable = true;
     protonvpn.enable = true;
   };
 }

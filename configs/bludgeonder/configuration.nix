@@ -35,10 +35,6 @@
       subdomain = "watch";
     };
     litellm.enable = true;
-    mount-9p = {
-      enable = true;
-      isHost = true;
-    };
     nginx = {
       enable = true;
       root = true;

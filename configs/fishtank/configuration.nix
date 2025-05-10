@@ -9,8 +9,6 @@
     extra-users.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
-    mount-9p.enable = true;
-    nixbuild.enable = true;
     protonvpn.enable = true;
   };
 

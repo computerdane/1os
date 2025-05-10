@@ -7,7 +7,6 @@
     desktop.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
-    nixbuild.enable = true;
   };
 
   specialisation.nvidia.configuration = {
