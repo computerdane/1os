@@ -28,13 +28,11 @@ in
 
   # Use services from unstable
   disabledModules = [
-    "services/networking/aria2.nix"
     "services/misc/prowlarr.nix"
     "services/misc/radarr.nix"
     "services/misc/sonarr.nix"
   ];
   imports = [
-    "${nixpkgs-unstable}/nixos/modules/services/networking/aria2.nix"
     "${nixpkgs-unstable}/nixos/modules/services/misc/recyclarr.nix"
     "${nixpkgs-unstable}/nixos/modules/services/misc/servarr/prowlarr.nix"
     "${nixpkgs-unstable}/nixos/modules/services/misc/servarr/radarr.nix"
@@ -53,7 +51,6 @@ in
         sopsFile = ../secrets/bludgeonder.yaml;
       in
       {
-        aria2-rpc-secret = { inherit sopsFile; };
         servarr-api-key =
           {
             inherit sopsFile;
@@ -103,28 +100,38 @@ in
     };
 
     # Torrent client in VPN network namespace
-    services.aria2 = {
+    services.transmission = {
       enable = true;
-      rpcSecretFile = config.sops.secrets.aria2-rpc-secret.path;
+      package = pkgs.unstable.transmission_4;
       settings = {
-        enable-rpc = true;
-        rpc-listen-all = true;
-        dir = "/var/lib/aria2-downloads";
-        disable-ipv6 = true;
-        async-dns = false;
-        show-console-readout = false;
-        bt-detach-seed-only = true; # Don't count seeding towards max download count
-        # seed-time = 24 * 60; # Seed for 1 day
-        seed-time = 0; # Don't seed (fix this)
+        bind-address-ipv4 = "10.2.0.2";
+        rpc-bind-address = "10.105.1.2";
+        rpc-whitelist = "10.105.*.*";
+        download-dir = "/var/lib/torrent-downloads";
+        ratio-limit-enabled = true;
+        ratio-limit = 1.2;
+        message-level = 3;
       };
-      downloadDirPermission = "0775";
-      openPorts = true;
+      downloadDirPermissions = "775";
+      openPeerPorts = true;
     };
-    systemd.services.aria2 = {
+    systemd.services.transmission = {
       after = [ "pvpn-netns.service" ];
       bindsTo = [ "pvpn-netns.service" ];
-      serviceConfig.NetworkNamespacePath = "/run/netns/pvpn";
+      serviceConfig = {
+        NetworkNamespacePath = "/run/netns/pvpn";
+        RestrictAddressFamilies = lib.mkForce [
+          "AF_UNIX"
+          "AF_INET"
+        ];
+      };
     };
+    # systemd once again breaking something
+    services.resolved.enable = false;
+    environment.etc."resolv.conf".text = ''
+      nameserver 1.1.1.1
+      nameserver 1.0.0.1
+    '';
 
     oneos.dynamic-dns.subdomains = [ cfg.subdomain ];
     services.nginx.virtualHosts.${domain} = {
