@@ -7,6 +7,9 @@
 
 let
   cfg = config.oneos.dynamic-dns;
+  genDomains =
+    subdomains: domains:
+    lib.flatten (map (subdomain: (map (domain: "${subdomain}.${domain}") domains)) subdomains);
 in
 {
   options.oneos.dynamic-dns =
@@ -45,7 +48,7 @@ in
       ipv4 = cfg.ipv4;
       domains = lib.flatten [
         (if cfg.root then cfg.domains else [ ])
-        (pkgs.lib1os.genDomains cfg.subdomains cfg.domains)
+        (genDomains cfg.subdomains cfg.domains)
       ];
       apiTokenFile = config.sops.secrets.cloudflare-api-key.path;
     };

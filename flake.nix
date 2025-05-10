@@ -42,7 +42,7 @@
                 { config, pkgs, ... }:
                 {
                   packages = (import ./pkgs { inherit (pkgs) callPackage; });
-                  overlayAttrs = config.packages // (import ./legacypkgs { inherit (pkgs) lib; });
+                  overlayAttrs = config.packages;
                 };
             };
         };
