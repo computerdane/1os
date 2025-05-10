@@ -34,5 +34,6 @@
     };
     nginx.enable = true;
     nixbuild.enable = true;
+    protonvpn.enable = true;
   };
 }

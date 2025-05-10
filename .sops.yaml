@@ -29,5 +29,7 @@ creation_rules:
       - age:
         - *dane_bludgeonder
         - *dane_fishtank
+        - *dane_limbo
         - *system_bludgeonder
         - *system_fishtank
+        - *system_limbo
