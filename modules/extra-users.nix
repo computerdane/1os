@@ -20,8 +20,7 @@ in
             isNormalUser = true;
             inherit hashedPassword;
             openssh.authorizedKeys.keys = sshKeysList;
-            # shell = pkgs.${shell};
-            shell = pkgs.fish;
+            shell = pkgs.${shell};
           }
         )
         (
