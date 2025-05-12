@@ -21,7 +21,10 @@ in
     extraConfig.init.defaultBranch = "main";
   };
 
-  home.packages = [ pkgs.digirain ];
+  home.packages = with pkgs; [
+    digirain
+    shortcutmenu
+  ];
 
   home.homeDirectory =
     if stdenv.isDarwin then "/Users/${config.home.username}" else "/home/${config.home.username}";

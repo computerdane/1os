@@ -42,6 +42,7 @@ in
         shellAliases = {
           cat = "bat";
           gpt = lib.mkIf config.programs.shell-gpt.enable "sgpt";
+          scm = "shortcutmenu";
         };
       }
       (lib.mkIf stdenv.isLinux {
