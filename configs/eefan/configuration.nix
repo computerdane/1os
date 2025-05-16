@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -12,6 +12,5 @@
   specialisation.nvidia.configuration = {
     oneos.gpu-amd.enable = lib.mkForce false;
     oneos.gpu-nvidia.enable = true;
-    boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
   };
 }
