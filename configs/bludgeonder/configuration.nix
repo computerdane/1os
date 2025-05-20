@@ -49,6 +49,7 @@
 
   services.fossai = {
     enable = true;
+    withPostgres = true;
     backendBaseUrl = "https://fossai-backend.nf6.sh";
     settings = {
       OPENAI_BASE_URL = "http://localhost:${toString config.services.litellm.port}";
