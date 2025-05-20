@@ -34,7 +34,7 @@
     };
   };
 
-  sops.secrets.litellm-api-key = {
+  sops.secrets.fossai-config = {
     owner = "fossai";
     group = "fossai";
     sopsFile = ../../secrets/bludgeonder.yaml;
@@ -52,8 +52,8 @@
     withPostgres = true;
     backendBaseUrl = "https://fossai-backend.nf6.sh";
     settings = {
+      PRIVATE_CONFIG_FILE = config.sops.secrets.fossai-config.path;
       OPENAI_BASE_URL = "http://localhost:${toString config.services.litellm.port}";
-      OPENAI_API_KEY_FILE = config.sops.secrets.litellm-api-key.path;
       CORS_ORIGIN = "https://fossai.nf6.sh";
       PORT = "3055";
     };
