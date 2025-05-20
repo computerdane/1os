@@ -63,6 +63,7 @@
                       modules = (builtins.attrValues config.flake.nixosModules) ++ [
                         inputs.sops-nix.nixosModules.sops
                         inputs.thothub.nixosModules.thots
+                        inputs.fossai.nixosModules.fossai
                         ./configuration.nix
                         "${./.}/configs/${hostname}/configuration.nix"
                         "${./.}/configs/${hostname}/hardware-configuration.nix"

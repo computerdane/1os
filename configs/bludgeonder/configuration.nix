@@ -18,6 +18,44 @@
         proxyWebsockets = true;
       };
     };
+    virtualHosts."fossai-backend.nf6.sh" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://[::1]:${config.services.fossai.settings.PORT}";
+      };
+    };
+    virtualHosts."fossai.nf6.sh" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://[::1]:${toString config.services.fossai.frontendPort}";
+      };
+    };
+  };
+
+  sops.secrets.litellm-api-key = {
+    owner = "fossai";
+    group = "fossai";
+    sopsFile = ../../secrets/bludgeonder.yaml;
+  };
+
+  services.postgresql.ensureUsers = [
+    {
+      name = "dane";
+      ensureClauses.superuser = true;
+    }
+  ];
+
+  services.fossai = {
+    enable = true;
+    backendBaseUrl = "https://fossai-backend.nf6.sh";
+    settings = {
+      OPENAI_BASE_URL = "http://localhost:${toString config.services.litellm.port}";
+      OPENAI_API_KEY_FILE = config.sops.secrets.litellm-api-key.path;
+      CORS_ORIGIN = "https://fossai.nf6.sh";
+      PORT = "3055";
+    };
   };
 
   oneos = {
@@ -27,7 +65,11 @@
       enable = true;
       root = true;
       ipv4 = true;
-      subdomains = [ "watch-beta" ];
+      subdomains = [
+        "watch-beta"
+        "fossai-backend"
+        "fossai"
+      ];
     };
     extra-users.enable = true;
     jellyfin = {
