@@ -24,11 +24,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1747769919,
-        "narHash": "sha256-DT7rDW0uWCHiB6Um6Lpn0C/B43A9FGb1Ca6IU59ooGM=",
+        "lastModified": 1747777064,
+        "narHash": "sha256-XC3plmQDiD+5mzNQY64uYOr9ayQly5qrl9K7jRw+P9s=",
         "owner": "computerdane",
         "repo": "fossai",
-        "rev": "4a07c4eb0f94568d091c02e38e4c8d4efb55e2e5",
+        "rev": "0edb7eff38873af957d43996c85e37c100c9789b",
         "type": "github"
       },
       "original": {
