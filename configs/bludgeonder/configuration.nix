@@ -18,26 +18,6 @@
         proxyWebsockets = true;
       };
     };
-    virtualHosts."fossai-backend.nf6.sh" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://[::1]:${config.services.fossai.settings.PORT}";
-      };
-    };
-    virtualHosts."fossai.nf6.sh" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://[::1]:${toString config.services.fossai.frontendPort}";
-      };
-    };
-  };
-
-  sops.secrets.fossai-config = {
-    owner = "fossai";
-    group = "fossai";
-    sopsFile = ../../secrets/bludgeonder.yaml;
   };
 
   services.postgresql.ensureUsers = [
@@ -47,18 +27,6 @@
     }
   ];
 
-  services.fossai = {
-    enable = true;
-    withPostgres = true;
-    backendBaseUrl = "https://fossai-backend.nf6.sh";
-    settings = {
-      PRIVATE_CONFIG_FILE = config.sops.secrets.fossai-config.path;
-      OPENAI_BASE_URL = "http://localhost:${toString config.services.litellm.port}";
-      CORS_ORIGIN = "https://fossai.nf6.sh";
-      PORT = "3055";
-    };
-  };
-
   oneos = {
     acme.enable = true;
     # acme.useStaging = true;
@@ -66,11 +34,7 @@
       enable = true;
       root = true;
       ipv4 = true;
-      subdomains = [
-        "watch-beta"
-        "fossai-backend"
-        "fossai"
-      ];
+      subdomains = [ "watch-beta" ];
     };
     extra-users.enable = true;
     jellyfin = {

@@ -6,6 +6,7 @@
   dynamic-dns = import ./dynamic-dns.nix;
   extra-users = import ./extra-users.nix;
   factorio-server = import ./factorio-server.nix;
+  fossai = import ./fossai.nix;
   gaming = import ./gaming.nix;
   gatewayv2 = import ./gatewayv2.nix;
   gpu-amd = import ./gpu-amd.nix;
