@@ -143,15 +143,23 @@ in
       systemd.network.networks."25-wg" = {
         name = "wg";
         DHCP = "no";
-        routes = lib.flatten (
-          map (
+        routes = lib.flatten [
+          (map (
             { AllowedIPs, ... }:
             map (cidr: {
               PreferredSource = with cfg.lan; if isIpv6 cidr then ipv6.addr else ipv4.addr;
               Destination = cidr;
             }) AllowedIPs
-          ) cfg.wireguardPeers
-        );
+          ) cfg.wireguardPeers)
+          {
+            PreferredSource = cfg.lan.ipv4.addr;
+            Destination = "10.105.36.0/24";
+          }
+          {
+            PreferredSource = cfg.lan.ipv6.addr;
+            Destination = "fd00:105::/64";
+          }
+        ];
       };
 
       systemd.network.netdevs."25-wg" = {
@@ -163,7 +171,22 @@ in
           ListenPort = cfg.wireguardPort;
           PrivateKeyFile = config.sops.secrets.gateway-wireguard-key.path;
         };
-        wireguardPeers = cfg.wireguardPeers;
+        wireguardPeers = cfg.wireguardPeers ++ [
+          {
+            PublicKey = "nCF60/SGM9MqPw52U4t5aZ8b+UL5zyu982G0cJyIgwY=";
+            AllowedIPs = [
+              "10.105.36.0/24"
+              "fd00:105::/64"
+            ];
+          }
+          {
+            PublicKey = "y91QNKGVUXikvW3IDxHo5/fmyw+sKkbp4jSfzva0DUY=";
+            AllowedIPs = [
+              "10.105.36.0/24"
+              "fd00:105::/64"
+            ];
+          }
+        ];
       };
 
       networking.nat = {
@@ -171,6 +194,7 @@ in
         internalIPs = [
           (toCidr cfg.lan.ipv4)
           (toCidr cfg.lan25g.ipv4)
+          "10.105.36.0/24"
         ];
         externalInterface = "wan";
       };
