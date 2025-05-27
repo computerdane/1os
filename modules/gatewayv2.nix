@@ -126,6 +126,7 @@ in
         dhcpServerConfig = with cfg.lan.dhcpRange; {
           PoolOffset = offset;
           PoolSize = size;
+          DNS = cfg.nameservers;
         };
         ipv6Prefixes = [
           {
