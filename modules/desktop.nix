@@ -14,7 +14,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.wl-clipboard ];
 
-    fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "ComicShannsMono" ]; }) ];
+    fonts.packages = with pkgs.nerd-fonts; [ comic-shanns-mono ];
 
     services.xserver.enable = true;
     services.xserver.displayManager.lightdm.enable = true;
@@ -22,7 +22,7 @@ in
 
     services.printing.enable = true;
 
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
       enable = true;
