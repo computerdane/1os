@@ -21,7 +21,7 @@ in
     };
 
   config = lib.mkIf cfg.enable {
-    sops.secrets.cloudflare-api-key = { };
+    sops.secrets.cloudflare-api-key-env = { };
 
     services.nginx.enable = true;
 
@@ -34,7 +34,7 @@ in
         dnsProvider = "cloudflare";
         dnsResolver = "1.1.1.1:53";
         dnsPropagationCheck = true;
-        environmentFile = config.sops.secrets.cloudflare-api-key.path;
+        environmentFile = config.sops.secrets.cloudflare-api-key-env.path;
         server = lib.mkIf cfg.useStaging "https://acme-staging-v02.api.letsencrypt.org/directory";
       };
     };
