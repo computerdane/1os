@@ -105,6 +105,12 @@ in
       };
       systemd.services.systemd-networkd.requiredBy = [ "dhcpcd.service" ];
 
+      systemd.network.networks."10-wan" = {
+        name = "wan";
+        DHCP = "ipv4";
+        networkConfig.IPv6AcceptRA = "no";
+      };
+
       systemd.network.networks."20-lan" = {
         name = "lan";
         DHCP = "no";

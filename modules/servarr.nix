@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  nixpkgs-unstable,
   pkgs,
   ...
 }:
@@ -25,19 +24,6 @@ in
         default = config.oneos.domains.default;
       };
     };
-
-  # Use services from unstable
-  disabledModules = [
-    "services/misc/prowlarr.nix"
-    "services/misc/radarr.nix"
-    "services/misc/sonarr.nix"
-  ];
-  imports = [
-    "${nixpkgs-unstable}/nixos/modules/services/misc/recyclarr.nix"
-    "${nixpkgs-unstable}/nixos/modules/services/misc/servarr/prowlarr.nix"
-    "${nixpkgs-unstable}/nixos/modules/services/misc/servarr/radarr.nix"
-    "${nixpkgs-unstable}/nixos/modules/services/misc/servarr/sonarr.nix"
-  ];
 
   config = lib.mkIf cfg.enable {
     # Use packages from unstable
