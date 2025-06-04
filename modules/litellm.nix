@@ -65,6 +65,10 @@ in
             litellm_params.model = "openai/gpt-4";
           }
           {
+            model_name = "gpt-4.1";
+            litellm_params.model = "openai/gpt-4.1";
+          }
+          {
             model_name = "gpt-4o";
             litellm_params.model = "openai/gpt-4o";
           }
