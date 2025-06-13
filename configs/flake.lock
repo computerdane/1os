@@ -149,11 +149,11 @@
         "nixpkgs-lib": "nixpkgs-lib_2"
       },
       "locked": {
-        "lastModified": 1747015709,
-        "narHash": "sha256-ZNnQQv+f/QW1WfFYilb0FdSamUDUVsTgvR/E5GErqXM=",
+        "lastModified": 1749825756,
+        "narHash": "sha256-ceax4SMry5ERVYzXk1NsBk4sG0Vo91Tt78AOoB9CsTc=",
         "owner": "computerdane",
         "repo": "thothub",
-        "rev": "cdbddac3985a40c89547eb0f2c1b2858c15d2df4",
+        "rev": "9e6ebffefa5fbb0320b4fd94fafd864226029fcd",
         "type": "github"
       },
       "original": {

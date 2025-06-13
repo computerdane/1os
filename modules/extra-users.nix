@@ -32,6 +32,7 @@ in
               "ethan"
               "john"
               "mason"
+              "miles"
               "scott"
             ]
           ) config.thots
