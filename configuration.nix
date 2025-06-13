@@ -21,6 +21,7 @@
     ssh-to-age
     waypipe
     wireguard-tools
+    iwgtk
   ];
 
   systemd.network.enable = true;
