@@ -110,8 +110,8 @@
     ops = thothub-lib.toMinecraftOps (thothub-lib.flatSelect "minecraftAccounts" [ config.thots.dane ]);
     whitelist = [
       {
-        name = "Dane47";
-        uuid = "6cfede5c-8117-4673-bd7d-0a17bbab69e2";
+        name = "bigdawgsoph";
+        uuid = "3e661545-46bb-4292-89fb-febf102c1ac9";
       }
     ];
     enableWhitelist = true;
