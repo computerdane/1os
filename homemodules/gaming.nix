@@ -27,6 +27,7 @@ in
       (mkIf stdenv.isLinux {
         home.packages = with pkgs; [
           prismlauncher
+          temurin-jre-bin
           vintagestory
         ];
         programs.obs-studio.enable = true;
