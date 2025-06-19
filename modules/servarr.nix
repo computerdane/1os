@@ -26,12 +26,6 @@ in
     };
 
   config = lib.mkIf cfg.enable {
-    # Use packages from unstable
-    services.recyclarr.package = pkgs.unstable.recyclarr;
-    services.prowlarr.package = pkgs.unstable.prowlarr;
-    services.radarr.package = pkgs.unstable.radarr;
-    services.sonarr.package = pkgs.unstable.sonarr;
-
     sops.secrets =
       let
         sopsFile = ../secrets/bludgeonder.yaml;
@@ -66,6 +60,7 @@ in
     services.jellyseerr.enable = true;
 
     services.prowlarr.enable = true;
+    services.flaresolverr.enable = true;
 
     services.radarr.enable = true;
     services.radarr.environmentFiles = [ config.sops.secrets.radarr-env.path ];
