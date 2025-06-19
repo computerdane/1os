@@ -11,7 +11,7 @@
     enable = true;
     settings = {
       API_BASE_URL = "https://llm.nf6.sh";
-      DEFAULT_MODEL = "gemini-1.5-flash";
+      DEFAULT_MODEL = "gpt-4.1";
     };
   };
 }
