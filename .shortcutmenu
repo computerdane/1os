@@ -1,2 +1,0 @@
-NixOS Switch: sudo nixos-rebuild switch --flake .
-Home-Manager Switch: home-manager switch --flake .
