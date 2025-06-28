@@ -5,6 +5,7 @@
   gaming = import ./gaming.nix;
   media = import ./media.nix;
   net-utils = import ./net-utils.nix;
+  nushell = import ./nushell.nix;
   social = import ./social.nix;
   utils = import ./utils.nix;
 

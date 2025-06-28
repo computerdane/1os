@@ -1,14 +1,6 @@
 { pkgs, ... }:
 
 {
-  programs.fish = {
-    enable = true;
-    shellAliases = {
-      sops-keygen = "mkdir -p ~/.config/sops/age && age-keygen -o ~/.config/sops/age/keys.txt";
-      sops-hostkey = "cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age";
-    };
-  };
-
   sops = {
     defaultSopsFile = ./secrets.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
@@ -23,6 +15,8 @@
     wireguard-tools
     iwgtk
   ];
+
+  programs.fish.enable = true;
 
   systemd.network.enable = true;
   networking = {
@@ -58,7 +52,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIeXM/afFCGyO69zC7+Dhw6jcY5y7vnaAIXkI5RTY/Pu" # op12
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJLvONY5rvgbkp9ytyCuqFgU5u+h91Eol72URbGFhM0i" # eefan
     ];
-    shell = pkgs.fish;
+    shell = pkgs.nushell;
   };
 
   nix.settings = {
