@@ -10,8 +10,8 @@ let
 in
 {
   oneos = {
-    fish.enable = true;
     net-utils.enable = true;
+    nushell.enable = true;
     utils.enable = true;
   };
 
