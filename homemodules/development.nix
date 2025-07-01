@@ -38,7 +38,7 @@ in
       web.enable = true;
       rust.enable = true;
       c.enable = true;
-      python.enable = lib.mkIf cfg.fknPython true;
+      python.enable = true;
     };
 
   };
