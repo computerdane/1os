@@ -23,14 +23,32 @@ in
         sops-keygen = lib.mkIf stdenv.isLinux "mkdir ~/.config/sops/age; age-keygen -o ~/.config/sops/age/keys.txt";
       };
       environmentVariables = config.home.sessionVariables;
+
+      settings.completions.external = {
+        enable = true;
+        max_results = 200;
+      };
+
+      # https://www.nushell.sh/cookbook/external_completers.html#fish-completer
+      extraConfig = ''
+        let fish_completer = {|spans|
+            ${pkgs.fish}/bin/fish --command $"complete '--do-complete=($spans | str replace --all "'" "\\'" | str join ' ')'"
+            | from tsv --flexible --noheaders --no-infer
+            | rename value description
+            | update value {|row|
+              let value = $row.value
+              let need_quote = ['\' ',' '[' ']' '(' ')' ' ' '\t' "'" '"' "`"] | any {$in in $value}
+              if ($need_quote and ($value | path exists)) {
+                let expanded_path = if ($value starts-with ~) {$value | path expand --no-symlink} else {$value}
+                $'"($expanded_path | str replace --all "\"" "\\\"")"'
+              } else {$value}
+            }
+        }
+        $env.config.completions.external.completer = $fish_completer
+      '';
     };
 
     programs.starship = {
-      enable = true;
-      enableNushellIntegration = true;
-    };
-
-    programs.carapace = {
       enable = true;
       enableNushellIntegration = true;
     };
