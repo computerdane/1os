@@ -10,7 +10,10 @@ let
   cfg = config.oneos.nushell;
 in
 {
-  options.oneos.nushell.enable = lib.mkEnableOption "nushell";
+  options.oneos.nushell = {
+    enable = lib.mkEnableOption "nushell";
+    defaultShell = lib.mkEnableOption "default shell";
+  };
 
   config = lib.mkIf cfg.enable {
 
@@ -79,8 +82,8 @@ in
 
     home.shell.enableNushellIntegration = true;
 
-    # Use nushell shell on systems with bash or zsh
-    home.file = lib.mkIf stdenv.isDarwin {
+    # Use nushell on systems with bash or zsh
+    home.file = lib.mkIf (stdenv.isDarwin && cfg.defaultShell) {
       ".profile".text = "nu";
       ".zshrc".text = "nu";
     };

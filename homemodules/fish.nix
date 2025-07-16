@@ -10,12 +10,10 @@ let
   cfg = config.oneos.fish;
 in
 {
-  options.oneos.fish =
-    with lib;
-    with types;
-    {
-      enable = mkEnableOption "fish";
-    };
+  options.oneos.fish = {
+    enable = lib.mkEnableOption "fish";
+    defaultShell = lib.mkEnableOption "default shell";
+  };
 
   config = lib.mkIf cfg.enable {
 
@@ -60,7 +58,7 @@ in
     ];
 
     # Use fish shell on systems with bash or zsh
-    home.file = lib.mkIf stdenv.isDarwin {
+    home.file = lib.mkIf (stdenv.isDarwin && cfg.defaultShell) {
       ".profile".text = "fish";
       ".zshrc".text = "fish";
     };
