@@ -19,8 +19,13 @@ in
       shellAliases = {
         gpt = lib.mkIf config.programs.shell-gpt.enable "sgpt";
         ll = "ls -l";
+        lla = "ls -la";
         sops-hostkey = lib.mkIf stdenv.isLinux "cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age";
         sops-keygen = lib.mkIf stdenv.isLinux "mkdir ~/.config/sops/age; age-keygen -o ~/.config/sops/age/keys.txt";
+        logs = "journalctl --no-hostname -aeu";
+        flogs = "journalctl --no-hostname -afu";
+        vpn = "sudo ip netns exec pvpn";
+        cat = "bat";
       };
       environmentVariables = config.home.sessionVariables;
 
