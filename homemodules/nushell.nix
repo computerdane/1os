@@ -24,26 +24,40 @@ in
       };
       environmentVariables = config.home.sessionVariables;
 
-      settings.completions.external = {
-        enable = true;
-        max_results = 200;
+      settings.completions = {
+        case_sensitive = false;
+        algorithm = "fuzzy";
+        external = {
+          enable = true;
+          max_results = 200;
+        };
       };
 
       # https://www.nushell.sh/cookbook/external_completers.html#fish-completer
-      extraConfig = ''
+      # https://github.com/nushell/nushell/issues/10285#issuecomment-2731825727
+      extraEnv = ''
         let fish_completer = {|spans|
-            ${pkgs.fish}/bin/fish --command $"complete '--do-complete=($spans | str replace --all "'" "\\'" | str join ' ')'"
+            let completions = fish --command $'complete "--do-complete=($spans | str join " ")"'
             | from tsv --flexible --noheaders --no-infer
             | rename value description
-            | update value {|row|
-              let value = $row.value
-              let need_quote = ['\' ',' '[' ']' '(' ')' ' ' '\t' "'" '"' "`"] | any {$in in $value}
-              if ($need_quote and ($value | path exists)) {
-                let expanded_path = if ($value starts-with ~) {$value | path expand --no-symlink} else {$value}
-                $'"($expanded_path | str replace --all "\"" "\\\"")"'
-              } else {$value}
+
+            let has_paths = ($completions | any {|row| $row.value =~ '/' or $row.value =~ '\\.\\w+$' or $row.value =~ ' '})
+
+            if $has_paths {
+                $completions | update value {|row|
+                    if $row.value =~ ' ' {
+                        $"'($row.value)'"  # Wrap in single quotes
+                    } else {
+                        $row.value
+                    }
+                }
+            } else {
+                $completions
             }
         }
+      '';
+
+      extraConfig = ''
         $env.config.completions.external.completer = $fish_completer
       '';
     };
