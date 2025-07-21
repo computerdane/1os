@@ -9,6 +9,7 @@
   fossai = import ./fossai.nix;
   gaming = import ./gaming.nix;
   gatewayv2 = import ./gatewayv2.nix;
+  gha-webhook-poc = import ./gha-webhook-poc.nix;
   gpu-amd = import ./gpu-amd.nix;
   gpu-nvidia = import ./gpu-nvidia.nix;
   jellyfin = import ./jellyfin.nix;

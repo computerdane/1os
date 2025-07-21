@@ -9,14 +9,19 @@
 {
   imports = [ ./hardware-configuration.nix ];
 
-  services.nginx = {
-    virtualHosts."watch-beta.nf6.sh" = {
+  services.nginx.virtualHosts = {
+    "watch-beta.nf6.sh" = {
       enableACME = true;
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://10.105.25.2:8096";
         proxyWebsockets = true;
       };
+    };
+    "gh.nf6.sh" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/".proxyPass = "http://[::1]:${toString config.oneos.gha-webhook-poc.port}";
     };
   };
 
@@ -34,9 +39,16 @@
       enable = true;
       root = true;
       ipv4 = true;
-      subdomains = [ "watch-beta" ];
+      subdomains = [
+        "watch-beta"
+        "gh"
+      ];
     };
     extra-users.enable = true;
+    gha-webhook-poc = {
+      enable = true;
+      port = 3487;
+    };
     jellyfin = {
       enable = true;
       subdomain = "watch";
