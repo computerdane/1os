@@ -183,8 +183,8 @@
         len = 64;
       };
     };
-    wireguardPeers = thothub-lib.flatSelect "wireguardPeers" (
-      builtins.attrValues (lib.filterAttrs (name: _: name != "dane") config.thots)
-    );
+    # wireguardPeers = thothub-lib.flatSelect "wireguardPeers" (
+    #   builtins.attrValues (lib.filterAttrs (name: _: name != "dane") config.thots)
+    # );
   };
 }
