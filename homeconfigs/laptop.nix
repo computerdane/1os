@@ -1,0 +1,7 @@
+{ ... }:
+
+{
+
+  oneos.development.enable = true;
+
+}

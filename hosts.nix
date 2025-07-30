@@ -20,19 +20,17 @@
     };
   };
 
-  home =
-    let
-      danesDesktop = [
-        ./homeconfigs/full.nix
-        ./homeconfigs/hll/home.nix
-        ./homeconfigs/kde.nix
-      ];
-    in
-    {
-      "dane@bludgeonder" = [ ];
-      "dane@fishtank" = danesDesktop;
-      "dane@limbo" = danesDesktop;
-      "dane@eefan" = danesDesktop;
-      "dane@shmacbook" = [ ./homeconfigs/full.nix ];
-    };
+  home = {
+    "dane@bludgeonder" = [ ];
+    "dane@eefan" = [
+      ./homeconfigs/pc.nix
+      ./homeconfigs/hll/home.nix
+    ];
+    "dane@fishtank" = [
+      ./homeconfigs/pc.nix
+      ./homeconfigs/hll/home.nix
+    ];
+    "dane@limbo" = [ ./homeconfigs/pc.nix ];
+    "dane@shmacbook" = [ ./homeconfigs/laptop.nix ];
+  };
 }

@@ -10,17 +10,13 @@ let
   cfg = config.oneos.nushell;
 in
 {
-  options.oneos.nushell = {
-    enable = lib.mkEnableOption "nushell";
-    defaultShell = lib.mkEnableOption "default shell";
-  };
+  options.oneos.nushell.enable = lib.mkEnableOption "nushell";
 
   config = lib.mkIf cfg.enable {
 
     programs.nushell = {
       enable = true;
       shellAliases = {
-        gpt = lib.mkIf config.programs.shell-gpt.enable "sgpt";
         ll = "ls -l";
         lla = "ls -la";
         sops-hostkey = lib.mkIf stdenv.isLinux "cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age";
@@ -63,6 +59,11 @@ in
                 $completions
             }
         }
+
+        def --wrapped gpt [...rest] {
+          $env.OPENAI_API_KEY = (cat ~/.litellm-api-key)
+          sgpt ...$rest
+        }
       '';
 
       extraConfig = ''
@@ -81,12 +82,6 @@ in
     home.packages = [ pkgs.sqlite ];
 
     home.shell.enableNushellIntegration = true;
-
-    # Use nushell on systems with bash or zsh
-    home.file = lib.mkIf (stdenv.isDarwin && cfg.defaultShell) {
-      ".profile".text = "nu";
-      ".zshrc".text = "nu";
-    };
 
   };
 }
