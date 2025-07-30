@@ -10,6 +10,3 @@ nix flake update
 
 cd ../pkgs
 nix flake update
-
-cd ../lite
-nix flake update
