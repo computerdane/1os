@@ -33,12 +33,17 @@ in
     programs.gh.enable = true;
     programs.go.enable = true;
 
-    programs.computerdane-helix.languages = {
-      go.enable = true;
-      web.enable = true;
-      rust.enable = true;
-      c.enable = true;
-      python.enable = true;
+    programs.computerdane-helix = {
+      enable = true;
+      defaultEditor = true;
+      languages = {
+        c.enable = true;
+        go.enable = true;
+        nix.enable = true;
+        python.enable = true;
+        rust.enable = true;
+        web.enable = true;
+      };
     };
 
   };
