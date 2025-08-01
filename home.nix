@@ -19,37 +19,41 @@ in
 
   oneos.nushell.enable = true;
 
-  home = {
+  home = lib.mkMerge [
 
-    packages = with pkgs; [
-      aria2
-      curl
-      dua
-      ffmpeg-full
-      fishPlugins.puffer
-      jq
-      netcat
-      nmap
-      pv
-      ranger
-      ripgrep
-      tldr
-      tree
-      unzip
-      uutils-coreutils
-      wget
-      wireguard-tools
-      zip
-    ];
+    {
+      packages = with pkgs; [
+        aria2
+        curl
+        dua
+        ffmpeg-full
+        fishPlugins.puffer
+        jq
+        netcat
+        nmap
+        pv
+        ranger
+        ripgrep
+        tldr
+        tree
+        unzip
+        uutils-coreutils
+        wget
+        wireguard-tools
+        zip
+      ];
 
-    file.".profile".text = lib.mkIf stdenv.isDarwin "nu";
-    file.".zshrc".text = lib.mkIf stdenv.isDarwin "nu";
+      homeDirectory = "/${if stdenv.isDarwin then "Users" else "home"}/${config.home.username}";
 
-    homeDirectory = "/${if stdenv.isDarwin then "Users" else "home"}/${config.home.username}";
+      stateVersion = "24.05";
+    }
 
-    stateVersion = "24.05";
+    (lib.mkIf stdenv.isDarwin {
+      file.".profile".text = "nu";
+      file.".zshrc".text = "nu";
+    })
 
-  };
+  ];
 
   programs = {
 
