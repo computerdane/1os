@@ -61,6 +61,7 @@ in
     fd.enable = true;
     fzf.enable = true;
     home-manager.enable = true;
+    mpv.enable = true;
     nix-index.enable = true;
     ssh.enable = true;
     starship.enable = true;
