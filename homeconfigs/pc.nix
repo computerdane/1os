@@ -23,14 +23,6 @@ in
     firefox.enable = true;
     obs-studio.enable = true;
 
-    bop = {
-      enable = true;
-      settings = {
-        host = "nf6.sh";
-        dir = "/nas";
-      };
-    };
-
     plasma = {
       enable = true;
       workspace.wallpaperSlideShow.path = "${

@@ -24,6 +24,7 @@ in
     {
       packages = with pkgs; [
         aria2
+        bop
         curl
         dua
         ffmpeg-full
