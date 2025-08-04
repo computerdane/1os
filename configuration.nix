@@ -44,7 +44,6 @@
     extraGroups = [
       "wheel"
       "network"
-      "bop"
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJuxIieYmJTQPyVhQW6Hyt2rzpaQajJwyw/wMdNg5VVY" # laptop
