@@ -35,6 +35,7 @@ let
         soft-wrap.enable = true;
         true-color = true;
         rulers = [ 80 ];
+        file-picker.hidden = false;
       };
       keys.select = {
         p.s = ":pipe sort";
