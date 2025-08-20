@@ -1,6 +1,7 @@
 { callPackage }:
 {
   bop = callPackage ./bop.nix { };
+  computerdane-ide = callPackage ./computerdane-ide { };
   digirain = callPackage ./digirain.nix { };
   hll-arty-calc = callPackage ./hll-arty-calc.nix { };
   hll-arty-tui = callPackage ./hll-arty-tui.nix { };
