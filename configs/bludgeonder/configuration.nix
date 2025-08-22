@@ -96,28 +96,6 @@
       openFirewallExtraPorts = [ voicePort ];
     };
 
-  services.mc-quick.ffs = {
-    enable = true;
-    acceptEula = true;
-    autoStart = true;
-    mcVersion = "1.21.6";
-    serverProperties."level-seed" = "8485994731059868771";
-    # loader = "fabric";
-    # modrinthMods = [
-    #   "fabric-api"
-    #   "no-chat-reports"
-    # ];
-    ops = thothub-lib.toMinecraftOps (thothub-lib.flatSelect "minecraftAccounts" [ config.thots.dane ]);
-    whitelist = [
-      {
-        name = "bigdawgsoph";
-        uuid = "3e661545-46bb-4292-89fb-febf102c1ac9";
-      }
-    ];
-    enableWhitelist = true;
-    openFirewall = true;
-  };
-
   services.mc-quick.chp =
     let
       port = 26000;
