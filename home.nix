@@ -25,6 +25,7 @@ in
       packages = with pkgs; [
         aria2
         bop
+        computerdane-ide
         curl
         dua
         ffmpeg-full

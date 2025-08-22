@@ -25,6 +25,7 @@ in
         flogs = "journalctl --no-hostname -afu";
         vpn = "sudo ip netns exec pvpn";
         cat = "bat";
+        e = "computerdane-ide";
       };
       environmentVariables = config.home.sessionVariables;
 

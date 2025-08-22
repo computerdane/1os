@@ -1,33 +1,20 @@
 {
-  lib,
-  makeWrapper,
+  helix,
+  nnn,
   nushell,
-  stdenv,
   tmux,
-  xplr,
+  writeShellApplication,
 }:
 
-stdenv.mkDerivation {
-  pname = "computerdane-ide";
-  version = "0.0.1";
-
-  src = ./.;
-
-  nativeBuildInputs = [ makeWrapper ];
-
-  dontBuild = true;
-
-  installPhase = ''
-    mkdir -p $out/share $out/bin
-    cp -r $src/* $out/share/
-
-    makeWrapper $out/share/ide.nu $out/bin/ide \
-      --prefix PATH : ${
-        lib.makeBinPath [
-          nushell
-          tmux
-          xplr
-        ]
-      }
+writeShellApplication {
+  name = "computerdane-ide";
+  runtimeInputs = [
+    helix
+    nnn
+    nushell
+    tmux
+  ];
+  text = ''
+    tmux new-session "NNN_OPENER=${./opener.nu} nnn -c"
   '';
 }

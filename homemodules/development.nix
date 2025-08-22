@@ -22,7 +22,6 @@ in
     home.packages = lib.mkMerge [
       (with pkgs; [
         cargo
-        computerdane-ide
         nodejs_22
         rustc
         uv
