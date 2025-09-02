@@ -24,6 +24,7 @@ in
     environment.systemPackages = with pkgs; [
       protonup-qt
       r2modman
+      solaar
     ];
   };
 }
