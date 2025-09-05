@@ -73,7 +73,7 @@
       inherit port rconPort;
       enable = true;
       acceptEula = true;
-      autoStart = true;
+      # autoStart = true;
       mcVersion = "1.21.5";
       loader = "fabric";
       modrinthMods = [
