@@ -7,8 +7,6 @@
 
 let
   cfg = config.oneos.gpu-nvidia;
-
-  btop-cuda = pkgs.btop.override { cudaSupport = true; };
 in
 {
   options.oneos.gpu-nvidia.enable = lib.mkEnableOption "gpu-nvidia";
@@ -21,7 +19,6 @@ in
 
     boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
-    environment.systemPackages = [ btop-cuda ];
-    programs.fish.shellAliases.btop = "${btop-cuda}/bin/btop";
+    environment.systemPackages = [ pkgs.btop-cuda ];
   };
 }

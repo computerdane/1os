@@ -73,6 +73,7 @@ in
 
     btop = {
       enable = true;
+      package = if stdenv.isDarwin then pkgs.btop else null;
       settings = {
         color_theme = "catppuccin_mocha";
         theme_background = false;

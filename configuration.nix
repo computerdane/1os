@@ -14,6 +14,7 @@
     waypipe
     wireguard-tools
     iwgtk
+    btop
   ];
 
   programs.fish.enable = true;
