@@ -9,7 +9,7 @@ let
   inherit (pkgs) stdenv;
 
   ghosttySettings = {
-    theme = "catppuccin-mocha";
+    theme = "Catppuccin Mocha";
     background-opacity = 0.9;
     maximize = true;
     font-family = "ComicShannsMono Nerd Font";
