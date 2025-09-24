@@ -6,6 +6,10 @@
   ...
 }:
 
+let
+  rtspPort = 6767;
+  rtmpsPort = 1936;
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -62,6 +66,43 @@
       };
     };
   };
+
+  services.mediamtx = {
+    enable = true;
+    settings = {
+      paths.all_others.source = "publisher";
+
+      # RTSPS wasn't working with OBS, so I used RTMPS, but RTMPS wasn't working with MPV, so I also have an unencrypted RTSP endpoint for reading streams. Use the RTMPS endpoing for publishing.
+
+      rtspAddress = ":${toString rtspPort}";
+
+      rtmpEncryption = "strict";
+      rtmpsAddress = ":${toString rtmpsPort}";
+      rtmpServerKey = "/var/lib/acme/nf6.sh/key.pem";
+      rtmpServerCert = "/var/lib/acme/nf6.sh/cert.pem";
+
+      authInternalUsers = [
+        {
+          user = "any";
+          permissions = [
+            { action = "read"; }
+            { action = "playback"; }
+          ];
+        }
+        {
+          user = "anon";
+          pass = "argon2:$argon2id$v=19$m=4096,t=3,p=1$c2FsdEl0V2l0aFNhbHQ$QtG2udJ6X7BZ/glv5/6KmJeboeEs/iMqYOyMKMYiTpE";
+          permissions = [ { action = "publish"; } ];
+        }
+      ];
+    };
+  };
+  systemd.services.mediamtx.serviceConfig.Group = lib.mkForce "nginx";
+  networking.firewall.allowedTCPPorts = [
+    rtmpsPort
+    rtspPort
+  ];
+  networking.firewall.allowedUDPPorts = [ rtspPort ];
 
   services.mc-quick.main =
     let
