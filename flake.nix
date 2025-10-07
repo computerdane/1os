@@ -141,6 +141,7 @@
                         }
                       )
                     ];
+                  extraSpecialArgs = { inherit hostname; };
                 }
               ) hosts.home;
             };

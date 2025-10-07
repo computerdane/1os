@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  hostname,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (pkgs) stdenv;
@@ -41,6 +46,12 @@ in
       kscreenlocker.autoLock = false;
     };
 
+  };
+
+  services.easyeffects = lib.mkIf (hostname == "fishtank") {
+    enable = true;
+    extraPresets.nix-mic = builtins.fromJSON (builtins.readFile ./easyeffects-mic.json);
+    preset = "nix-mic";
   };
 
 }
