@@ -47,7 +47,4 @@
       ];
     };
   };
-
-  # Needed for easyeffects
-  programs.dconf.enable = true;
 }
