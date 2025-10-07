@@ -65,7 +65,6 @@ in
     home-manager.enable = true;
     mpv.enable = true;
     nix-index.enable = true;
-    ssh.enable = true;
     starship.enable = true;
     tmux.enable = true;
     yt-dlp.enable = true;
@@ -146,6 +145,11 @@ in
         API_BASE_URL = "https://llm.nf6.sh";
         DEFAULT_MODEL = "gpt-4.1";
       };
+    };
+
+    ssh = {
+      enable = true;
+      enableDefaultConfig = true;
     };
 
   };
