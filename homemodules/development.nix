@@ -22,7 +22,7 @@ in
     home.packages = lib.mkMerge [
       (with pkgs; [
         cargo
-        nodejs_22
+        nodejs_24
         rustc
         uv
       ])
