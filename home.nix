@@ -127,17 +127,16 @@ in
       settings = ghosttySettings;
     };
 
-    git = lib.mkMerge [
-
-      { enable = true; }
-
-      (lib.mkIf (config.home.username == "dane") {
-        userName = "Dane Rieber";
-        userEmail = "danerieber@gmail.com";
-        extraConfig.init.defaultBranch = "main";
-      })
-
-    ];
+    git = {
+      enable = true;
+      settings = lib.mkIf (config.home.username == "dane") {
+        user = {
+          name = "Dane Rieber";
+          email = "danerieber@gmail.com";
+        };
+        init.defaultBranch = "main";
+      };
+    };
 
     shell-gpt = {
       enable = true;
