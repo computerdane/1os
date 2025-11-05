@@ -11,10 +11,10 @@ with types;
 let
   tls-bug-fix = pkgs.typescript-language-server.overrideDerivation (prev: {
     src = pkgs.fetchFromGitHub {
-      owner = "typescript-language-server";
+      owner = "computerdane";
       repo = "typescript-language-server";
-      rev = "0041336643beee65cb829b549a1a82771fd9310e";
-      hash = "sha256-oZOofWfGW6XQnVN9JyElWtcAXMcpf1LJ68pBgypek8c=";
+      rev = "dddbd320977e9c26aa0d854e77f5a6cd1b20c5f1";
+      hash = "sha256-YhhrSdpaiPF4blMQ9uiYE9VBnmsRNzrSudvU9tP1eTw=";
     };
   });
 in
