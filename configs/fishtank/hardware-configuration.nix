@@ -40,7 +40,7 @@
   ];
   # boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "nct6775" ];
-  # boot.extraModulePackages = [ config.boot.kernelPackages.universal-pidff ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.universal-pidff ];
 
   boot.supportedFilesystems = [ "ntfs" ];
 
