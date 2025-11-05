@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-tls-501,
   ...
 }:
 
@@ -103,7 +102,7 @@ let
         };
     in
     {
-      languages.language-server.typescript-language-server.command = "${pkgs-tls-501.typescript-language-server}/bin/typescript-language-server";
+      languages.language-server.typescript-language-server.command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
       languages.language = [
         (mkTsLsp { name = "typescript"; })
         (mkTsLsp {
