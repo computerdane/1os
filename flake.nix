@@ -26,10 +26,10 @@
           overlays.tls-bug-fix = _: prev: {
             typescript-language-server = prev.typescript-language-server.overrideDerivation (_: {
               src = prev.fetchFromGitHub {
-                owner = "computerdane";
+                owner = "typescript-language-server";
                 repo = "typescript-language-server";
-                rev = "732f71381cd8431ca0695477bb734be93461c567";
-                hash = "sha256-ppfLAbwtfSWxzQh09CUptakGvDlft8FDCIx0kXZG28U=";
+                rev = "0041336643beee65cb829b549a1a82771fd9310e";
+                hash = "sha256-oZOofWfGW6XQnVN9JyElWtcAXMcpf1LJ68pBgypek8c=";
               };
             });
           };
