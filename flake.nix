@@ -23,6 +23,16 @@
         flake = {
           nixosModules = import ./modules;
           homeModules = import ./homemodules;
+          overlays.tls-bug-fix = _: prev: {
+            typescript-language-server = prev.typescript-language-server.overrideDerivation (_: {
+              src = prev.fetchFromGitHub {
+                owner = "typescript-language-server";
+                repo = "typescript-language-server";
+                rev = "0041336643beee65cb829b549a1a82771fd9310e";
+                hash = "sha256-oZOofWfGW6XQnVN9JyElWtcAXMcpf1LJ68pBgypek8c=";
+              };
+            });
+          };
         };
 
         systems = [
