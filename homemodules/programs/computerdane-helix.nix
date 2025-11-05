@@ -9,6 +9,13 @@ with lib;
 with types;
 
 let
+  pkgs-tls-501 = import (pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs";
+    rev = "ac72a273c6022b0761c78a32837d71474d2875fa";
+    hash = "sha256-xR9Hx5KbM9daoPzaoAdrnQQkQKPPaQQl7ulZbe9lLKc=";
+  }) { system = pkgs.system; };
+
   cfg = config.programs.computerdane-helix;
 
   baseConfig = {
@@ -102,7 +109,7 @@ let
         };
     in
     {
-      languages.language-server.typescript-language-server.command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
+      languages.language-server.typescript-language-server.command = "${pkgs-tls-501.typescript-language-server}/bin/typescript-language-server";
       languages.language = [
         (mkTsLsp { name = "typescript"; })
         (mkTsLsp {
