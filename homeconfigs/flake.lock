@@ -36,6 +36,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-tls-501": {
+      "locked": {
+        "lastModified": 1759945440,
+        "narHash": "sha256-xR9Hx5KbM9daoPzaoAdrnQQkQKPPaQQl7ulZbe9lLKc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ac72a273c6022b0761c78a32837d71474d2875fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ac72a273c6022b0761c78a32837d71474d2875fa",
+        "type": "github"
+      }
+    },
     "plasma-manager": {
       "inputs": {
         "home-manager": [
@@ -63,6 +79,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-tls-501": "nixpkgs-tls-501",
         "plasma-manager": "plasma-manager"
       }
     }

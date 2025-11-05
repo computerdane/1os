@@ -23,16 +23,6 @@
         flake = {
           nixosModules = import ./modules;
           homeModules = import ./homemodules;
-          overlays.tls-bug-fix = _: prev: {
-            typescript-language-server = prev.typescript-language-server.overrideDerivation (_: {
-              src = prev.fetchFromGitHub {
-                owner = "computerdane";
-                repo = "typescript-language-server";
-                rev = "732f71381cd8431ca0695477bb734be93461c567";
-                hash = "sha256-ppfLAbwtfSWxzQh09CUptakGvDlft8FDCIx0kXZG28U=";
-              };
-            });
-          };
         };
 
         systems = [
@@ -131,10 +121,11 @@
                   tokens = builtins.split "@" name;
                   username = builtins.elemAt tokens 0;
                   hostname = builtins.elemAt tokens 2;
+                  system = hosts.hosts.${hostname}.system;
                 in
                 inputs.home-manager.lib.homeManagerConfiguration {
                   pkgs = import inputs.nixpkgs {
-                    system = hosts.hosts.${hostname}.system;
+                    inherit system;
                     config = nixpkgsConfig;
                     overlays = builtins.attrValues config.flake.overlays;
                   };
@@ -151,6 +142,7 @@
                         }
                       )
                     ];
+                  extraSpecialArgs.pkgs-tls-501 = import inputs.nixpkgs-tls-501 { inherit system; };
                 }
               ) hosts.home;
             };
