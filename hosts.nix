@@ -23,14 +23,14 @@
   home = {
     "dane@bludgeonder" = [ ];
     "dane@eefan" = [
-      ./homeconfigs/pc.nix
+      ./homeconfigs/pc/home.nix
       ./homeconfigs/hll/home.nix
     ];
     "dane@fishtank" = [
-      ./homeconfigs/pc.nix
+      ./homeconfigs/pc/home.nix
       ./homeconfigs/hll/home.nix
     ];
-    "dane@limbo" = [ ./homeconfigs/pc.nix ];
+    "dane@limbo" = [ ./homeconfigs/pc/home.nix ];
     "dane@shmacbook" = [ ./homeconfigs/laptop.nix ];
   };
 }

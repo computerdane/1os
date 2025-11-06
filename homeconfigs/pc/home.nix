@@ -1,22 +1,20 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
-let
-  inherit (pkgs) stdenv;
-in
 {
 
   oneos.development.enable = true;
 
-  home.packages = lib.mkIf stdenv.isLinux (
-    with pkgs;
-    [
-      prismlauncher
-      signal-desktop
-      temurin-jre-bin
-      vesktop
-      vintagestory
-    ]
-  );
+  home.packages = with pkgs; [
+    kdePackages.dolphin
+    prismlauncher
+    signal-desktop
+    temurin-jre-bin
+    vesktop
+    vintagestory
+    waybar
+    wl-clipboard
+    wofi
+  ];
 
   programs = {
 
@@ -41,6 +39,13 @@ in
       kscreenlocker.autoLock = false;
     };
 
+  };
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = null;
+    portalPackage = null;
+    extraConfig = builtins.readFile ./hyprland.conf;
   };
 
 }

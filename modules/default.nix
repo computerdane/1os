@@ -2,6 +2,7 @@
   acme = import ./acme.nix;
   auto-update = import ./auto-update.nix;
   desktop = import ./desktop.nix;
+  desktop2 = import ./desktop2.nix;
   domains = import ./domains.nix;
   dynamic-dns = import ./dynamic-dns.nix;
   extra-users = import ./extra-users.nix;

@@ -4,7 +4,7 @@
   imports = [ ./hardware-configuration.nix ];
 
   oneos = {
-    desktop.enable = true;
+    desktop2.enable = true;
     dynamic-dns.enable = true;
     extra-users.enable = true;
     gaming.enable = true;
