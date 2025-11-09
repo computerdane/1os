@@ -46,5 +46,26 @@
         }
       ];
     };
+    "20-vmic" = {
+      "context.modules" = [
+        {
+          name = "libpipewire-module-loopback";
+          args = {
+            "node.description" = "Virtual Mic";
+            "capture.props" = {
+              "node.name" = "vmic-in";
+              "audio.position" = "[ MONO ]";
+              "node.target" =
+                "alsa_input.usb-HP__Inc_HyperX_Cloud_III_Wireless_0000000000000000-00.mono-fallback";
+            };
+            "playback.props" = {
+              "node.name" = "vmic-out";
+              "media.class" = "Audio/Source";
+              "audio.position" = "[ MONO ]";
+            };
+          };
+        }
+      ];
+    };
   };
 }
