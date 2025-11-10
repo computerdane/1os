@@ -29,6 +29,7 @@
     "dane@fishtank" = [
       ./homeconfigs/pc.nix
       ./homeconfigs/hll/home.nix
+      ./homeconfigs/soundboard.nix
     ];
     "dane@limbo" = [ ./homeconfigs/pc.nix ];
     "dane@shmacbook" = [ ./homeconfigs/laptop.nix ];
