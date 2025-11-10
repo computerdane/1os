@@ -51,6 +51,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILygTablfeGg4QW8UUk7fMJ7Otrnafkb5n4NEbfeMwzt" # fishtank/limbo
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIeXM/afFCGyO69zC7+Dhw6jcY5y7vnaAIXkI5RTY/Pu" # op12
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJLvONY5rvgbkp9ytyCuqFgU5u+h91Eol72URbGFhM0i" # eefan
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILsNVq56yD3NcbCwaXFZmtKKNGsmO3S52cGPM7TCRRiv" # op13r
     ];
     shell = pkgs.nushell;
   };
