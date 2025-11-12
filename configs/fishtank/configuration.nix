@@ -24,6 +24,13 @@
     stress-ng
   ];
 
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    host = "[::]";
+    loadModels = [ "deepseek-r1:14b" ];
+  };
+
   services.pipewire.extraConfig.pipewire = {
     "10-loopback" = {
       "context.modules" = [
