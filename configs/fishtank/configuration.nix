@@ -26,9 +26,16 @@
 
   services.ollama = {
     enable = true;
+    package = pkgs.unstable.ollama;
     acceleration = "rocm";
     host = "[::]";
-    loadModels = [ "deepseek-r1:14b" ];
+    loadModels = [
+      "deepseek-r1:14b"
+      "qwen3-coder:30b"
+    ];
+    environmentVariables = {
+      OLLAMA_GPU_MEMORY_FRACTION = "0.9";
+    };
   };
 
   services.pipewire.extraConfig.pipewire = {
