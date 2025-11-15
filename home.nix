@@ -139,7 +139,7 @@ in
     };
 
     shell-gpt = {
-      enable = true;
+      enable = false;
       settings = {
         API_BASE_URL = "https://llm.nf6.sh";
         DEFAULT_MODEL = "gpt-4.1";
