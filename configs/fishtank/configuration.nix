@@ -20,7 +20,6 @@
     godot_4
     heroic
     kdePackages.kdenlive
-    mumble
     stress-ng
   ];
 
