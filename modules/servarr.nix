@@ -31,30 +31,27 @@ in
         sopsFile = ../secrets/bludgeonder.yaml;
       in
       {
-        servarr-api-key =
-          {
-            inherit sopsFile;
-          }
-          // (with config.services.recyclarr; {
-            owner = user;
-            inherit group;
-          });
-        radarr-env =
-          {
-            inherit sopsFile;
-          }
-          // (with config.services.radarr; {
-            owner = user;
-            inherit group;
-          });
-        sonarr-env =
-          {
-            inherit sopsFile;
-          }
-          // (with config.services.sonarr; {
-            owner = user;
-            inherit group;
-          });
+        servarr-api-key = {
+          inherit sopsFile;
+        }
+        // (with config.services.recyclarr; {
+          owner = user;
+          inherit group;
+        });
+        radarr-env = {
+          inherit sopsFile;
+        }
+        // (with config.services.radarr; {
+          owner = user;
+          inherit group;
+        });
+        sonarr-env = {
+          inherit sopsFile;
+        }
+        // (with config.services.sonarr; {
+          owner = user;
+          inherit group;
+        });
       };
 
     services.jellyseerr.enable = true;
@@ -83,7 +80,7 @@ in
     # Torrent client in VPN network namespace
     services.transmission = {
       enable = true;
-      package = pkgs.unstable.transmission_4;
+      package = pkgs.transmission_4;
       settings = {
         bind-address-ipv4 = "10.2.0.2";
         rpc-bind-address = "10.105.1.2";

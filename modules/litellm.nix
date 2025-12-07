@@ -52,7 +52,6 @@ in
 
       services.litellm = {
         enable = true;
-        package = pkgs.unstable.litellm;
         port = 7773;
         environmentFile = config.sops.secrets.litellm-environment.path;
         settings.model_list = [
