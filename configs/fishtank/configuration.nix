@@ -12,10 +12,6 @@
     protonvpn.enable = true;
   };
 
-  specialisation.amdvlk.configuration = {
-    oneos.gpu-amd.amdvlk = true;
-  };
-
   environment.systemPackages = with pkgs; [
     godot_4
     heroic
