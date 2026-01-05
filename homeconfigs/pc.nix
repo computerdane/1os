@@ -14,7 +14,7 @@ in
       prismlauncher
       signal-desktop
       temurin-jre-bin
-      vesktop
+      # vesktop
       vintagestory
     ]
   );
