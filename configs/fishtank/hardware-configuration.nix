@@ -86,10 +86,10 @@
     fsType = "ext4";
   };
 
-  fileSystems."/extra" = {
-    device = "/dev/disk/by-uuid/75b5816f-193e-4124-a55a-ece13fb2419b";
-    fsType = "ext4";
-  };
+  # fileSystems."/extra" = {
+  #   device = "/dev/disk/by-uuid/75b5816f-193e-4124-a55a-ece13fb2419b";
+  #   fsType = "ext4";
+  # };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/A10A-AD21";
