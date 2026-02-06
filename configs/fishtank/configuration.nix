@@ -12,6 +12,12 @@
     protonvpn.enable = true;
   };
 
+  networking.firewall.allowedTCPPorts = [ 25565 ];
+  networking.firewall.allowedUDPPorts = [
+    25565
+    24454
+  ];
+
   environment.systemPackages = with pkgs; [
     godot_4
     heroic
