@@ -24,6 +24,24 @@ in
     };
   };
 
+  networking.nat.forwardPorts = [
+    {
+      destination = "10.105.0.129:25565";
+      proto = "tcp";
+      sourcePort = 25565;
+    }
+    {
+      destination = "10.105.0.129:25565";
+      proto = "udp";
+      sourcePort = 25565;
+    }
+    {
+      destination = "10.105.0.129:24454";
+      proto = "udp";
+      sourcePort = 24454;
+    }
+  ];
+
   services.postgresql.ensureUsers = [
     {
       name = "dane";
@@ -112,7 +130,7 @@ in
     in
     {
       inherit port rconPort;
-      enable = true;
+      enable = false;
       acceptEula = true;
       # autoStart = true;
       mcVersion = "1.21.5";
@@ -145,7 +163,7 @@ in
     in
     {
       inherit port rconPort;
-      enable = true;
+      enable = false;
       acceptEula = true;
       mcVersion = "1.20.1";
       loader = "forge";
