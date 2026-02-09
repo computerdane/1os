@@ -17,18 +17,7 @@
   };
 
   oneos = {
-    acme.enable = true;
-    desktop.enable = true;
     dynamic-dns.enable = true;
     extra-users.enable = true;
-    gaming.enable = true;
-    gpu-nvidia.enable = true;
-    jellyfin = {
-      enable = true;
-      openFirewall = true;
-      subdomain = "watch-test";
-    };
-    nginx.enable = true;
-    protonvpn.enable = true;
   };
 }

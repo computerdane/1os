@@ -31,7 +31,7 @@
       ./homeconfigs/hll/home.nix
       # ./homeconfigs/soundboard.nix
     ];
-    "dane@limbo" = [ ./homeconfigs/pc.nix ];
+    "dane@limbo" = [ ];
     "dane@shmacbook" = [ ./homeconfigs/laptop.nix ];
   };
 }
