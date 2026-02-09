@@ -50,11 +50,6 @@ in
       stateVersion = "24.05";
     }
 
-    (lib.mkIf stdenv.isDarwin {
-      file.".profile".text = "nu";
-      file.".zshrc".text = "nu";
-    })
-
   ];
 
   programs = {

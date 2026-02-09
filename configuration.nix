@@ -53,7 +53,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJLvONY5rvgbkp9ytyCuqFgU5u+h91Eol72URbGFhM0i" # eefan
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILsNVq56yD3NcbCwaXFZmtKKNGsmO3S52cGPM7TCRRiv" # op13r
     ];
-    shell = pkgs.nushell;
+    shell = pkgs.fish;
   };
 
   nix.settings = {
