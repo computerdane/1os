@@ -33,6 +33,8 @@ in
     gpu-nvidia.enable = true;
   };
 
+  services.flatpak.enable = true;
+
   services.minecraft-server = {
     enable = true;
     eula = true;
