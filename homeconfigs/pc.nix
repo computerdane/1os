@@ -10,12 +10,12 @@ in
   home.packages = lib.mkIf stdenv.isLinux (
     with pkgs;
     [
+      jellyfin-desktop
       mumble
       prismlauncher
       signal-desktop
       temurin-jre-bin
       vesktop
-      vintagestory
     ]
   );
 

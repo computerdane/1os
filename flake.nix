@@ -9,10 +9,7 @@
       hosts = import ./hosts.nix;
       nixpkgsConfig = {
         allowUnfree = true;
-        permittedInsecurePackages = [
-          "dotnet-runtime-7.0.20" # vintagestory
-          "mbedtls-2.28.10" # openrgb
-        ];
+        permittedInsecurePackages = [ ];
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } (
