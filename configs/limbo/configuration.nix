@@ -26,8 +26,11 @@ in
   };
 
   oneos = {
+    desktop.enable = true;
     dynamic-dns.enable = true;
     extra-users.enable = true;
+    gaming.enable = true;
+    gpu-nvidia.enable = true;
   };
 
   services.minecraft-server = {
