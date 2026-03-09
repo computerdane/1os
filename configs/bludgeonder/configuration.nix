@@ -40,6 +40,21 @@ in
       proto = "udp";
       sourcePort = 24454;
     }
+    {
+      destination = "10.105.0.129:25566";
+      proto = "tcp";
+      sourcePort = 25566;
+    }
+    {
+      destination = "10.105.0.129:25566";
+      proto = "udp";
+      sourcePort = 25566;
+    }
+    {
+      destination = "10.105.0.129:24455";
+      proto = "udp";
+      sourcePort = 24455;
+    }
   ];
 
   services.postgresql.ensureUsers = [

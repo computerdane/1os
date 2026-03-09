@@ -12,10 +12,10 @@
     protonvpn.enable = true;
   };
 
-  networking.firewall.allowedTCPPorts = [ 25565 ];
+  networking.firewall.allowedTCPPorts = [ 25566 ];
   networking.firewall.allowedUDPPorts = [
-    25565
-    24454
+    25566
+    24455
   ];
 
   environment.systemPackages = with pkgs; [
