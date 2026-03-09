@@ -31,6 +31,11 @@
     enable = true;
     enableGraphical = true;
   };
+  environment.etc."libinput/local-overrides.quirks".text = ''
+    [Logitech PRO X]
+    MatchName=Logitech PRO X
+    ModelBouncingKeys=1
+  '';
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
