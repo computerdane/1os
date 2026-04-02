@@ -64,7 +64,7 @@ let
     languages.language = [
       {
         name = "nix";
-        formatter.command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+        formatter.command = "${pkgs.nixfmt}/bin/nixfmt";
         auto-format = true;
         language-servers = [
           "nixd"
@@ -103,7 +103,7 @@ let
         {
           inherit name auto-format;
           formatter = {
-            command = "${pkgs.nodePackages.prettier}/bin/prettier";
+            command = "${pkgs.prettier}/bin/prettier";
             args = [
               "--parser"
               parser
