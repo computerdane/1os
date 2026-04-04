@@ -10,10 +10,10 @@ in
   home.packages = lib.mkIf stdenv.isLinux (
     with pkgs;
     [
+      javaPackages.compiler.temurin-bin.jre-25
       mumble
       prismlauncher
       signal-desktop
-      temurin-jre-bin
       vesktop
     ]
   );
