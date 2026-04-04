@@ -39,7 +39,7 @@ in
     enable = true;
     eula = true;
     jvmOpts = "-Xmx3G";
-    package = pkgs.temurin-jre-bin;
+    package = pkgs.javaPackages.compiler.temurin-bin.jre-25;
   };
 
   systemd.services.minecraft-server =
