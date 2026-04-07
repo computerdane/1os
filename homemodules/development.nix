@@ -22,6 +22,7 @@ in
     home.packages = lib.mkMerge [
       (with pkgs; [
         cargo
+        forgejo-cli
         nodejs_24
         rustc
         uv
