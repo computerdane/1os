@@ -13,6 +13,9 @@ let
     background-opacity = 0.9;
     maximize = true;
     font-family = "ComicShannsMono Nerd Font";
+
+    # Configure SSH to fall back to xterm-256color.
+    shell-integration-features = "ssh-env";
   };
 in
 {
