@@ -30,9 +30,9 @@ in
           owner = "computerdane";
           repo = "wallpapers";
           rev = "main";
-          hash = "sha256-LSnUOGbQoaVyct1QuE59J6vTsnYzm+WaH7xyi8gcXTw=";
+          hash = "sha256-6WFLG71QcmPQe7b/wqbeX65wbJ7LxZBJZhx8m4cqqZ0=";
         }
-      }/rivals";
+      }/artemis2";
       powerdevil.AC = {
         autoSuspend.action = "nothing";
         powerButtonAction = "shutDown";
