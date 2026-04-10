@@ -28,12 +28,12 @@ in
     {
       destination = "10.105.25.2:25565";
       proto = "tcp";
-      sourcePort = 25565;
+      sourcePort = 52255;
     }
     {
       destination = "10.105.25.2:25565";
       proto = "udp";
-      sourcePort = 25565;
+      sourcePort = 52255;
     }
     {
       destination = "10.105.25.2:24454";
