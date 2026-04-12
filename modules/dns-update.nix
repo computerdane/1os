@@ -28,8 +28,9 @@ let
       };
 
       data = lib.mkOption {
-        description = "Record data (e.g. an IP address, hostname, or quoted TXT string).";
+        description = "Record data (e.g. an IP address, hostname, or quoted TXT string). Ignored when dynamic is set.";
         type = lib.types.str;
+        default = "";
       };
 
       ttl = lib.mkOption {
@@ -37,8 +38,65 @@ let
         type = lib.types.int;
         default = 3600;
       };
+
+      dynamic = lib.mkOption {
+        description = "Automatically detect the public IP. Set to \"ipv4\" or \"ipv6\" to enable.";
+        type = lib.types.nullOr (
+          lib.types.enum [
+            "ipv4"
+            "ipv6"
+          ]
+        );
+        default = null;
+      };
+
+      refreshInterval = lib.mkOption {
+        description = "How often to re-check and update dynamic records (systemd calendar spec).";
+        type = lib.types.str;
+        default = "*:0/5";
+      };
     };
   };
+
+  isDynamic = record: record.dynamic != null;
+
+  mkUpdateScript =
+    record:
+    let
+      safeName = safeRecordName record;
+      dynamicPreamble =
+        if record.dynamic == "ipv4" then
+          ''
+            RECORD_DATA=$(${pkgs.curl}/bin/curl -4 -sf https://icanhazip.com | ${pkgs.coreutils}/bin/tr -d '[:space:]')
+            if [ -z "$RECORD_DATA" ]; then
+              echo "Failed to detect public IPv4 address" >&2
+              exit 1
+            fi
+          ''
+        else if record.dynamic == "ipv6" then
+          ''
+            RECORD_DATA=$(${pkgs.curl}/bin/curl -6 -sf https://icanhazip.com | ${pkgs.coreutils}/bin/tr -d '[:space:]')
+            if [ -z "$RECORD_DATA" ]; then
+              echo "Failed to detect public IPv6 address" >&2
+              exit 1
+            fi
+          ''
+        else
+          ''
+            RECORD_DATA='${record.data}'
+          '';
+    in
+    pkgs.writeScript "dns-update-${safeName}" ''
+      #!/bin/sh
+      ${dynamicPreamble}
+      ${pkgs.knot-dns}/bin/knsupdate -k ${cfg.keyFile} <<EOF
+      server ${cfg.server}
+      zone ${record.zone}
+      update delete ${record.name}. ${record.type}
+      update add ${record.name}. ${record.ttl} ${record.type} $RECORD_DATA
+      send
+      EOF
+    '';
 in
 {
   options.oneos.dns-update = {
@@ -77,16 +135,7 @@ in
         record:
         let
           safeName = safeRecordName record;
-          updateScript = pkgs.writeScript "dns-update-${safeName}" ''
-            #!/bin/sh
-            ${pkgs.knot-dns}/bin/knsupdate -k ${cfg.keyFile} <<EOF
-            server ${cfg.server}
-            zone ${record.zone}
-            update delete ${record.name}. ${record.type}
-            update add ${record.name}. ${record.ttl} ${record.type} ${record.data}
-            send
-            EOF
-          '';
+          updateScript = mkUpdateScript record;
         in
         {
           name = "dns-update-${safeName}";
@@ -102,6 +151,26 @@ in
           };
         }
       ) cfg.records
+    );
+
+    systemd.timers = builtins.listToAttrs (
+      map (
+        record:
+        let
+          safeName = safeRecordName record;
+        in
+        {
+          name = "dns-update-${safeName}";
+          value = {
+            description = "Periodically update dynamic DNS ${record.type} record for ${record.name}";
+            wantedBy = [ "timers.target" ];
+            timerConfig = {
+              OnCalendar = record.refreshInterval;
+              Persistent = true;
+            };
+          };
+        }
+      ) (builtins.filter isDynamic cfg.records)
     );
   };
 }
