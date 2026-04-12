@@ -55,13 +55,11 @@ in
           name = "_minecraft._tcp.nix.gdn";
           type = "SRV";
           data = "0 5 52255 mc.nix.gdn.";
-          ttl = 3600;
         }
         {
           name = "_minecraft._tcp.mc.nix.gdn";
           type = "SRV";
           data = "0 5 52255 mc.nix.gdn.";
-          ttl = 3600;
         }
       ];
     };
