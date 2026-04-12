@@ -25,7 +25,10 @@ in
     virtualHosts."mc.nix.gdn" = {
       useACMEHost = "mc.nix.gdn";
       forceSSL = true;
-      locations."/".return = ''200 "Hello, world!"'';
+      locations."/".extraConfig = ''
+        default_type text/plain;
+        return 200 "Hello, world!";
+      '';
     };
   };
   users.users.nginx.extraGroups = [ "acme" ];
