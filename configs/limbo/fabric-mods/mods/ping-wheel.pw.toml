@@ -1,0 +1,13 @@
+name = "Ping Wheel"
+filename = "Ping-Wheel-1.12.1-fabric-26.1.2.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/QQXAdCzh/versions/J96qMveQ/Ping-Wheel-1.12.1-fabric-26.1.2.jar"
+hash-format = "sha512"
+hash = "5891b419b9c9c882a1ddb665ea66a63694034b26051d75bd6587c95a095261007f5ea0c50b6ed35a70dc8c0c0e4a151f58e5b76cf624a83bcd07758be025e524"
+
+[update]
+[update.modrinth]
+mod-id = "QQXAdCzh"
+version = "J96qMveQ"

@@ -51,7 +51,7 @@ in
       let
         modpack = pkgs.fetchPackwizModpack {
           src = ./fabric-mods;
-          packHash = "sha256-iG94iqCq2f9F0KYeXyIersLFvg5r8mu3LG0t2fb83PY=";
+          packHash = "sha256-ZACuiFDuxof2MiU3h3cgSBwIfBeSQOeippFOB0R34iM=";
         };
       in
       {
@@ -86,6 +86,30 @@ in
           sync-chunk-writes = false;
           view-distance = 12;
           white-list = true;
+        };
+
+        files = {
+          "config/voicechat/voicechat-server.properties".value = {
+            port = 53335;
+          };
+          "config/bluemap/core.conf" = {
+            format = pkgs.formats.hocon { };
+            value = {
+              accept-download = true;
+            };
+          };
+          "config/bluemap/plugin.conf" = {
+            format = pkgs.formats.hocon { };
+            value = {
+              live-player-markers = false;
+            };
+          };
+          "config/bluemap/webserver.conf" = {
+            format = pkgs.formats.hocon { };
+            value = {
+              port = 54445;
+            };
+          };
         };
       };
   };
