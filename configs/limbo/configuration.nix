@@ -38,7 +38,7 @@ in
   services.minecraft-server = {
     enable = true;
     eula = true;
-    jvmOpts = "-Xmx3G";
+    jvmOpts = "-Xms5G -Xmx5G";
     package = pkgs.javaPackages.compiler.temurin-bin.jre-25;
   };
 
