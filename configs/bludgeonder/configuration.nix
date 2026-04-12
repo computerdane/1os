@@ -153,11 +153,17 @@ in
     };
   };
   systemd.services.mediamtx.serviceConfig.Group = lib.mkForce "nginx";
+
   networking.firewall.allowedTCPPorts = [
     rtmpsPort
     rtspPort
+    mcPort
   ];
-  networking.firewall.allowedUDPPorts = [ rtspPort ];
+  networking.firewall.allowedUDPPorts = [
+    rtspPort
+    mcPort
+    mcVoicePort
+  ];
 
   services.murmur = {
     enable = true;
