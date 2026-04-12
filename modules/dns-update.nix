@@ -54,8 +54,9 @@ let
   recordSubmodule = lib.types.submodule {
     options = {
       zone = lib.mkOption {
-        description = "DNS zone to update (e.g. example.com).";
-        type = lib.types.str;
+        description = "DNS zone to update (e.g. example.com). Defaults to the server-level zone if set.";
+        type = lib.types.nullOr lib.types.str;
+        default = null;
       };
 
       name = lib.mkOption {
@@ -109,6 +110,12 @@ let
           default = name;
         };
 
+        zone = lib.mkOption {
+          description = "Default DNS zone for records on this server.";
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+        };
+
         keyFile = lib.mkOption {
           description = ''
             Path to file containing the TSIG key in CLI format:
@@ -126,12 +133,26 @@ let
     }
   );
 
+  resolveZone =
+    serverCfg: record:
+    let
+      zone =
+        if record.zone != null then
+          record.zone
+        else if serverCfg.zone != null then
+          serverCfg.zone
+        else
+          throw "dns-update: record '${record.name}' (${record.type}) has no zone set, and its server has no default zone. Set zone on the record or on the server.";
+    in
+    record // { inherit zone; };
+
   # Flatten all servers into a list of { serverName, serverCfg, record } for generating units
   allRecords = lib.concatLists (
     lib.mapAttrsToList (
       serverName: serverCfg:
       map (record: {
-        inherit serverName serverCfg record;
+        inherit serverName serverCfg;
+        record = resolveZone serverCfg record;
       }) serverCfg.records
     ) cfg.servers
   );
