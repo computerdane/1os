@@ -8,6 +8,7 @@
 let
   port = 25565;
   vcPort = 24454;
+  mapPort = 8100;
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -60,6 +61,7 @@ in
       ports = [
         port
         vcPort
+        mapPort
       ];
     in
     {
