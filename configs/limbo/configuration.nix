@@ -32,6 +32,53 @@ in
     gpu-nvidia.enable = true;
   };
 
+  # Minecraft server settings.
+  programs.tmux.enable = true;
+  users.users.minecraft-servers = {
+    isSystemUser = true;
+    group = "minecraft-servers";
+    home = config.services.minecraft-servers.dataDir;
+    createHome = true;
+  };
+  users.groups.minecraft-servers = { };
+  services.minecraft-servers = {
+    enable = true;
+    eula = true;
+    openFirewall = true;
+    user = "minecraft-servers";
+    group = "minecraft-servers";
+    servers.fabric = {
+      enable = true;
+
+      # Specify the custom minecraft server package.
+      package = pkgs.fabricServers.fabric-26_1_2.override {
+        # Specific fabric loader version.
+        loaderVersion = "0.19.1";
+        # Specific Java version.
+        jre_headless = pkgs.jdk25_headless;
+      };
+
+      jvmOpts = "-Xms3G -Xmx3G";
+
+      serverProperties = {
+        allow-flight = true;
+        difficulty = "hard";
+        enforce-whitelist = true;
+        gamemode = "survival";
+        max-players = 10;
+        motd = "welcome to danecraft";
+        "query.port" = 52225;
+        region-file-compression = "lz4";
+        server-port = 52225;
+        simulation-distance = 10;
+        spawn-protection = 0;
+        sync-chunk-writes = false;
+        view-distance = 12;
+        white-list = true;
+      };
+    };
+  };
+
   services.minecraft-server = {
     enable = true;
     eula = true;
@@ -50,7 +97,10 @@ in
     };
 
   users.users.minecraft.homeMode = "770";
-  users.users.dane.extraGroups = [ "minecraft" ];
+  users.users.dane.extraGroups = [
+    "minecraft"
+    "minecraft-servers"
+  ];
 
   networking.firewall =
     let

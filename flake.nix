@@ -63,6 +63,7 @@
                       modules = (builtins.attrValues config.flake.nixosModules) ++ [
                         inputs.sops-nix.nixosModules.sops
                         inputs.thothub.nixosModules.thots
+                        inputs.nix-minecraft.nixosModules.minecraft-servers
                         ./configuration.nix
                         "${./.}/configs/${hostname}/configuration.nix"
                         "${./.}/configs/${hostname}/hardware-configuration.nix"
@@ -77,6 +78,7 @@
                               in
                               overlays
                               ++ [
+                                inputs.nix-minecraft.overlay
                                 (_: _: {
                                   unstable = import inputs.nixpkgs-unstable {
                                     inherit system overlays;

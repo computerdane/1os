@@ -4,6 +4,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     sops-nix.url = "github:Mic92/sops-nix";
     thothub.url = "github:computerdane/thothub";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
 
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
