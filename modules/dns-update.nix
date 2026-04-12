@@ -13,6 +13,27 @@ let
 
   isDynamic = record: record.dynamic != null;
 
+  mkAcmeEnvName =
+    serverName: record: "acme-env-${safeServerName serverName}-${safeRecordName record}";
+  mkAcmeEnvPath = serverName: record: "/run/${mkAcmeEnvName serverName record}";
+
+  mkAcmeEnvScript =
+    serverName: serverCfg: record:
+    pkgs.writeScript "${mkAcmeEnvName serverName record}" ''
+      #!/bin/sh
+      KEY_LINE=$(cat ${serverCfg.keyFile})
+      ALGO=$(echo "$KEY_LINE" | ${pkgs.coreutils}/bin/cut -d: -f1)
+      KEY_NAME=$(echo "$KEY_LINE" | ${pkgs.coreutils}/bin/cut -d: -f2)
+      SECRET=$(echo "$KEY_LINE" | ${pkgs.coreutils}/bin/cut -d: -f3)
+      ${pkgs.coreutils}/bin/cat > ${mkAcmeEnvPath serverName record} <<ENVEOF
+      RFC2136_NAMESERVER=${serverCfg.address}
+      RFC2136_TSIG_ALGORITHM=$ALGO
+      RFC2136_TSIG_KEY=$KEY_NAME
+      RFC2136_TSIG_SECRET=$SECRET
+      RFC2136_ZONE=${record.zone}
+      ENVEOF
+    '';
+
   mkUpdateScript =
     serverCfg: record:
     let
@@ -130,20 +151,6 @@ let
           type = lib.types.path;
         };
 
-        acmeEnvironmentFile = lib.mkOption {
-          description = ''
-            Path to environment file with RFC 2136 credentials for lego ACME DNS-01 challenges.
-            Required if any record on this server has acme = true.
-            Should contain:
-              RFC2136_NAMESERVER=<address>
-              RFC2136_TSIG_ALGORITHM=hmac-sha256
-              RFC2136_TSIG_KEY=<keyname>
-              RFC2136_TSIG_SECRET=<base64secret>
-          '';
-          type = lib.types.nullOr lib.types.path;
-          default = null;
-        };
-
         records = lib.mkOption {
           description = "List of DNS records to maintain on this server.";
           type = lib.types.listOf recordSubmodule;
@@ -249,17 +256,50 @@ in
       }
 
       (lib.mkIf (acmeRecords != [ ]) {
+        systemd.services = builtins.listToAttrs (
+          lib.concatMap (
+            {
+              serverName,
+              serverCfg,
+              record,
+            }:
+            let
+              envName = mkAcmeEnvName serverName record;
+            in
+            [
+              {
+                name = envName;
+                value = {
+                  description = "Generate ACME environment file for ${record.name}";
+                  after = [ "network-online.target" ];
+                  wants = [ "network-online.target" ];
+                  serviceConfig = {
+                    Type = "oneshot";
+                    RemainAfterExit = true;
+                    ExecStart = mkAcmeEnvScript serverName serverCfg record;
+                  };
+                };
+              }
+              {
+                name = "acme-${record.name}";
+                value = {
+                  requires = [ "${envName}.service" ];
+                  after = [ "${envName}.service" ];
+                };
+              }
+            ]
+          ) acmeRecords
+        );
+
         security.acme.certs = builtins.listToAttrs (
           map (
-            { serverCfg, record, ... }:
+            { serverName, record, ... }:
             {
               name = record.name;
               value = {
                 domain = record.name;
                 dnsProvider = "rfc2136";
-                environmentFile =
-                  assert serverCfg.acmeEnvironmentFile != null;
-                  serverCfg.acmeEnvironmentFile;
+                environmentFile = mkAcmeEnvPath serverName record;
               };
             }
           ) acmeRecords
