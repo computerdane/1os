@@ -95,9 +95,9 @@ let
       };
 
       ttl = lib.mkOption {
-        description = "TTL in seconds.";
-        type = lib.types.int;
-        default = 3600;
+        description = "TTL in seconds. Defaults to 300 for dynamic records, 3600 for static records.";
+        type = lib.types.nullOr lib.types.int;
+        default = null;
       };
 
       dynamic = lib.mkOption {
@@ -112,9 +112,9 @@ let
       };
 
       refreshInterval = lib.mkOption {
-        description = "How often to re-check and update dynamic records (systemd calendar spec).";
-        type = lib.types.str;
-        default = "*:0/5";
+        description = "How often to re-check and update dynamic records, in seconds. Defaults to the record's TTL.";
+        type = lib.types.nullOr lib.types.int;
+        default = null;
       };
     };
   };
@@ -168,7 +168,7 @@ let
     }
   );
 
-  resolveZone =
+  resolveRecord =
     serverCfg: record:
     let
       zone =
@@ -178,8 +178,16 @@ let
           serverCfg.zone
         else
           throw "dns-update: record '${record.name}' (${record.type}) has no zone set, and its server has no default zone. Set zone on the record or on the server.";
+      ttl =
+        if record.ttl != null then
+          record.ttl
+        else if isDynamic record then
+          300
+        else
+          3600;
+      refreshInterval = if record.refreshInterval != null then record.refreshInterval else ttl;
     in
-    record // { inherit zone; };
+    record // { inherit zone ttl refreshInterval; };
 
   # Flatten all servers into a list of { serverName, serverCfg, record } for generating units
   allRecords = lib.concatLists (
@@ -187,7 +195,7 @@ let
       serverName: serverCfg:
       map (record: {
         inherit serverName serverCfg;
-        record = resolveZone serverCfg record;
+        record = resolveRecord serverCfg record;
       }) serverCfg.records
     ) cfg.servers
   );
@@ -254,7 +262,7 @@ in
                 description = "Periodically update dynamic DNS ${record.type} record for ${record.name} on ${serverName}";
                 wantedBy = [ "timers.target" ];
                 timerConfig = {
-                  OnCalendar = record.refreshInterval;
+                  OnUnitActiveSec = "${toString record.refreshInterval}s";
                   Persistent = true;
                 };
               };
