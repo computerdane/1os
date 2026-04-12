@@ -26,8 +26,8 @@ in
     owner = "nginx";
     sopsFile = ../../secrets/bludgeonder.yaml;
   };
-  services.nginx.virtualHosts."nix.gdn" = {
-    useACMEHost = "nix.gdn";
+  services.nginx.virtualHosts."danecraft.net" = {
+    useACMEHost = "danecraft.net";
     forceSSL = true;
     locations."/map/" = {
       proxyPass = "http://10.105.25.2:8100/";
@@ -40,25 +40,25 @@ in
   sops.secrets.knot-update-key = { };
   oneos.dns-update = {
     enable = true;
-    servers."ns1.nix.gdn" = {
+    servers."ns1.danecraft.net" = {
       keyFile = config.sops.secrets.knot-update-key.path;
-      zone = "nix.gdn";
-      acme = [ "nix.gdn" ];
+      zone = "danecraft.net";
+      acme = [ "danecraft.net" ];
       records = [
         {
-          name = "nix.gdn";
+          name = "danecraft.net";
           type = "A";
           dynamic = "ipv4";
         }
         {
-          name = "nix.gdn";
+          name = "danecraft.net";
           type = "AAAA";
           dynamic = "ipv6";
         }
         {
-          name = "_minecraft._tcp.nix.gdn";
+          name = "_minecraft._tcp.danecraft.net";
           type = "SRV";
-          data = "0 5 52255 nix.gdn.";
+          data = "0 5 52255 danecraft.net.";
         }
       ];
     };
