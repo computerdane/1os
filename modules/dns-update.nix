@@ -97,6 +97,12 @@ let
         type = lib.types.str;
         default = "*:0/5";
       };
+
+      acme = lib.mkOption {
+        description = "Obtain an ACME/Let's Encrypt certificate for this record via DNS-01 challenge.";
+        type = lib.types.bool;
+        default = false;
+      };
     };
   };
 
@@ -122,6 +128,20 @@ let
             hmac-sha256:keyname:base64secret
           '';
           type = lib.types.path;
+        };
+
+        acmeEnvironmentFile = lib.mkOption {
+          description = ''
+            Path to environment file with RFC 2136 credentials for lego ACME DNS-01 challenges.
+            Required if any record on this server has acme = true.
+            Should contain:
+              RFC2136_NAMESERVER=<address>
+              RFC2136_TSIG_ALGORITHM=hmac-sha256
+              RFC2136_TSIG_KEY=<keyname>
+              RFC2136_TSIG_SECRET=<base64secret>
+          '';
+          type = lib.types.nullOr lib.types.path;
+          default = null;
         };
 
         records = lib.mkOption {
@@ -157,6 +177,8 @@ let
     ) cfg.servers
   );
 
+  acmeRecords = builtins.filter (entry: entry.record.acme) allRecords;
+
   mkServiceName =
     serverName: record: "dns-update-${safeServerName serverName}-${safeRecordName record}";
 in
@@ -178,49 +200,71 @@ in
     };
   };
 
-  config = lib.mkIf (cfg.enable && allRecords != [ ]) {
-    systemd.services = builtins.listToAttrs (
-      map (
-        {
-          serverName,
-          serverCfg,
-          record,
-        }:
-        {
-          name = mkServiceName serverName record;
-          value = {
-            description = "Update DNS ${record.type} record for ${record.name} on ${serverName}";
-            after = [ "network-online.target" ];
-            wants = [ "network-online.target" ];
-            wantedBy = [ "multi-user.target" ];
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = mkUpdateScript serverCfg record;
-            };
-          };
-        }
-      ) allRecords
-    );
+  config = lib.mkIf (cfg.enable && allRecords != [ ]) (
+    lib.mkMerge [
+      {
+        systemd.services = builtins.listToAttrs (
+          map (
+            {
+              serverName,
+              serverCfg,
+              record,
+            }:
+            {
+              name = mkServiceName serverName record;
+              value = {
+                description = "Update DNS ${record.type} record for ${record.name} on ${serverName}";
+                after = [ "network-online.target" ];
+                wants = [ "network-online.target" ];
+                wantedBy = [ "multi-user.target" ];
+                serviceConfig = {
+                  Type = "oneshot";
+                  ExecStart = mkUpdateScript serverCfg record;
+                };
+              };
+            }
+          ) allRecords
+        );
 
-    systemd.timers = builtins.listToAttrs (
-      map (
-        {
-          serverName,
-          record,
-          ...
-        }:
-        {
-          name = mkServiceName serverName record;
-          value = {
-            description = "Periodically update dynamic DNS ${record.type} record for ${record.name} on ${serverName}";
-            wantedBy = [ "timers.target" ];
-            timerConfig = {
-              OnCalendar = record.refreshInterval;
-              Persistent = true;
-            };
-          };
-        }
-      ) (builtins.filter (entry: isDynamic entry.record) allRecords)
-    );
-  };
+        systemd.timers = builtins.listToAttrs (
+          map (
+            {
+              serverName,
+              record,
+              ...
+            }:
+            {
+              name = mkServiceName serverName record;
+              value = {
+                description = "Periodically update dynamic DNS ${record.type} record for ${record.name} on ${serverName}";
+                wantedBy = [ "timers.target" ];
+                timerConfig = {
+                  OnCalendar = record.refreshInterval;
+                  Persistent = true;
+                };
+              };
+            }
+          ) (builtins.filter (entry: isDynamic entry.record) allRecords)
+        );
+      }
+
+      (lib.mkIf (acmeRecords != [ ]) {
+        security.acme.certs = builtins.listToAttrs (
+          map (
+            { serverCfg, record, ... }:
+            {
+              name = record.name;
+              value = {
+                domain = record.name;
+                dnsProvider = "rfc2136";
+                environmentFile =
+                  assert serverCfg.acmeEnvironmentFile != null;
+                  serverCfg.acmeEnvironmentFile;
+              };
+            }
+          ) acmeRecords
+        );
+      })
+    ]
+  );
 }
