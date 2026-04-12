@@ -22,8 +22,8 @@ in
         proxyWebsockets = true;
       };
     };
-    virtualHosts."mc.nix.gdn" = {
-      useACMEHost = "mc.nix.gdn";
+    virtualHosts."nix.gdn" = {
+      useACMEHost = "nix.gdn";
       forceSSL = true;
       locations."/".extraConfig = ''
         default_type text/plain;
@@ -39,27 +39,22 @@ in
     servers."ns1.nix.gdn" = {
       keyFile = config.sops.secrets.knot-update-key.path;
       zone = "nix.gdn";
-      acme = [ "mc.nix.gdn" ];
+      acme = [ "nix.gdn" ];
       records = [
         {
-          name = "mc.nix.gdn";
+          name = "nix.gdn";
           type = "A";
           dynamic = "ipv4";
         }
         {
-          name = "mc.nix.gdn";
+          name = "nix.gdn";
           type = "AAAA";
           dynamic = "ipv6";
         }
         {
           name = "_minecraft._tcp.nix.gdn";
           type = "SRV";
-          data = "0 5 52255 mc.nix.gdn.";
-        }
-        {
-          name = "_minecraft._tcp.mc.nix.gdn";
-          type = "SRV";
-          data = "0 5 52255 mc.nix.gdn.";
+          data = "0 5 52255 nix.gdn.";
         }
       ];
     };
