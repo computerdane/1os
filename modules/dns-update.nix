@@ -120,7 +120,7 @@ let
   };
 
   serverSubmodule = lib.types.submodule (
-    { name, ... }:
+    { name, config, ... }:
     {
       options = {
         address = lib.mkOption {
@@ -147,6 +147,16 @@ let
           description = "List of domains to obtain ACME/Let's Encrypt certificates for via DNS-01 challenge.";
           type = lib.types.listOf lib.types.str;
           default = [ ];
+        };
+
+        acmeEmail = lib.mkOption {
+          description = "Email address for ACME account registration. Defaults to admin@{zone}.";
+          type = lib.types.str;
+          default =
+            if config.zone != null then
+              "admin@${config.zone}"
+            else
+              throw "dns-update: server '${name}' has acme domains but no zone set. Set a server-level zone or set acmeEmail explicitly.";
         };
 
         records = lib.mkOption {
@@ -293,6 +303,7 @@ in
                 name = domain;
                 value = {
                   inherit domain;
+                  email = serverCfg.acmeEmail;
                   dnsProvider = "rfc2136";
                   environmentFile = mkAcmeEnvPath serverName;
                 };

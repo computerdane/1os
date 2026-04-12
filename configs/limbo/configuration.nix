@@ -27,6 +27,8 @@ in
 
   sops.secrets.knot-update-key = { };
 
+  security.acme.acceptTerms = true;
+
   oneos = {
     desktop.enable = true;
     dynamic-dns.enable = true;
