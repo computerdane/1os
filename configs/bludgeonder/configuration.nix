@@ -64,6 +64,16 @@ in
           type = "SRV";
           data = "0 5 ${toString mcPort} danecraft.net.";
         }
+        {
+          name = "lan.danecraft.net";
+          type = "A";
+          data = "10.105.25.2";
+        }
+        {
+          name = "_minecraft._tcp.lan.danecraft.net";
+          type = "SRV";
+          data = "0 5 ${toString mcPort} lan.danecraft.net.";
+        }
       ];
     };
   };
