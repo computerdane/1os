@@ -47,36 +47,47 @@ in
     openFirewall = true;
     user = "minecraft-servers";
     group = "minecraft-servers";
-    servers.fabric = {
-      enable = true;
+    servers.fabric =
+      let
+        modpack = pkgs.fetchPackwizModpack {
+          src = ./fabric-mods;
+          packHash = "sha256-iG94iqCq2f9F0KYeXyIersLFvg5r8mu3LG0t2fb83PY=";
+        };
+      in
+      {
+        enable = true;
 
-      # Specify the custom minecraft server package.
-      package = pkgs.fabricServers.fabric-26_1_2.override {
-        # Specific fabric loader version.
-        loaderVersion = "0.19.1";
-        # Specific Java version.
-        jre_headless = pkgs.jdk25_headless;
+        # Specify the custom minecraft server package.
+        package = pkgs.fabricServers.fabric-26_1_2.override {
+          # Specific fabric loader version.
+          loaderVersion = "0.19.1";
+          # Specific Java version.
+          jre_headless = pkgs.jdk25_headless;
+        };
+
+        jvmOpts = "-Xms3G -Xmx3G";
+
+        symlinks = {
+          "mods" = "${modpack}/mods";
+        };
+
+        serverProperties = {
+          allow-flight = true;
+          difficulty = "hard";
+          enforce-whitelist = true;
+          gamemode = "survival";
+          max-players = 10;
+          motd = "welcome to danecraft";
+          "query.port" = 52225;
+          region-file-compression = "lz4";
+          server-port = 52225;
+          simulation-distance = 10;
+          spawn-protection = 0;
+          sync-chunk-writes = false;
+          view-distance = 12;
+          white-list = true;
+        };
       };
-
-      jvmOpts = "-Xms3G -Xmx3G";
-
-      serverProperties = {
-        allow-flight = true;
-        difficulty = "hard";
-        enforce-whitelist = true;
-        gamemode = "survival";
-        max-players = 10;
-        motd = "welcome to danecraft";
-        "query.port" = 52225;
-        region-file-compression = "lz4";
-        server-port = 52225;
-        simulation-distance = 10;
-        spawn-protection = 0;
-        sync-chunk-writes = false;
-        view-distance = 12;
-        white-list = true;
-      };
-    };
   };
 
   services.minecraft-server = {
