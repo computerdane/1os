@@ -8,7 +8,48 @@
 let
   cfg = config.oneos.dns-update;
 
+  safeServerName = builtins.replaceStrings [ "." ] [ "-" ];
   safeRecordName = record: builtins.replaceStrings [ "." ] [ "-" ] "${record.name}-${record.type}";
+
+  isDynamic = record: record.dynamic != null;
+
+  mkUpdateScript =
+    serverCfg: record:
+    let
+      safeName = safeRecordName record;
+      dynamicPreamble =
+        if record.dynamic == "ipv4" then
+          ''
+            RECORD_DATA=$(${pkgs.curl}/bin/curl -4 -sf https://icanhazip.com | ${pkgs.coreutils}/bin/tr -d '[:space:]')
+            if [ -z "$RECORD_DATA" ]; then
+              echo "Failed to detect public IPv4 address" >&2
+              exit 1
+            fi
+          ''
+        else if record.dynamic == "ipv6" then
+          ''
+            RECORD_DATA=$(${pkgs.curl}/bin/curl -6 -sf https://icanhazip.com | ${pkgs.coreutils}/bin/tr -d '[:space:]')
+            if [ -z "$RECORD_DATA" ]; then
+              echo "Failed to detect public IPv6 address" >&2
+              exit 1
+            fi
+          ''
+        else
+          ''
+            RECORD_DATA='${record.data}'
+          '';
+    in
+    pkgs.writeScript "dns-update-${safeName}" ''
+      #!/bin/sh
+      ${dynamicPreamble}
+      ${pkgs.knot-dns}/bin/knsupdate -k ${serverCfg.keyFile} <<EOF
+      server ${serverCfg.address}
+      zone ${record.zone}
+      update delete ${record.name}. ${record.type}
+      update add ${record.name}. ${toString record.ttl} ${record.type} $RECORD_DATA
+      send
+      EOF
+    '';
 
   recordSubmodule = lib.types.submodule {
     options = {
@@ -58,111 +99,99 @@ let
     };
   };
 
-  isDynamic = record: record.dynamic != null;
+  serverSubmodule = lib.types.submodule (
+    { name, ... }:
+    {
+      options = {
+        address = lib.mkOption {
+          description = "IP address or hostname of the authoritative DNS server. Defaults to the attribute name.";
+          type = lib.types.str;
+          default = name;
+        };
 
-  mkUpdateScript =
-    record:
-    let
-      safeName = safeRecordName record;
-      dynamicPreamble =
-        if record.dynamic == "ipv4" then
-          ''
-            RECORD_DATA=$(${pkgs.curl}/bin/curl -4 -sf https://icanhazip.com | ${pkgs.coreutils}/bin/tr -d '[:space:]')
-            if [ -z "$RECORD_DATA" ]; then
-              echo "Failed to detect public IPv4 address" >&2
-              exit 1
-            fi
-          ''
-        else if record.dynamic == "ipv6" then
-          ''
-            RECORD_DATA=$(${pkgs.curl}/bin/curl -6 -sf https://icanhazip.com | ${pkgs.coreutils}/bin/tr -d '[:space:]')
-            if [ -z "$RECORD_DATA" ]; then
-              echo "Failed to detect public IPv6 address" >&2
-              exit 1
-            fi
-          ''
-        else
-          ''
-            RECORD_DATA='${record.data}'
+        keyFile = lib.mkOption {
+          description = ''
+            Path to file containing the TSIG key in CLI format:
+            hmac-sha256:keyname:base64secret
           '';
-    in
-    pkgs.writeScript "dns-update-${safeName}" ''
-      #!/bin/sh
-      ${dynamicPreamble}
-      ${pkgs.knot-dns}/bin/knsupdate -k ${cfg.keyFile} <<EOF
-      server ${cfg.server}
-      zone ${record.zone}
-      update delete ${record.name}. ${record.type}
-      update add ${record.name}. ${toString record.ttl} ${record.type} $RECORD_DATA
-      send
-      EOF
-    '';
+          type = lib.types.path;
+        };
+
+        records = lib.mkOption {
+          description = "List of DNS records to maintain on this server.";
+          type = lib.types.listOf recordSubmodule;
+          default = [ ];
+        };
+      };
+    }
+  );
+
+  # Flatten all servers into a list of { serverName, serverCfg, record } for generating units
+  allRecords = lib.concatLists (
+    lib.mapAttrsToList (
+      serverName: serverCfg:
+      map (record: {
+        inherit serverName serverCfg record;
+      }) serverCfg.records
+    ) cfg.servers
+  );
+
+  mkServiceName =
+    serverName: record: "dns-update-${safeServerName serverName}-${safeRecordName record}";
 in
 {
   options.oneos.dns-update = {
     enable = lib.mkEnableOption "dynamic DNS record updates via TSIG";
 
-    server = lib.mkOption {
-      description = "IP address or hostname of the authoritative DNS server.";
-      type = lib.types.str;
-    };
-
-    keyFile = lib.mkOption {
-      description = ''
-        Path to file containing the TSIG key in CLI format:
-        hmac-sha256:keyname:base64secret
-      '';
-      type = lib.types.path;
-    };
-
-    records = lib.mkOption {
-      description = "List of DNS records to maintain.";
-      type = lib.types.listOf recordSubmodule;
-      default = [ ];
+    servers = lib.mkOption {
+      description = "Per-nameserver DNS update configuration.";
+      type = lib.types.attrsOf serverSubmodule;
+      default = { };
     };
 
     serviceNames = lib.mkOption {
       description = "Generated systemd service names for each record.";
       type = lib.types.listOf lib.types.str;
       readOnly = true;
-      default = map (record: "dns-update-${safeRecordName record}") cfg.records;
+      default = map (entry: mkServiceName entry.serverName entry.record) allRecords;
     };
   };
 
-  config = lib.mkIf (cfg.enable && cfg.records != [ ]) {
+  config = lib.mkIf (cfg.enable && allRecords != [ ]) {
     systemd.services = builtins.listToAttrs (
       map (
-        record:
-        let
-          safeName = safeRecordName record;
-          updateScript = mkUpdateScript record;
-        in
         {
-          name = "dns-update-${safeName}";
+          serverName,
+          serverCfg,
+          record,
+        }:
+        {
+          name = mkServiceName serverName record;
           value = {
-            description = "Update DNS ${record.type} record for ${record.name}";
+            description = "Update DNS ${record.type} record for ${record.name} on ${serverName}";
             after = [ "network-online.target" ];
             wants = [ "network-online.target" ];
             wantedBy = [ "multi-user.target" ];
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = updateScript;
+              ExecStart = mkUpdateScript serverCfg record;
             };
           };
         }
-      ) cfg.records
+      ) allRecords
     );
 
     systemd.timers = builtins.listToAttrs (
       map (
-        record:
-        let
-          safeName = safeRecordName record;
-        in
         {
-          name = "dns-update-${safeName}";
+          serverName,
+          record,
+          ...
+        }:
+        {
+          name = mkServiceName serverName record;
           value = {
-            description = "Periodically update dynamic DNS ${record.type} record for ${record.name}";
+            description = "Periodically update dynamic DNS ${record.type} record for ${record.name} on ${serverName}";
             wantedBy = [ "timers.target" ];
             timerConfig = {
               OnCalendar = record.refreshInterval;
@@ -170,7 +199,7 @@ in
             };
           };
         }
-      ) (builtins.filter isDynamic cfg.records)
+      ) (builtins.filter (entry: isDynamic entry.record) allRecords)
     );
   };
 }

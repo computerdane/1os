@@ -36,36 +36,37 @@ in
 
     dns-update = {
       enable = true;
-      server = "ns1.nix.gdn";
-      keyFile = config.sops.secrets.knot-update-key.path;
-      records = [
-        {
-          zone = "nix.gdn";
-          name = "mc.nix.gdn";
-          type = "A";
-          dynamic = "ipv4";
-        }
-        {
-          zone = "nix.gdn";
-          name = "mc.nix.gdn";
-          type = "AAAA";
-          dynamic = "ipv6";
-        }
-        {
-          zone = "nix.gdn";
-          name = "_minecraft._tcp.nix.gdn";
-          type = "SRV";
-          data = "0 5 52255 mc.nix.gdn.";
-          ttl = 3600;
-        }
-        {
-          zone = "nix.gdn";
-          name = "_minecraft._tcp.mc.nix.gdn";
-          type = "SRV";
-          data = "0 5 52255 mc.nix.gdn.";
-          ttl = 3600;
-        }
-      ];
+      servers."ns1.nix.gdn" = {
+        keyFile = config.sops.secrets.knot-update-key.path;
+        records = [
+          {
+            zone = "nix.gdn";
+            name = "mc.nix.gdn";
+            type = "A";
+            dynamic = "ipv4";
+          }
+          {
+            zone = "nix.gdn";
+            name = "mc.nix.gdn";
+            type = "AAAA";
+            dynamic = "ipv6";
+          }
+          {
+            zone = "nix.gdn";
+            name = "_minecraft._tcp.nix.gdn";
+            type = "SRV";
+            data = "0 5 52255 mc.nix.gdn.";
+            ttl = 3600;
+          }
+          {
+            zone = "nix.gdn";
+            name = "_minecraft._tcp.mc.nix.gdn";
+            type = "SRV";
+            data = "0 5 52255 mc.nix.gdn.";
+            ttl = 3600;
+          }
+        ];
+      };
     };
   };
 
