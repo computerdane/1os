@@ -13,6 +13,7 @@
   gpu-nvidia = import ./gpu-nvidia.nix;
   jellyfin = import ./jellyfin.nix;
   litellm = import ./litellm.nix;
+  mc-backup = import ./mc-backup.nix;
   mc-quick = import ./mc-quick.nix;
   nginx = import ./nginx.nix;
   protonvpn = import ./protonvpn.nix;

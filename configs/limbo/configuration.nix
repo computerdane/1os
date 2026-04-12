@@ -113,6 +113,12 @@ in
         };
       };
   };
+  oneos.mc-backup = {
+    enable = true;
+    serverName = "fabric";
+    repository = "ssh://u575698@u575698.your-storagebox.de:23/./minecraft-backups";
+    sshKeyFile = "/srv/minecraft/.ssh/id_ed25519";
+  };
 
   services.minecraft-server = {
     enable = true;
