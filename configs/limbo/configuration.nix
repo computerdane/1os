@@ -39,6 +39,7 @@ in
       servers."ns1.nix.gdn" = {
         keyFile = config.sops.secrets.knot-update-key.path;
         zone = "nix.gdn";
+        acme = [ "mc.nix.gdn" ];
         records = [
           {
             name = "mc.nix.gdn";
