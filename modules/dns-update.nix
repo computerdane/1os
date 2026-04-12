@@ -93,7 +93,7 @@ let
       server ${cfg.server}
       zone ${record.zone}
       update delete ${record.name}. ${record.type}
-      update add ${record.name}. ${record.ttl} ${record.type} $RECORD_DATA
+      update add ${record.name}. ${toString record.ttl} ${record.type} $RECORD_DATA
       send
       EOF
     '';
