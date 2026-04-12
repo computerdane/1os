@@ -9,6 +9,10 @@
 let
   rtspPort = 6767;
   rtmpsPort = 1936;
+
+  mcPort = 52225;
+  mcVoicePort = 53335;
+  mcMapPort = 54445;
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -30,7 +34,7 @@ in
     useACMEHost = "danecraft.net";
     forceSSL = true;
     locations."/map/" = {
-      proxyPass = "http://10.105.25.2:8100/";
+      proxyPass = "http://10.105.25.2:${toString mcMapPort}/";
       proxyWebsockets = true;
       basicAuthFile = config.sops.secrets.bluemap-htpasswd.path;
     };
@@ -58,7 +62,7 @@ in
         {
           name = "_minecraft._tcp.danecraft.net";
           type = "SRV";
-          data = "0 5 52255 danecraft.net.";
+          data = "0 5 ${toString mcPort} danecraft.net.";
         }
       ];
     };
@@ -66,34 +70,19 @@ in
 
   networking.nat.forwardPorts = [
     {
-      destination = "10.105.25.2:25565";
+      destination = "10.105.25.2:${toString mcPort}";
       proto = "tcp";
-      sourcePort = 52255;
+      sourcePort = mcPort;
     }
     {
-      destination = "10.105.25.2:25565";
+      destination = "10.105.25.2:${toString mcPort}";
       proto = "udp";
-      sourcePort = 52255;
+      sourcePort = mcPort;
     }
     {
-      destination = "10.105.25.2:24454";
+      destination = "10.105.25.2:${toString mcVoicePort}";
       proto = "udp";
-      sourcePort = 24454;
-    }
-    {
-      destination = "10.105.0.129:25566";
-      proto = "tcp";
-      sourcePort = 25566;
-    }
-    {
-      destination = "10.105.0.129:25566";
-      proto = "udp";
-      sourcePort = 25566;
-    }
-    {
-      destination = "10.105.0.129:24455";
-      proto = "udp";
-      sourcePort = 24455;
+      sourcePort = mcVoicePort;
     }
   ];
 

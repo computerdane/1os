@@ -1,14 +1,9 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ config, pkgs, ... }:
 
 let
-  port = 25565;
-  vcPort = 24454;
-  mapPort = 8100;
+  mcPort = 52225;
+  mcVoicePort = 53335;
+  mcMapPort = 54445;
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -78,9 +73,9 @@ in
           gamemode = "survival";
           max-players = 10;
           motd = "welcome to danecraft";
-          "query.port" = 52225;
+          "query.port" = mcPort;
           region-file-compression = "lz4";
-          server-port = 52225;
+          server-port = mcPort;
           simulation-distance = 10;
           spawn-protection = 0;
           sync-chunk-writes = false;
@@ -90,7 +85,7 @@ in
 
         files = {
           "config/voicechat/voicechat-server.properties".value = {
-            port = 53335;
+            port = mcVoicePort;
           };
           "config/bluemap/core.conf" = {
             format = pkgs.formats.hocon { };
@@ -107,7 +102,7 @@ in
           "config/bluemap/webserver.conf" = {
             format = pkgs.formats.hocon { };
             value = {
-              port = 54445;
+              port = mcMapPort;
             };
           };
         };
@@ -119,40 +114,13 @@ in
     repository = "ssh://u575698@u575698.your-storagebox.de:23/./minecraft-backups";
     sshKeyFile = "/srv/minecraft/.ssh/id_ed25519";
   };
-
-  services.minecraft-server = {
-    enable = true;
-    eula = true;
-    jvmOpts = "-Xms5G -Xmx5G";
-    package = pkgs.javaPackages.compiler.temurin-bin.jre-25;
-  };
-
-  systemd.services.minecraft-server =
-    let
-      cfg = config.services.minecraft-server;
-    in
-    {
-      serviceConfig = {
-        ExecStart = lib.mkForce "${cfg.package}/bin/java ${cfg.jvmOpts} -jar server.jar nogui";
-      };
-    };
-
-  users.users.minecraft.homeMode = "770";
-  users.users.dane.extraGroups = [
-    "minecraft"
-    "minecraft-servers"
+  users.users.dane.extraGroups = [ "minecraft-servers" ];
+  networking.firewall.allowedTCPPorts = [
+    mcPort
+    mcMapPort
   ];
-
-  networking.firewall =
-    let
-      ports = [
-        port
-        vcPort
-        mapPort
-      ];
-    in
-    {
-      allowedUDPPorts = ports;
-      allowedTCPPorts = ports;
-    };
+  networking.firewall.allowedUDPPorts = [
+    mcPort
+    mcVoicePort
+  ];
 }
