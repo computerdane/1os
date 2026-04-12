@@ -159,67 +159,6 @@ in
   ];
   networking.firewall.allowedUDPPorts = [ rtspPort ];
 
-  services.mc-quick.main =
-    let
-      port = 25000;
-      rconPort = 25001;
-      voicePort = 25002;
-    in
-    {
-      inherit port rconPort;
-      enable = false;
-      acceptEula = true;
-      # autoStart = true;
-      mcVersion = "1.21.5";
-      loader = "fabric";
-      modrinthMods = [
-        "fabric-api"
-        "simple-voice-chat"
-        "no-chat-reports"
-      ];
-      ops = thothub-lib.toMinecraftOps (thothub-lib.flatSelect "minecraftAccounts" [ config.thots.dane ]);
-      whitelist = thothub-lib.flatSelect "minecraftAccounts" (builtins.attrValues config.thots);
-      enableWhitelist = true;
-      files = [
-        {
-          path = "config/voicechat/voicechat-server.properties";
-          text = ''
-            port=${toString voicePort}
-          '';
-        }
-      ];
-      openFirewall = true;
-      openFirewallExtraPorts = [ voicePort ];
-    };
-
-  services.mc-quick.chp =
-    let
-      port = 26000;
-      rconPort = 26001;
-      voicePort = 26002;
-    in
-    {
-      inherit port rconPort;
-      enable = false;
-      acceptEula = true;
-      mcVersion = "1.20.1";
-      loader = "forge";
-      modrinthModpack = "cave-horror-project-modpack";
-      ops = thothub-lib.toMinecraftOps (thothub-lib.flatSelect "minecraftAccounts" [ config.thots.dane ]);
-      whitelist = thothub-lib.flatSelect "minecraftAccounts" (builtins.attrValues config.thots);
-      enableWhitelist = true;
-      files = [
-        {
-          path = "config/voicechat/voicechat-server.properties";
-          text = ''
-            port=${toString voicePort}
-          '';
-        }
-      ];
-      openFirewall = true;
-      openFirewallExtraPorts = [ voicePort ];
-    };
-
   services.murmur = {
     enable = true;
     openFirewall = true;
