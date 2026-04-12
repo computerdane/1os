@@ -13,24 +13,22 @@ let
 
   isDynamic = record: record.dynamic != null;
 
-  mkAcmeEnvName =
-    serverName: record: "acme-env-${safeServerName serverName}-${safeRecordName record}";
-  mkAcmeEnvPath = serverName: record: "/run/${mkAcmeEnvName serverName record}";
+  mkAcmeEnvName = serverName: "acme-env-${safeServerName serverName}";
+  mkAcmeEnvPath = serverName: "/run/${mkAcmeEnvName serverName}";
 
   mkAcmeEnvScript =
-    serverName: serverCfg: record:
-    pkgs.writeScript "${mkAcmeEnvName serverName record}" ''
+    serverName: serverCfg:
+    pkgs.writeScript "${mkAcmeEnvName serverName}" ''
       #!/bin/sh
       KEY_LINE=$(cat ${serverCfg.keyFile})
       ALGO=$(echo "$KEY_LINE" | ${pkgs.coreutils}/bin/cut -d: -f1)
       KEY_NAME=$(echo "$KEY_LINE" | ${pkgs.coreutils}/bin/cut -d: -f2)
       SECRET=$(echo "$KEY_LINE" | ${pkgs.coreutils}/bin/cut -d: -f3)
-      ${pkgs.coreutils}/bin/cat > ${mkAcmeEnvPath serverName record} <<ENVEOF
+      ${pkgs.coreutils}/bin/cat > ${mkAcmeEnvPath serverName} <<ENVEOF
       RFC2136_NAMESERVER=${serverCfg.address}
       RFC2136_TSIG_ALGORITHM=$ALGO
       RFC2136_TSIG_KEY=$KEY_NAME
       RFC2136_TSIG_SECRET=$SECRET
-      RFC2136_ZONE=${record.zone}
       ENVEOF
     '';
 
@@ -118,12 +116,6 @@ let
         type = lib.types.str;
         default = "*:0/5";
       };
-
-      acme = lib.mkOption {
-        description = "Obtain an ACME/Let's Encrypt certificate for this record via DNS-01 challenge.";
-        type = lib.types.bool;
-        default = false;
-      };
     };
   };
 
@@ -149,6 +141,12 @@ let
             hmac-sha256:keyname:base64secret
           '';
           type = lib.types.path;
+        };
+
+        acme = lib.mkOption {
+          description = "List of domains to obtain ACME/Let's Encrypt certificates for via DNS-01 challenge.";
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
         };
 
         records = lib.mkOption {
@@ -184,7 +182,7 @@ let
     ) cfg.servers
   );
 
-  acmeRecords = builtins.filter (entry: entry.record.acme) allRecords;
+  acmeServers = lib.filterAttrs (_: serverCfg: serverCfg.acme != [ ]) cfg.servers;
 
   mkServiceName =
     serverName: record: "dns-update-${safeServerName serverName}-${safeRecordName record}";
@@ -255,54 +253,52 @@ in
         );
       }
 
-      (lib.mkIf (acmeRecords != [ ]) {
-        systemd.services = builtins.listToAttrs (
-          lib.concatMap (
-            {
-              serverName,
-              serverCfg,
-              record,
-            }:
+      (lib.mkIf (acmeServers != { }) {
+        systemd.services = lib.mkMerge (
+          lib.mapAttrsToList (
+            serverName: serverCfg:
             let
-              envName = mkAcmeEnvName serverName record;
-            in
-            [
-              {
-                name = envName;
-                value = {
-                  description = "Generate ACME environment file for ${record.name}";
+              envName = mkAcmeEnvName serverName;
+              envService = {
+                ${envName} = {
+                  description = "Generate ACME environment file for ${serverName}";
                   after = [ "network-online.target" ];
                   wants = [ "network-online.target" ];
                   serviceConfig = {
                     Type = "oneshot";
                     RemainAfterExit = true;
-                    ExecStart = mkAcmeEnvScript serverName serverCfg record;
+                    ExecStart = mkAcmeEnvScript serverName serverCfg;
                   };
                 };
-              }
-              {
-                name = "acme-${record.name}";
-                value = {
-                  requires = [ "${envName}.service" ];
-                  after = [ "${envName}.service" ];
-                };
-              }
-            ]
-          ) acmeRecords
+              };
+              acmeDeps = builtins.listToAttrs (
+                map (domain: {
+                  name = "acme-${domain}";
+                  value = {
+                    requires = [ "${envName}.service" ];
+                    after = [ "${envName}.service" ];
+                  };
+                }) serverCfg.acme
+              );
+            in
+            envService // acmeDeps
+          ) acmeServers
         );
 
-        security.acme.certs = builtins.listToAttrs (
-          map (
-            { serverName, record, ... }:
-            {
-              name = record.name;
-              value = {
-                domain = record.name;
-                dnsProvider = "rfc2136";
-                environmentFile = mkAcmeEnvPath serverName record;
-              };
-            }
-          ) acmeRecords
+        security.acme.certs = lib.mkMerge (
+          lib.mapAttrsToList (
+            serverName: serverCfg:
+            builtins.listToAttrs (
+              map (domain: {
+                name = domain;
+                value = {
+                  inherit domain;
+                  dnsProvider = "rfc2136";
+                  environmentFile = mkAcmeEnvPath serverName;
+                };
+              }) serverCfg.acme
+            )
+          ) acmeServers
         );
       })
     ]
