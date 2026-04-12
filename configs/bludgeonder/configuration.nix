@@ -97,13 +97,6 @@ in
     }
   ];
 
-  services.postgresql.ensureUsers = [
-    {
-      name = "dane";
-      ensureClauses.superuser = true;
-    }
-  ];
-
   oneos = {
     acme.enable = true;
     # acme.useStaging = true;
