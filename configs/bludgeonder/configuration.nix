@@ -22,6 +22,46 @@ in
         proxyWebsockets = true;
       };
     };
+    virtualHosts."mc.nix.gdn" = {
+      useACMEHost = "mc.nix.gdn";
+      forceSSL = true;
+      locations."/".return = ''200 "Hello, world!"'';
+    };
+  };
+  users.users.nginx.extraGroups = [ "acme" ];
+
+  sops.secrets.knot-update-key = { };
+  oneos.dns-update = {
+    enable = true;
+    servers."ns1.nix.gdn" = {
+      keyFile = config.sops.secrets.knot-update-key.path;
+      zone = "nix.gdn";
+      acme = [ "mc.nix.gdn" ];
+      records = [
+        {
+          name = "mc.nix.gdn";
+          type = "A";
+          dynamic = "ipv4";
+        }
+        {
+          name = "mc.nix.gdn";
+          type = "AAAA";
+          dynamic = "ipv6";
+        }
+        {
+          name = "_minecraft._tcp.nix.gdn";
+          type = "SRV";
+          data = "0 5 52255 mc.nix.gdn.";
+          ttl = 3600;
+        }
+        {
+          name = "_minecraft._tcp.mc.nix.gdn";
+          type = "SRV";
+          data = "0 5 52255 mc.nix.gdn.";
+          ttl = 3600;
+        }
+      ];
+    };
   };
 
   networking.nat.forwardPorts = [
