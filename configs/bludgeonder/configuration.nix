@@ -13,22 +13,26 @@ in
 {
   imports = [ ./hardware-configuration.nix ];
 
-  services.nginx = {
-    virtualHosts."watch-beta.nf6.sh" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://10.105.25.2:8096";
-        proxyWebsockets = true;
-      };
+  services.nginx.virtualHosts."watch-beta.nf6.sh" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://10.105.25.2:8096";
+      proxyWebsockets = true;
     };
-    virtualHosts."nix.gdn" = {
-      useACMEHost = "nix.gdn";
-      forceSSL = true;
-      locations."/".extraConfig = ''
-        default_type text/plain;
-        return 200 "Hello, world!";
-      '';
+  };
+
+  sops.secrets.bluemap-htpasswd = {
+    owner = "nginx";
+    sopsFile = ../../secrets/bludgeonder.yaml;
+  };
+  services.nginx.virtualHosts."nix.gdn" = {
+    useACMEHost = "nix.gdn";
+    forceSSL = true;
+    locations."/map/" = {
+      proxyPass = "http://10.105.25.2:8100/";
+      proxyWebsockets = true;
+      basicAuthFile = config.sops.secrets.bluemap-htpasswd.path;
     };
   };
   users.users.nginx.extraGroups = [ "acme" ];
