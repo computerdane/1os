@@ -71,7 +71,7 @@ in
           difficulty = "hard";
           enforce-whitelist = true;
           gamemode = "survival";
-          max-players = 10;
+          max-players = 20;
           motd = "welcome to danecraft";
           "query.port" = mcPort;
           region-file-compression = "lz4";
