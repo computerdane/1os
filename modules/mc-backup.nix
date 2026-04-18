@@ -83,8 +83,8 @@ in
       preHook = ''
         TMUX_SOCK="/run/minecraft/${cfg.serverName}.sock"
         if ${pkgs.tmux}/bin/tmux -S "$TMUX_SOCK" list-sessions &>/dev/null; then
-          ${pkgs.tmux}/bin/tmux -S "$TMUX_SOCK" send-keys C-u "save-all" Enter
-          sleep 5
+          ${pkgs.tmux}/bin/tmux -S "$TMUX_SOCK" send-keys C-u "save-all flush" Enter
+          sleep 10
           ${pkgs.tmux}/bin/tmux -S "$TMUX_SOCK" send-keys C-u "save-off" Enter
           sleep 2
         fi
