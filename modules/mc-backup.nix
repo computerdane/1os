@@ -62,7 +62,7 @@ in
   config = lib.mkIf cfg.enable {
     services.borgbackup.jobs."mc-${cfg.serverName}" = {
       paths = [
-        "${config.services.minecraft-servers.dataDir}/${cfg.serverName}"
+        "${config.services.minecraft-servers.dataDir}/${cfg.serverName}/world"
       ];
       repo = cfg.repository;
       encryption.mode = "none";
