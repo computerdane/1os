@@ -110,7 +110,7 @@ in
       enable = true;
       subdomain = "watch";
     };
-    litellm.enable = true;
+    litellm.enable = false;
     nginx = {
       enable = true;
       root = true;
@@ -122,7 +122,7 @@ in
     };
     vault.enable = true;
     vintagestory-server = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       package = pkgs.unstable.vintagestory;
       settings = {
@@ -133,7 +133,7 @@ in
   };
 
   services.mediamtx = {
-    enable = true;
+    enable = false;
     settings = {
       paths.all_others.source = "publisher";
 
@@ -176,7 +176,7 @@ in
   ];
 
   services.murmur = {
-    enable = true;
+    enable = false;
     openFirewall = true;
   };
 
