@@ -7,22 +7,22 @@ metafile = true
 
 [[files]]
 file = "mods/c2me-fabric.pw.toml"
-hash = "b7b5d17a9d618a5819c2ae0b0d25f2ff1fde4ada6beb14d4cc5221162a1be0b6"
+hash = "6b306404c910f6910bb704132f724f62bb78594e281755b8d3125fe14bce349b"
 metafile = true
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "667420ac98bdf5f6f7e747b83f9407722586e0c15b635ad295bef55449498474"
+hash = "1b7dddabe21e51ddc2a0f1a304523089c4aa80dfe03d1921fdb6847a9a7f1065"
 metafile = true
 
 [[files]]
 file = "mods/journeymap.pw.toml"
-hash = "aa89b8c9615dc350653c3af352ce882fb2172a70c089cdf373c9c5b4275071ad"
+hash = "62fcb878e4eb787ccfc3f0348b1631820058c2e754afbebd550ab5803fd235b8"
 metafile = true
 
 [[files]]
 file = "mods/lithium.pw.toml"
-hash = "18e0ba646659bc50a858729cfeff255a76c7702e5065ee56ce03e9553b430e67"
+hash = "ceed226223967ea3e7017aad327a069250c289c834766e1a3cd27c8d0ad52de1"
 metafile = true
 
 [[files]]
