@@ -16,6 +16,11 @@ hash = "f88b106c6c7500d912c11c973d9c124d52b1577c52630c282720367312452d24"
 metafile = true
 
 [[files]]
+file = "mods/ferrite-core.pw.toml"
+hash = "069d81cab53c0141459ad4d70bcf3e10f17652f24cc62d3b4a0fc2cd2b700871"
+metafile = true
+
+[[files]]
 file = "mods/journeymap.pw.toml"
 hash = "293fc0d0ffc560430d84ec84b39521c57b584afc41ffb13238e83f87d9629955"
 metafile = true
