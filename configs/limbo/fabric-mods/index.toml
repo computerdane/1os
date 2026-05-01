@@ -12,12 +12,12 @@ metafile = true
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "1b7dddabe21e51ddc2a0f1a304523089c4aa80dfe03d1921fdb6847a9a7f1065"
+hash = "f88b106c6c7500d912c11c973d9c124d52b1577c52630c282720367312452d24"
 metafile = true
 
 [[files]]
 file = "mods/journeymap.pw.toml"
-hash = "62fcb878e4eb787ccfc3f0348b1631820058c2e754afbebd550ab5803fd235b8"
+hash = "293fc0d0ffc560430d84ec84b39521c57b584afc41ffb13238e83f87d9629955"
 metafile = true
 
 [[files]]
