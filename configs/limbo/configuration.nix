@@ -46,7 +46,7 @@ in
       let
         modpack = pkgs.fetchPackwizModpack {
           src = ./fabric-mods;
-          packHash = "sha256-fMOgWSIJ+/xR1lyopR49umxPWjXYG7naok7Z9n/2vfM=";
+          packHash = "sha256-H2jJGUwEhrGqqYEr0mbd6iSxGf3qL4Y82F70glFY+xE=";
         };
       in
       {
