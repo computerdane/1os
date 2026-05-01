@@ -61,6 +61,11 @@ hash = "fbe51395401ce68d9933a65fbcb4ed8cda82ac88d4afd79a5740116114d15949"
 metafile = true
 
 [[files]]
+file = "mods/super-fast-math.pw.toml"
+hash = "cd092123c20638f309c0025e0b4cab93432fb35638d61a9db891c9959c1feb8f"
+metafile = true
+
+[[files]]
 file = "mods/syncmatica.pw.toml"
 hash = "4068012f236c56e62f4de24e17c922048d2a5d44444c6d848d20990af44511ec"
 metafile = true
