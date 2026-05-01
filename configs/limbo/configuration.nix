@@ -60,7 +60,7 @@ in
           jre_headless = pkgs.jdk25_headless;
         };
 
-        jvmOpts = "-Xms5G -Xmx5G";
+        jvmOpts = "-Xms7G -Xmx7G";
 
         symlinks = {
           "mods" = "${modpack}/mods";
