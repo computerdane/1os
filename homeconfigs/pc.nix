@@ -2,6 +2,19 @@
 
 let
   inherit (pkgs) stdenv;
+
+  # From https://discourse.nixos.org/t/java-filechooser-glib-gio-error/69381/4
+  # Fixes issue with Java file picker in Axiom mod
+  prismlauncher-wrapped = pkgs.symlinkJoin {
+    name = "prismlauncher-wrapped";
+    paths = [ pkgs.prismlauncher ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+
+    postBuild = ''
+      wrapProgram $out/bin/prismlauncher \
+        --set XDG_DATA_DIRS "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
+    '';
+  };
 in
 {
 
@@ -12,7 +25,7 @@ in
     [
       javaPackages.compiler.temurin-bin.jre-25
       mumble
-      prismlauncher
+      prismlauncher-wrapped
       signal-desktop
       vesktop
     ]
