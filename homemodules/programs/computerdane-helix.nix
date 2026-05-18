@@ -9,17 +9,6 @@ with lib;
 with types;
 
 let
-  tls-bug-fix = pkgs.typescript-language-server.overrideDerivation (prev: {
-    src = pkgs.fetchFromGitHub {
-      owner = "computerdane";
-      repo = "typescript-language-server";
-      rev = "dddbd320977e9c26aa0d854e77f5a6cd1b20c5f1";
-      hash = "sha256-YhhrSdpaiPF4blMQ9uiYE9VBnmsRNzrSudvU9tP1eTw=";
-    };
-  });
-in
-
-let
   cfg = config.programs.computerdane-helix;
 
   baseConfig = {
@@ -113,7 +102,7 @@ let
         };
     in
     {
-      languages.language-server.typescript-language-server.command = "${tls-bug-fix}/bin/typescript-language-server";
+      languages.language-server.typescript-language-server.command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
       languages.language = [
         (mkTsLsp { name = "typescript"; })
         (mkTsLsp {

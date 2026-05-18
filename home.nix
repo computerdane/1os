@@ -29,8 +29,8 @@ in
         computerdane-ide
         curl
         dua
-        ffmpeg-full
-        fishPlugins.puffer
+        # ffmpeg-full -- TODO: re-enable
+        (lib.warn "ffmpeg-full is disabled in home.nix -- remember to re-enable it!" fishPlugins.puffer)
         jq
         netcat
         nmap
