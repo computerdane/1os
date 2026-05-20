@@ -29,8 +29,8 @@ in
         computerdane-ide
         curl
         dua
-        # ffmpeg-full -- TODO: re-enable
-        (lib.warn "ffmpeg-full is disabled in home.nix -- remember to re-enable it!" fishPlugins.puffer)
+        ffmpeg-full
+        fishPlugins.puffer
         jq
         netcat
         nmap
@@ -144,8 +144,8 @@ in
 
     ssh = {
       enable = true;
-      enableDefaultConfig = true;
-      matchBlocks."*".setEnv = {
+      enableDefaultConfig = false;
+      settings."*".SetEnv = {
         TERM = "xterm-256color";
       };
     };
