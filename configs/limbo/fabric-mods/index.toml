@@ -7,12 +7,12 @@ metafile = true
 
 [[files]]
 file = "mods/c2me-fabric.pw.toml"
-hash = "6b306404c910f6910bb704132f724f62bb78594e281755b8d3125fe14bce349b"
+hash = "05608f9174ebde171474deee51bc28ccf0a29d7594a6c0bdc40f06d2c7e32b50"
 metafile = true
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
-hash = "f88b106c6c7500d912c11c973d9c124d52b1577c52630c282720367312452d24"
+hash = "2a77dc7aade5de6d21315582c4b70db40ff2bdf746b61c10d7ad3c5be8422f75"
 metafile = true
 
 [[files]]
@@ -22,7 +22,7 @@ metafile = true
 
 [[files]]
 file = "mods/journeymap.pw.toml"
-hash = "293fc0d0ffc560430d84ec84b39521c57b584afc41ffb13238e83f87d9629955"
+hash = "77e45a13903472a088848b7213cfcfa280909a15a22be5b77d355c86a79fe756"
 metafile = true
 
 [[files]]
@@ -47,12 +47,12 @@ metafile = true
 
 [[files]]
 file = "mods/servercore.pw.toml"
-hash = "207595c62114a11bc98dcb67c9b029fe3053a8e367cee9aadde8ed4d01a9c830"
+hash = "74b9be2bf4e2ba3b1c621cea436e14a0cd1a35423e8e02ea9eac51b340f8f299"
 metafile = true
 
 [[files]]
 file = "mods/simple-voice-chat.pw.toml"
-hash = "04185c12844c8da7eb28121a0a6f43ad077751de120eca5fa2a2ab93b8e7a2d3"
+hash = "2e210dbb2eca274d176c1f5d93d41638f9826153d358e9c428f1341331bc0ea5"
 metafile = true
 
 [[files]]

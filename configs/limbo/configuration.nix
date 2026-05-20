@@ -46,7 +46,7 @@ in
       let
         modpack = pkgs.fetchPackwizModpack {
           src = ./fabric-mods;
-          packHash = "sha256-H2jJGUwEhrGqqYEr0mbd6iSxGf3qL4Y82F70glFY+xE=";
+          packHash = "sha256-VV4lFTCz3vJ5/iuDCYQ8QaqNzOMm3ROI6upcRDPlqng=";
         };
       in
       {
@@ -55,7 +55,7 @@ in
         # Specify the custom minecraft server package.
         package = pkgs.fabricServers.fabric-26_1_2.override {
           # Specific fabric loader version.
-          loaderVersion = "0.19.1";
+          loaderVersion = "0.19.2";
           # Specific Java version.
           jre_headless = pkgs.jdk25_headless;
         };
