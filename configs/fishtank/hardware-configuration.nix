@@ -66,19 +66,9 @@
   # hardware.graphics.enable32Bit = true;
   # systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 
-  boot.loader = {
-    efi = {
-      efiSysMountPoint = "/boot";
-    };
-    grub = {
-      enable = true;
-      efiSupport = true;
-      # efiInstallAsRemovable = true;
-      devices = [ "nodev" ];
-      useOSProber = true;
-      configurationLimit = 8;
-    };
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 8;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/c2a5816f-af17-4d9f-9b55-3c52100cc342";
@@ -93,6 +83,10 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/A10A-AD21";
     fsType = "vfat";
+    options = [
+      "fmask=0077"
+      "dmask=0077"
+    ];
   };
 
   swapDevices = [ ];
