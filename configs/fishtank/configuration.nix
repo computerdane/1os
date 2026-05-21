@@ -25,6 +25,14 @@
     stress-ng
   ];
 
+  # Disable libinput's button "bounce" debounce for the mouse so rapid
+  # clicks (drag/butterfly clicking) aren't filtered as switch chatter.
+  environment.etc."libinput/local-overrides.quirks".text = ''
+    [Razer DeathAdder V4 Pro]
+    MatchName=Razer DeathAdder V4 Pro
+    ModelBouncingKeys=1
+  '';
+
   services.ollama = {
     enable = false;
     package = pkgs.unstable.ollama;
