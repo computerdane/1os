@@ -31,6 +31,10 @@
     [Razer DeathAdder V4 Pro]
     MatchName=Razer DeathAdder V4 Pro
     ModelBouncingKeys=1
+
+    [Glorious Model D 2 PRO - 4K/8KHz Edition]
+    MatchName=Glorious Model D 2 PRO - 4K/8KHz Edition
+    ModelBouncingKeys=1
   '';
 
   services.ollama = {
