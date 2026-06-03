@@ -35,7 +35,6 @@ in
         netcat
         nmap
         pv
-        ranger
         ripgrep
         tldr
         tree
