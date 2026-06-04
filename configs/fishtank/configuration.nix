@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -6,24 +6,10 @@
   oneos = {
     desktop.enable = true;
     dynamic-dns.enable = true;
-    extra-users.enable = true;
     gaming.enable = true;
     gpu-amd.enable = true;
     protonvpn.enable = true;
   };
-
-  networking.firewall.allowedTCPPorts = [ 25566 ];
-  networking.firewall.allowedUDPPorts = [
-    25566
-    24455
-  ];
-
-  environment.systemPackages = with pkgs; [
-    godot_4
-    heroic
-    kdePackages.kdenlive
-    stress-ng
-  ];
 
   # Disable libinput's button "bounce" debounce for the mouse so rapid
   # clicks (drag/butterfly clicking) aren't filtered as switch chatter.
@@ -36,19 +22,6 @@
     MatchName=Glorious Model D 2 PRO - 4K/8KHz Edition
     ModelBouncingKeys=1
   '';
-
-  services.ollama = {
-    enable = false;
-    package = pkgs.ollama-rocm;
-    host = "[::]";
-    loadModels = [
-      "deepseek-r1:14b"
-      "qwen3-coder:30b"
-    ];
-    environmentVariables = {
-      OLLAMA_GPU_MEMORY_FRACTION = "0.9";
-    };
-  };
 
   services.pipewire.extraConfig.pipewire = {
     "10-loopback" = {

@@ -27,16 +27,6 @@
     '';
   };
 
-  hardware.logitech.wireless = {
-    enable = true;
-    enableGraphical = true;
-  };
-  environment.etc."libinput/local-overrides.quirks".text = ''
-    [Logitech PRO X]
-    MatchName=Logitech PRO X
-    ModelBouncingKeys=1
-  '';
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.availableKernelModules = [
@@ -61,10 +51,6 @@
   '';
 
   hardware.bluetooth.enable = true;
-
-  # hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
-  # hardware.graphics.enable32Bit = true;
-  # systemd.tmpfiles.rules = [ "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 8;
