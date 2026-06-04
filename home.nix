@@ -25,7 +25,6 @@ in
       packages = with pkgs; [
         aria2
         bop
-        claude-code
         computerdane-ide
         curl
         dua
@@ -99,7 +98,6 @@ in
         enable = true;
         shellAliases = {
           cat = "bat";
-          gpt = "OPENAI_API_KEY=$(cat ~/.litellm-api-key) sgpt";
         };
       }
 
@@ -130,14 +128,6 @@ in
           email = "danerieber@gmail.com";
         };
         init.defaultBranch = "main";
-      };
-    };
-
-    shell-gpt = {
-      enable = false;
-      settings = {
-        API_BASE_URL = "https://llm.nf6.sh";
-        DEFAULT_MODEL = "gpt-4.1";
       };
     };
 
