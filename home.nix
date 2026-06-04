@@ -25,6 +25,7 @@ in
       packages = with pkgs; [
         aria2
         bop
+        claude-code
         computerdane-ide
         curl
         dua

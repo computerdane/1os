@@ -127,7 +127,7 @@
                   pkgs = import inputs.nixpkgs {
                     system = hosts.hosts.${hostname}.system;
                     config = nixpkgsConfig;
-                    overlays = builtins.attrValues config.flake.overlays;
+                    overlays = (builtins.attrValues config.flake.overlays) ++ [ inputs.claude-code.overlays.default ];
                   };
                   modules =
                     (builtins.attrValues config.flake.homeModules)
