@@ -39,8 +39,7 @@
 
   services.ollama = {
     enable = false;
-    package = pkgs.unstable.ollama;
-    acceleration = "rocm";
+    package = pkgs.ollama-rocm;
     host = "[::]";
     loadModels = [
       "deepseek-r1:14b"
